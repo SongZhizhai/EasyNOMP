@@ -1,5 +1,5 @@
 {
     "name": "Monacoin",
     "symbol": "MONA",
-    "algorithm": "scrypt"
+    "algorithm": "lyra2rev2"
 }
