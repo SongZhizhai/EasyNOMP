@@ -30,7 +30,9 @@ node init.js
 1) Correct configs appropriately to your environment in docker directory
 2) ```cd docker```
 3) ```docker build -t nomp .```
-4) ```docker run -d --name nomp -v $(pwd)/config:/opt/config nomp```
+4) ```docker run -d --name nomp -v $(pwd)/config:/opt/config nomp ```
+
+You will need to expose some ports to make it accessible from outside. You can achieve this by adding option -p HOST_PORT:CONTAINER_PORT in 4th step
 
 You can see the logs of the server with ```docker logs -f nomp```, or jump into container with ```docker exec -it nomp```.
 
