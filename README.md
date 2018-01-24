@@ -1,5 +1,8 @@
-### I just try to reborn stratum to work with all need algos. Need contributors!!!
+### We are trying to reborn NOMP. Need contributors
 -------
+
+Lyra2z (Zcoin) algo fixed, next step is neoscrypt
+
 ##### Node Open Mining Portal consists from 3 main modules:
 * Main module - https://github.com/foxer666/node-open-mining-portal
 * Stratum Pool - https://github.com/foxer666/node-stratum-pool
@@ -51,7 +54,7 @@ You can see the logs of the server with ```docker logs -f nomp```, or jump into 
 * ? __lyra2re__ (need tests)
 * ? __lyra2re2__ (need tests)
 * ? __lyra2rev2__ (need tests)
-* ? __lyra2z__ (need tests)
+* ✓ __lyra2z__ (tested with Zcoin)
 * ? __lyra2z330__ (need tests)
 * ? __NeoScrypt__ (need tests)
 * ? __NIST5__ (need tests)
@@ -91,4 +94,5 @@ http://www.gnu.org/licenses/gpl-2.0.html
 * [svirusxxx](//github.com/svirusxxx) - sponsored development of MPOS mode
 * [icecube45](//github.com/icecube45) - helping out with the repo wiki
 * [Fcases](//github.com/Fcases) - ordered me a pizza <3
+* [devnulled](//github.com/devnull-ed) - helped with lyra2z algo
 * Those that contributed to [node-stratum-pool](//github.com/zone117x/node-stratum-pool#credits)
