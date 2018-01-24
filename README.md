@@ -36,6 +36,12 @@ You will need to expose some ports to make it accessible from outside. You can a
 
 You can see the logs of the server with ```docker logs -f nomp```, or jump into container with ```docker exec -it nomp```.
 
+
+### Notes
+
+If you are going to test ZCoin (lyra2z) on testnet, make sure you are uncommented proper lines in transactions.js in https://github.com/foxer666/node-stratum-pool 
+
+
 -------
 ##### Hashing algorithms supported:
 * ? __Argon2__ (need tests)
