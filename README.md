@@ -1,9 +1,9 @@
-### We are trying to reborn NOMP. Need contributors
+### We are trying to reborn NOMP. Need contributors!
 -------
+# Lyra2z (Zcoin) algo fixed, next step is neoscrypt
 
-Lyra2z (Zcoin) algo fixed, next step is neoscrypt
-
-##### Node Open Mining Portal consists from 3 main modules:
+-------
+### Node Open Mining Portal consists from 3 main modules:
 * Main module - https://github.com/foxer666/node-open-mining-portal
 * Stratum Pool - https://github.com/foxer666/node-stratum-pool
 * Node Multihashing libraries https://github.com/foxer666/node-multi-hashing
@@ -12,7 +12,7 @@ Stratum Pool can be replaced with node-merged-pool (it's made in UNOMP)
 Adding new algos threw Node Multihashing libraries.
 
 -------
-##### Install
+### Install
 ```
 git clone https://github.com/foxer666/node-open-mining-portal.git pool
 cd pool
@@ -20,12 +20,12 @@ npm update
 node init.js
 ```
 -------
-#### Requirements
-* Node 8.x.x
+### Requirements
+* Node 8.x.x or higher
 * Coin daemon
 * Redis Server
 
-#### Run in Docker
+### Run in Docker
 
 1) Correct configs appropriately to your environment in docker directory
 2) ```cd docker```
@@ -36,17 +36,8 @@ You will need to expose some ports to make it accessible from outside. You can a
 
 You can see the logs of the server with ```docker logs -f nomp```, or jump into container with ```docker exec -it nomp```.
 
-
-### Notes
-
-If you are going to test ZCoin (lyra2z) on testnet, make sure you are uncommented proper lines in transactions.js in https://github.com/foxer666/node-stratum-pool 
-
-ONLY USE COIN ADDRESS AS MINING USER (WITHOUT WORKER) OR PAYOUTS WILL FAIL
-
-I have modified code in workers-fix branch. Need to test it.
-
 -------
-##### Hashing algorithms supported:
+### Hashing algorithms supported:
 * ? __Argon2__ (need tests)
 * ? __Blake__ (need tests)
 * ? __Blake2S__ (need tests)
@@ -65,9 +56,9 @@ I have modified code in workers-fix branch. Need to test it.
 * ? __lyra2re__ (need tests)
 * ? __lyra2re2__ (need tests)
 * ? __lyra2rev2__ (need tests)
-* ✓ __lyra2z__ (tested with Zcoin)
+* ✓ __lyra2z__ (tested with Zcoin, check notes about testnet)
 * ? __lyra2z330__ (need tests)
-* ? __NeoScrypt__ (need tests)
+* ? __NeoScrypt__ (working on it)
 * ? __NIST5__ (need tests)
 * ? __S3__ (need tests)
 * ✓ __Scrypt__ (tested with AntiLiteCoin, 1CREDIT, ArgusCoin, WAYAWOLFCOIN and many others)
@@ -75,7 +66,7 @@ I have modified code in workers-fix branch. Need to test it.
 * ? __Scrypt-N__ (need tests)
 * ? __Scrypt-OG__ (need tests)
 * ? __Sha1__ (need tests)
-* ✓ __SHA256__ (tested with VCOIN, don't use with BTC, no Segwit)
+* ✓ __SHA256__ (tested with VCOIN, don't use with BTC, no Segwit tested)
 * ? __SHAvite-3__ (need tests)
 * ? __Skein__ (need tests)
 * ✓ __X11__ (tested with BrainCoin, CannabisCoin, AdzCoin and many others)
@@ -88,12 +79,19 @@ I have modified code in workers-fix branch. Need to test it.
 * ? __ziftr__ (need tests)
 
 -------
-#### License
-Released under the GNU General Public License v2
-http://www.gnu.org/licenses/gpl-2.0.html
+### Notes
+#### Lyra2Z
+If you are going to test ZCoin (lyra2z) on testnet, make sure you are uncommented proper lines in transactions.js in https://github.com/foxer666/node-stratum-pool 
+
+
+ONLY USE COIN ADDRESS AS MINING USER (WITHOUT WORKER) OR PAYOUTS WILL FAIL
+
+I have modified code in workers-fix branch. Need to test it.
+
 
 -------
-#### Credits
+### Credits
+* [devnulled](//github.com/devnull-ed) - helped with lyra2z algo
 * [Kris Klosterman / krisklosterman](https://github.com/krisklosterman) - Updated code for work wiht Node.JS >=8
 * [Jerry Brady / mintyfresh68](https://github.com/bluecircle) - got coin-switching fully working and developed proxy-per-algo feature
 * [Tony Dobbs](http://anthonydobbs.com) - designs for front-end and created the NOMP logo
@@ -105,12 +103,9 @@ http://www.gnu.org/licenses/gpl-2.0.html
 * [svirusxxx](//github.com/svirusxxx) - sponsored development of MPOS mode
 * [icecube45](//github.com/icecube45) - helping out with the repo wiki
 * [Fcases](//github.com/Fcases) - ordered me a pizza <3
-* [devnulled](//github.com/devnull-ed) - helped with lyra2z algo
-* Those tha
-t contributed to [node-stratum-pool](//github.com/zone117x/node-stratum-pool#credits)
+* Those that contributed to [node-stratum-pool](//github.com/zone117x/node-stratum-pool#credits)
 
-
-2632 
-
-2592.52
-39.48
+-------
+### License
+Released under the GNU General Public License v2
+http://www.gnu.org/licenses/gpl-2.0.html
