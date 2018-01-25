@@ -41,6 +41,9 @@ You can see the logs of the server with ```docker logs -f nomp```, or jump into 
 
 If you are going to test ZCoin (lyra2z) on testnet, make sure you are uncommented proper lines in transactions.js in https://github.com/foxer666/node-stratum-pool 
 
+ONLY USE COIN ADDRESS AS MINING USER (WITHOUT WORKER) OR PAYOUTS WILL FAIL
+
+I have modified code in workers-fix branch. Need to test it.
 
 -------
 ##### Hashing algorithms supported:
@@ -103,4 +106,11 @@ http://www.gnu.org/licenses/gpl-2.0.html
 * [icecube45](//github.com/icecube45) - helping out with the repo wiki
 * [Fcases](//github.com/Fcases) - ordered me a pizza <3
 * [devnulled](//github.com/devnull-ed) - helped with lyra2z algo
-* Those that contributed to [node-stratum-pool](//github.com/zone117x/node-stratum-pool#credits)
+* Those tha
+t contributed to [node-stratum-pool](//github.com/zone117x/node-stratum-pool#credits)
+
+
+2632 
+
+2592.52
+39.48
