@@ -319,6 +319,43 @@ function SetupForPool(logger, poolOptions, setupFinished) {
                     }
 
 
+                    // This snippet will parse all workers and merge different workers into 1 payout address
+                    allWorkerShares = allWorkerShares.map((roundShare) => {
+                        let resultForRound = {};
+
+                        Object.keys(roundShare).forEach((workerStr) => {
+                            //test workername is not null (those may be if miner mine on stratum without user and worker)
+                            if (workerStr) {
+                                if (workerStr.indexOf(".") !== -1) {
+                                    //we have address and worker
+                                    let workerInfo = workerStr.split('.');
+                                    if (workerInfo.length === 2) {
+                                        //todo validate by daemon
+                                        let address = workerInfo[0];
+                                        if (resultForRound[address]) {
+                                            resultForRound[address] = parseFloat(resultForRound[address]) + parseFloat(roundShare[workerStr]);
+                                        } else {
+                                            resultForRound[address] = parseFloat(roundShare[workerStr]);
+
+                                        }
+                                    }
+                                } else {
+                                    //todo validate by daemon
+                                    let address = workerStr;
+                                    if (resultForRound[address]) {
+                                        resultForRound[address] = parseFloat(resultForRound[address]) + parseFloat(roundShare[workerStr]);
+                                    } else {
+                                        resultForRound[address] = parseFloat(roundShare[workerStr]);
+                                    }
+                                }
+                            } else {
+                                logger.error(logSystem, logComponent, 'Warning! We have anonymous shares, null worker');
+                            }
+                        });
+                        return resultForRound;
+                    });
+
+
                     rounds.forEach(function (round, i) {
                         var workerShares = allWorkerShares[i];
 
