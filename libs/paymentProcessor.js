@@ -6,6 +6,27 @@ var async = require('async');
 var Stratum = require('stratum-pool');
 var util = require('stratum-pool/lib/util.js');
 
+const BigNum = require('bignumber.js');
+
+/**
+ * Minimum of two {BigNum}
+ * @param bignum1 {BigNum}
+ * @param bignum2 {BugNum}
+ * @returns {BigNum}
+ */
+function min(bignum1, bignum2) {
+    return bignum1.le(bignum2) ? bignum1 : bignum2;
+}
+
+/**
+ * Maximum of two {BigNum}
+ * @param bignum1 {BigNum}
+ * @param bignum2 {BugNum}
+ * @returns {BigNum}
+ */
+function max(bignum1, bignum2) {
+    return bignum1.ge(bignum2) ? bignum1 : bignum2;
+}
 
 module.exports = function (logger) {
 
@@ -60,11 +81,12 @@ function SetupForPool(logger, poolOptions, setupFinished) {
     });
     var redisClient = redis.createClient(poolOptions.redis.port, poolOptions.redis.host);
 
-    var magnitude;
     var minPaymentSatoshis;
-    var coinPrecision;
 
+    const satoshisInBtc = new BigNum(100000000);
+    const coinPrecision = 8;
     var paymentInterval;
+
 
     async.parallel([
         function (callback) {
@@ -92,10 +114,7 @@ function SetupForPool(logger, poolOptions, setupFinished) {
                     return;
                 }
                 try {
-                    var d = result.data.split('result":')[1].split(',')[0].split('.')[1];
-                    magnitude = parseInt('10' + new Array(d.length).join('0'));
-                    minPaymentSatoshis = parseInt(processingConfig.minimumPayment * magnitude);
-                    coinPrecision = magnitude.toString().length - 1;
+                    minPaymentSatoshis = new BigNum(processingConfig.minimumPayment).mul(satoshisInBtc);
                 }
                 catch (e) {
                     logger.error(logSystem, logComponent, 'Error detecting number of satoshis in a coin, cannot do payment processing. Tried parsing: ' + result.data);
@@ -131,11 +150,11 @@ function SetupForPool(logger, poolOptions, setupFinished) {
 
 
     var satoshisToCoins = function (satoshis) {
-        return parseFloat((satoshis / magnitude).toFixed(coinPrecision));
+        return satoshis.div(satoshisInBtc);
     };
 
     var coinsToSatoshies = function (coins) {
-        return coins * magnitude;
+        return coins.mul(coinPrecision);
     };
 
     /* Deal with numbers in smallest possible units (satoshis) as much as possible. This greatly helps with accuracy
@@ -180,7 +199,7 @@ function SetupForPool(logger, poolOptions, setupFinished) {
 
                     var workers = {};
                     for (var w in results[0]) {
-                        workers[w] = { balance: coinsToSatoshies(parseFloat(results[0][w])) };
+                        workers[w] = { balance: coinsToSatoshies(new BigNum(results[0][w]))};
                     }
 
                     var rounds = results[1].map(function (r) {
@@ -333,9 +352,9 @@ function SetupForPool(logger, poolOptions, setupFinished) {
                                         //todo validate by daemon
                                         let address = workerInfo[0];
                                         if (resultForRound[address]) {
-                                            resultForRound[address] = parseFloat(resultForRound[address]) + parseFloat(roundShare[workerStr]);
+                                            resultForRound[address] = resultForRound[address].add(roundShare[workerStr]);
                                         } else {
-                                            resultForRound[address] = parseFloat(roundShare[workerStr]);
+                                            resultForRound[address] = roundShare[workerStr];
 
                                         }
                                     }
@@ -343,9 +362,9 @@ function SetupForPool(logger, poolOptions, setupFinished) {
                                     //todo validate by daemon
                                     let address = workerStr;
                                     if (resultForRound[address]) {
-                                        resultForRound[address] = parseFloat(resultForRound[address]) + parseFloat(roundShare[workerStr]);
+                                        resultForRound[address] = resultForRound[address].add(roundShare[workerStr]);
                                     } else {
-                                        resultForRound[address] = parseFloat(roundShare[workerStr]);
+                                        resultForRound[address] = roundShare[workerStr];
                                     }
                                 }
                             } else {
@@ -357,9 +376,10 @@ function SetupForPool(logger, poolOptions, setupFinished) {
 
 
                     rounds.forEach(function (round, i) {
-                        var workerShares = allWorkerShares[i];
 
-                        if (!workerShares) {
+                        var workerSharesForRound = allWorkerShares[i];
+
+                        if (!workerSharesForRound) {
                             logger.error(logSystem, logComponent, 'No worker shares for round: '
                                 + round.height + ' blockHash: ' + round.blockHash);
                             return;
@@ -368,24 +388,25 @@ function SetupForPool(logger, poolOptions, setupFinished) {
                         switch (round.category) {
                             case 'kicked':
                             case 'orphan':
-                                round.workerShares = workerShares;
+                                round.workerShares = workerSharesForRound;
                                 break;
 
                             case 'generate':
                                 /* We found a confirmed block! Now get the reward for it and calculate how much
                                    we owe each miner based on the shares they submitted during that block round. */
-                                var reward = parseInt(round.reward * magnitude);
+                                var reward = new BigNum(round.reward).mul(satoshisInBtc);
 
-                                var totalShares = Object.keys(workerShares).reduce(function (p, c) {
-                                    return p + parseFloat(workerShares[c])
+                                var totalShares = Object.keys(workerSharesForRound).reduce(function (p, c) {
+                                    return p.add(workerSharesForRound[c])
                                 }, 0);
 
-                                for (var workerAddress in workerShares) {
-                                    var percent = parseFloat(workerShares[workerAddress]) / totalShares;
-                                    var workerRewardTotal = Math.floor(reward * percent);
-                                    var worker = workers[workerAddress] = (workers[workerAddress] || {});
-                                    worker.reward = (worker.reward || 0) + workerRewardTotal;
-                                }
+                                Object.keys(workerSharesForRound).forEach((workerAddress) => {
+                                    let percent = workerSharesForRound[workerAddress].div(totalShares);
+                                    let workerRewardTotal = reward.mul(percent);
+                                    let worker = workers[workerAddress] = (workers[workerAddress] || {});
+                                    worker.reward = (worker.reward || new BigNum(0)).add(workerRewardTotal);
+                                });
+
                                 break;
                         }
                     });
@@ -405,21 +426,21 @@ function SetupForPool(logger, poolOptions, setupFinished) {
 
                 var trySend = function (withholdPercent) {
                     var addressAmounts = {};
-                    var totalSent = 0;
+                    var totalSent = new BigNum(0);
                     for (var w in workers) {
                         var worker = workers[w];
-                        worker.balance = worker.balance || 0;
-                        worker.reward = worker.reward || 0;
-                        var toSend = (worker.balance + worker.reward) * (1 - withholdPercent);
-                        if (toSend >= minPaymentSatoshis) {
-                            totalSent += toSend;
+                        worker.balance = worker.balance || new BigNum(0);
+                        worker.reward = worker.reward || new BigNum(0);
+                        var toSend = (worker.balance.add(worker.reward)).mul(new BigNum(1).minus(withholdPercent));
+                        if (toSend.ge(minPaymentSatoshis)) {
+                            totalSent = totalSent.add(toSend);
                             var address = worker.address = (worker.address || getProperAddress(w));
                             worker.sent = addressAmounts[address] = satoshisToCoins(toSend);
-                            worker.balanceChange = Math.min(worker.balance, toSend) * -1;
+                            worker.balanceChange = min(worker.balance, toSend).mul(new BigNum(-1));
                         }
                         else {
-                            worker.balanceChange = Math.max(toSend - worker.balance, 0);
-                            worker.sent = 0;
+                            worker.balanceChange = max(toSend.minus(worker.balance), new BigNum(0));
+                            worker.sent = new BigNum(0);
                         }
                     }
 
@@ -431,9 +452,9 @@ function SetupForPool(logger, poolOptions, setupFinished) {
                     daemon.cmd('sendmany', [addressAccount || '', addressAmounts], function (result) {
                         //Check if payments failed because wallet doesn't have enough coins to pay for tx fees
                         if (result.error && result.error.code === -6) {
-                            var higherPercent = withholdPercent + 0.01;
+                            var higherPercent = withholdPercent.add(new BigNum(0.01));
                             logger.warning(logSystem, logComponent, 'Not enough funds to cover the tx fees for sending out payments, decreasing rewards by '
-                                + (higherPercent * 100) + '% and retrying');
+                                + (higherPercent.mul(new BigNum(100)).toNumber()) + '% and retrying');
                             trySend(higherPercent);
                         }
                         else if (result.error) {
@@ -442,10 +463,10 @@ function SetupForPool(logger, poolOptions, setupFinished) {
                             callback(true);
                         }
                         else {
-                            logger.debug(logSystem, logComponent, 'Sent out a total of ' + (totalSent / magnitude)
+                            logger.debug(logSystem, logComponent, 'Sent out a total of ' + (totalSent.div(satoshisInBtc))
                                 + ' to ' + Object.keys(addressAmounts).length + ' workers');
-                            if (withholdPercent > 0) {
-                                logger.warning(logSystem, logComponent, 'Had to withhold ' + (withholdPercent * 100)
+                            if (withholdPercent.gt(new BigNum(0))) {
+                                logger.warning(logSystem, logComponent, 'Had to withhold ' + (withholdPercent * new BigNum(100)).toNumber()
                                     + '% of reward from miners to cover transaction fees. '
                                     + 'Fund pool wallet with coins to prevent this from happening');
                             }
@@ -458,24 +479,24 @@ function SetupForPool(logger, poolOptions, setupFinished) {
             },
             function (workers, rounds, callback) {
 
-                var totalPaid = 0;
+                var totalPaid = new BigNum(0);
 
                 var balanceUpdateCommands = [];
                 var workerPayoutsCommand = [];
 
                 for (var w in workers) {
                     var worker = workers[w];
-                    if (worker.balanceChange !== 0) {
+                    if (!worker.balanceChange.eq(new BigNum(0))) {
                         balanceUpdateCommands.push([
                             'hincrbyfloat',
                             coin + ':balances',
                             w,
-                            satoshisToCoins(worker.balanceChange)
+                            satoshisToCoins(worker.balanceChange).toFixed(coinPrecision)
                         ]);
                     }
                     if (worker.sent !== 0) {
                         workerPayoutsCommand.push(['hincrbyfloat', coin + ':payouts', w, worker.sent]);
-                        totalPaid += worker.sent;
+                        totalPaid = totalPaid.add(worker.sent);
                     }
                 }
 
@@ -489,7 +510,7 @@ function SetupForPool(logger, poolOptions, setupFinished) {
                     var workerShares = r.workerShares;
                     Object.keys(workerShares).forEach(function (worker) {
                         orphanMergeCommands.push(['hincrby', coin + ':shares:roundCurrent',
-                            worker, workerShares[worker]]);
+                            worker, workerShares[worker].toFixed(coinPrecision)]);
                     });
                 };
 
@@ -530,8 +551,8 @@ function SetupForPool(logger, poolOptions, setupFinished) {
                 if (roundsToDelete.length > 0)
                     finalRedisCommands.push(['del'].concat(roundsToDelete));
 
-                if (totalPaid !== 0)
-                    finalRedisCommands.push(['hincrbyfloat', coin + ':stats', 'totalPaid', totalPaid]);
+                if (!totalPaid.eq(new BigNum(0)))
+                    finalRedisCommands.push(['hincrbyfloat', coin + ':stats', 'totalPaid', totalPaid.toFixed(coinPrecision)]);
 
                 if (finalRedisCommands.length === 0) {
                     callback();
