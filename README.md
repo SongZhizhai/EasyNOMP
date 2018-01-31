@@ -83,10 +83,7 @@ You can see the logs of the server with ```docker logs -f nomp```, or jump into 
 #### Lyra2Z
 If you are going to test ZCoin (lyra2z) on testnet, make sure you are uncommented proper lines in transactions.js in https://github.com/foxer666/node-stratum-pool 
 
-
-ONLY USE COIN ADDRESS AS MINING USER (WITHOUT WORKER) OR PAYOUTS WILL FAIL
-
-I have modified code in workers-fix branch. Need to test it.
+I have modified code to support workers. Need to test it.
 
 
 -------
