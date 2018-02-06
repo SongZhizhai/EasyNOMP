@@ -80,7 +80,7 @@ function SetupForPool(logger, poolOptions, setupFinished) {
     async.parallel([
         function (callback) {
             daemon.cmd('validateaddress', [poolOptions.address], function (result) {
-                newLogger.silly('Validated %s address with result %s', poolOptions.address, result);
+                newLogger.silly('Validated %s address with result %s', poolOptions.address, JSON.stringify(result));
                 if (result.error) {
                     logger.error(logSystem, logComponent, 'Error with payment processing daemon ' + JSON.stringify(result.error));
                     callback(true);
@@ -451,7 +451,7 @@ function SetupForPool(logger, poolOptions, setupFinished) {
                     for (var w in workers) {
                         newLogger.silly('w = %s', w);
                         var worker = workers[w];
-                        newLogger.silly('worker = %s', worker);
+                        newLogger.silly('worker = %s', JSON.stringify(worker));
                         worker.balance = worker.balance || new BigNumber(0);
                         newLogger.silly('worker.balance = %s', worker.balance.toString(10));
                         worker.reward = worker.reward || new BigNumber(0);
@@ -484,8 +484,8 @@ function SetupForPool(logger, poolOptions, setupFinished) {
                         return;
                     }
 
-                    newLogger.info('Final result for payments to miners: %s', JSON.stringify(addressAmounts))
-     /*               daemon.cmd('sendmany', [addressAccount || '', addressAmounts], function (result) {
+                    newLogger.info('Payments to miners: %s', JSON.stringify(addressAmounts));
+                    daemon.cmd('sendmany', [addressAccount || '', addressAmounts], function (result) {
                         //Check if payments failed because wallet doesn't have enough coins to pay for tx fees
                         if (result.error && result.error.code === -6) {
                             var higherPercent = withholdPercent.plus(new BigNumber(0.01));
@@ -508,7 +508,7 @@ function SetupForPool(logger, poolOptions, setupFinished) {
                             }
                             callback(null, workers, rounds);
                         }
-                    }, true, true);*/
+                    }, true, true);
                 };
                 trySend(new BigNumber(0));
 

@@ -1,7 +1,7 @@
 const { createLogger, format, transports } = require('winston');
 const { splat, combine, timestamp, label, printf } = format;
 
-const logLevel = 'silly';
+const logLevel = 'debug';
 
 
 module.exports = {
