@@ -6,7 +6,10 @@ var async = require('async');
 var Stratum = require('stratum-pool');
 var util = require('stratum-pool/lib/util.js');
 
-const BigNum = require('bignumber.js');
+
+const BigNum = require('bignum');
+
+const newLogger = require('./logger.js').getLogger('PaymentProcessor');
 
 /**
  * Minimum of two {BigNum}
@@ -30,6 +33,7 @@ function max(bignum1, bignum2) {
 
 module.exports = function (logger) {
 
+    newLogger.info("Payment processor worker started");
     var poolConfigs = JSON.parse(process.env.pools);
 
     var enabledPools = [];
@@ -37,17 +41,20 @@ module.exports = function (logger) {
     Object.keys(poolConfigs).forEach(function (coin) {
         var poolOptions = poolConfigs[coin];
         if (poolOptions.paymentProcessing &&
-            poolOptions.paymentProcessing.enabled)
+            poolOptions.paymentProcessing.enabled) {
             enabledPools.push(coin);
+            newLogger.info("Enabled %s for payment processing", coin)
+        }
     });
 
     async.filter(enabledPools, function (coin, callback) {
         SetupForPool(logger, poolConfigs[coin], function (setupResults) {
+            newLogger.debug("Processing processor initialized. Setup results %s", setupResults);
             callback(null, setupResults);
         });
     }, function (err, coins) {
         if (err) {
-            console.log("Error processing enabled pools in the config"); // TODO: ASYNC LIB was updated, need to report a better error
+            newLogger.error('Error processing enabled pools in the config') // TODO: ASYNC LIB was updated, need to report a better error
         } else {
             coins.forEach(function (coin) {
 
@@ -87,10 +94,12 @@ function SetupForPool(logger, poolOptions, setupFinished) {
     const coinPrecision = 8;
     var paymentInterval;
 
+    newLogger.debug('Validating address and balance');
 
     async.parallel([
         function (callback) {
             daemon.cmd('validateaddress', [poolOptions.address], function (result) {
+                newLogger.trace('Validated %s address with result %s', poolOptions.address, result);
                 if (result.error) {
                     logger.error(logSystem, logComponent, 'Error with payment processing daemon ' + JSON.stringify(result.error));
                     callback(true);
@@ -147,8 +156,6 @@ function SetupForPool(logger, poolOptions, setupFinished) {
     });
 
 
-
-
     var satoshisToCoins = function (satoshis) {
         return satoshis.div(satoshisInBtc);
     };
@@ -170,11 +177,19 @@ function SetupForPool(logger, poolOptions, setupFinished) {
         var startTimeRedis;
         var startTimeRPC;
 
-        var startRedisTimer = function () { startTimeRedis = Date.now() };
-        var endRedisTimer = function () { timeSpentRedis += Date.now() - startTimeRedis };
+        var startRedisTimer = function () {
+            startTimeRedis = Date.now()
+        };
+        var endRedisTimer = function () {
+            timeSpentRedis += Date.now() - startTimeRedis
+        };
 
-        var startRPCTimer = function () { startTimeRPC = Date.now(); };
-        var endRPCTimer = function () { timeSpentRPC += Date.now() - startTimeRedis };
+        var startRPCTimer = function () {
+            startTimeRPC = Date.now();
+        };
+        var endRPCTimer = function () {
+            timeSpentRPC += Date.now() - startTimeRedis
+        };
 
         async.waterfall([
 
@@ -323,20 +338,22 @@ function SetupForPool(logger, poolOptions, setupFinished) {
             /* Does a batch redis call to get shares contributed to each round. Then calculates the reward
                amount owned to each miner for each round. */
             function (workers, rounds, addressAccount, callback) {
-
                 var shareLookups = rounds.map(function (r) {
                     return ['hgetall', coin + ':shares:round' + r.height]
                 });
 
+                newLogger.silly('Calling redis for %s', shareLookups);
+
                 startRedisTimer();
                 redisClient.multi(shareLookups).exec(function (error, allWorkerShares) {
                     endRedisTimer();
-
+                    newLogger.silly('Response from redis allWorkerShares = %s', allWorkerShares);
                     if (error) {
                         callback('Check finished - redis error with multi get rounds share');
                         return;
                     }
 
+                    newLogger.silly('allWorkerShares before merging %s', allWorkerShares);
 
                     // This snippet will parse all workers and merge different workers into 1 payout address
                     allWorkerShares = allWorkerShares.map((roundShare) => {
@@ -354,7 +371,7 @@ function SetupForPool(logger, poolOptions, setupFinished) {
                                         if (resultForRound[address]) {
                                             resultForRound[address] = resultForRound[address].add(roundShare[workerStr]);
                                         } else {
-                                            resultForRound[address] = roundShare[workerStr];
+                                            resultForRound[address] = new BigNum(roundShare[workerStr]);
 
                                         }
                                     }
@@ -364,7 +381,7 @@ function SetupForPool(logger, poolOptions, setupFinished) {
                                     if (resultForRound[address]) {
                                         resultForRound[address] = resultForRound[address].add(roundShare[workerStr]);
                                     } else {
-                                        resultForRound[address] = roundShare[workerStr];
+                                        resultForRound[address] = new BigNum(roundShare[workerStr]);
                                     }
                                 }
                             } else {
@@ -374,11 +391,16 @@ function SetupForPool(logger, poolOptions, setupFinished) {
                         return resultForRound;
                     });
 
+                    newLogger.debug('Merged workers into payout address');
+                    newLogger.silly('allWorkerShares after merging %s', allWorkerShares);
+
 
                     rounds.forEach(function (round, i) {
+                        newLogger.silly('iterating round #%s from allWorkerShares', i);
+                        newLogger.silly('round = %s', round);
 
                         var workerSharesForRound = allWorkerShares[i];
-
+                        newLogger.silly('workerSharesForRound = %s', workerSharesForRound);
                         if (!workerSharesForRound) {
                             logger.error(logSystem, logComponent, 'No worker shares for round: '
                                 + round.height + ' blockHash: ' + round.blockHash);
@@ -394,17 +416,29 @@ function SetupForPool(logger, poolOptions, setupFinished) {
                             case 'generate':
                                 /* We found a confirmed block! Now get the reward for it and calculate how much
                                    we owe each miner based on the shares they submitted during that block round. */
+                                newLogger.info("We have found confirmed block #%s ready for payout", round.height);
+                                newLogger.silly("round.reward = %s", round.reward);
                                 var reward = new BigNum(round.reward).mul(satoshisInBtc);
+                                newLogger.silly("reward = %s", reward.toString(10));
 
                                 var totalShares = Object.keys(workerSharesForRound).reduce(function (p, c) {
+                                    if (p === 0) {
+                                        p = new BigNum(0)
+                                    }
                                     return p.add(workerSharesForRound[c])
                                 }, 0);
+                                newLogger.silly('totalShares = %s', totalShares.toString(10));
 
                                 Object.keys(workerSharesForRound).forEach((workerAddress) => {
+                                    newLogger.debug("Calculating reward for workerAddress %s", workerAddress);
                                     let percent = workerSharesForRound[workerAddress].div(totalShares);
+                                    newLogger.silly("percent = %s", percent.toString(10));
                                     let workerRewardTotal = reward.mul(percent);
+                                    newLogger.silly("workerRewardTotal = %s", workerRewardTotal.toString(10));
                                     let worker = workers[workerAddress] = (workers[workerAddress] || {});
+                                    newLogger.silly("worker = %s", worker);
                                     worker.reward = (worker.reward || new BigNum(0)).add(workerRewardTotal);
+                                    newLogger.silly('worker.reward = %s', worker.reward.toString(10));
                                 });
 
                                 break;
@@ -423,33 +457,51 @@ function SetupForPool(logger, poolOptions, setupFinished) {
              if not sending the balance, the differnce should be +(the amount they earned this round)
              */
             function (workers, rounds, addressAccount, callback) {
-
+                newLogger.info("Almost ready to send funds, calculating against existing balances");
                 var trySend = function (withholdPercent) {
+                    newLogger.debug('Trying to send');
+                    newLogger.silly('withholdPercent = %s', withholdPercent.toString(10));
                     var addressAmounts = {};
                     var totalSent = new BigNum(0);
+                    newLogger.silly('totalSent = %s', totalSent);
                     for (var w in workers) {
+                        newLogger.silly('w = %s', w);
                         var worker = workers[w];
+                        newLogger.silly('worker = %s', worker);
                         worker.balance = worker.balance || new BigNum(0);
+                        newLogger.silly('worker.balance = %s', worker.balance.toString(10));
                         worker.reward = worker.reward || new BigNum(0);
+                        newLogger.silly('worker.reward = %s', worker.reward.toString(10));
                         var toSend = (worker.balance.add(worker.reward)).mul(new BigNum(1).minus(withholdPercent));
+                        newLogger.silly('toSend = %s', toSend.toString(10));
                         if (toSend.ge(minPaymentSatoshis)) {
+                            newLogger.info('Worker %s have reached minimum payout threshold (%s above minimum %s)', w, toSend.toString(10), minPaymentSatoshis.div(satoshisInBtc).toString(10));
                             totalSent = totalSent.add(toSend);
+                            newLogger.silly('totalSent = %s', totalSent.toString(10));
                             var address = worker.address = (worker.address || getProperAddress(w));
+                            newLogger.silly('address = %s', address);
                             worker.sent = addressAmounts[address] = satoshisToCoins(toSend);
+                            newLogger.silly('worker.sent = %s', worker.sent.toString(10));
                             worker.balanceChange = min(worker.balance, toSend).mul(new BigNum(-1));
+                            newLogger.silly('worker.balanceChange = %s', worker.balanceChange.toString(10));
                         }
                         else {
+                            newLogger.debug('Worker %s have not reached minimum payout threshold %s', minPaymentSatoshis.div(satoshisInBtc).toString(10));
                             worker.balanceChange = max(toSend.minus(worker.balance), new BigNum(0));
+                            newLogger.silly('worker.balanceChange = %s', worker.balanceChange.toString(10));
                             worker.sent = new BigNum(0);
+                            newLogger.silly('worker.sent = %s', worker.sent.toString(10));
                         }
                     }
 
                     if (Object.keys(addressAmounts).length === 0) {
+                        newLogger.info('No workers was chosen for paying out');
                         callback(null, workers, rounds);
                         return;
                     }
 
-                    daemon.cmd('sendmany', [addressAccount || '', addressAmounts], function (result) {
+                    newLogger.info('Final result for payments to miners: %s', addressAmounts)
+     /*               daemon.cmd('sendmany', [addressAccount || '', addressAmounts], function (result) {
                         //Check if payments failed because wallet doesn't have enough coins to pay for tx fees
                         if (result.error && result.error.code === -6) {
                             var higherPercent = withholdPercent.add(new BigNum(0.01));
@@ -472,9 +524,9 @@ function SetupForPool(logger, poolOptions, setupFinished) {
                             }
                             callback(null, workers, rounds);
                         }
-                    }, true, true);
+                    }, true, true);*/
                 };
-                trySend(0);
+                trySend(new BigNum(0));
 
             },
             function (workers, rounds, callback) {
@@ -499,7 +551,6 @@ function SetupForPool(logger, poolOptions, setupFinished) {
                         totalPaid = totalPaid.add(worker.sent);
                     }
                 }
-
 
 
                 var movePendingCommands = [];
