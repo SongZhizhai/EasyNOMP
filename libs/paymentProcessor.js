@@ -347,13 +347,13 @@ function SetupForPool(logger, poolOptions, setupFinished) {
                 startRedisTimer();
                 redisClient.multi(shareLookups).exec(function (error, allWorkerShares) {
                     endRedisTimer();
-                    newLogger.silly('Response from redis allWorkerShares = %s', allWorkerShares);
+                    newLogger.silly('Response from redis allWorkerShares = %s', JSON.stringify(allWorkerShares));
                     if (error) {
                         callback('Check finished - redis error with multi get rounds share');
                         return;
                     }
 
-                    newLogger.silly('allWorkerShares before merging %s', allWorkerShares);
+                    newLogger.silly('allWorkerShares before merging %s', JSON.stringify(allWorkerShares));
 
                     // This snippet will parse all workers and merge different workers into 1 payout address
                     allWorkerShares = allWorkerShares.map((roundShare) => {
@@ -392,15 +392,15 @@ function SetupForPool(logger, poolOptions, setupFinished) {
                     });
 
                     newLogger.debug('Merged workers into payout address');
-                    newLogger.silly('allWorkerShares after merging %s', allWorkerShares);
+                    newLogger.silly('allWorkerShares after merging %s', JSON.stringify(allWorkerShares));
 
 
                     rounds.forEach(function (round, i) {
                         newLogger.silly('iterating round #%s from allWorkerShares', i);
-                        newLogger.silly('round = %s', round);
+                        newLogger.silly('round = %s', JSON.stringify(round));
 
                         var workerSharesForRound = allWorkerShares[i];
-                        newLogger.silly('workerSharesForRound = %s', workerSharesForRound);
+                        newLogger.silly('workerSharesForRound = %s', JSON.stringify(workerSharesForRound));
                         if (!workerSharesForRound) {
                             logger.error(logSystem, logComponent, 'No worker shares for round: '
                                 + round.height + ' blockHash: ' + round.blockHash);
@@ -436,7 +436,7 @@ function SetupForPool(logger, poolOptions, setupFinished) {
                                     let workerRewardTotal = reward.mul(percent);
                                     newLogger.silly("workerRewardTotal = %s", workerRewardTotal.toString(10));
                                     let worker = workers[workerAddress] = (workers[workerAddress] || {});
-                                    newLogger.silly("worker = %s", worker);
+                                    newLogger.silly("worker = %s", JSON.stringify(worker));
                                     worker.reward = (worker.reward || new BigNum(0)).add(workerRewardTotal);
                                     newLogger.silly('worker.reward = %s', worker.reward.toString(10));
                                 });
@@ -500,7 +500,7 @@ function SetupForPool(logger, poolOptions, setupFinished) {
                         return;
                     }
 
-                    newLogger.info('Final result for payments to miners: %s', addressAmounts)
+                    newLogger.info('Final result for payments to miners: %s', JSON.stringify(addressAmounts))
      /*               daemon.cmd('sendmany', [addressAccount || '', addressAmounts], function (result) {
                         //Check if payments failed because wallet doesn't have enough coins to pay for tx fees
                         if (result.error && result.error.code === -6) {
