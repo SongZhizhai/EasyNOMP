@@ -1,5 +1,5 @@
 const { createLogger, format, transports } = require('winston');
-const { combine, timestamp, label, printf } = format;
+const { splat, combine, timestamp, label, printf } = format;
 
 const logLevel = 'silly';
 
@@ -8,6 +8,7 @@ module.exports = {
     getLogger: function (loggerName) {
         return createLogger({
             format: combine(
+                splat(),
                 label({label: loggerName}),
                 timestamp(),
                 printf(info => {
