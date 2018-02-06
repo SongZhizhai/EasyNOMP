@@ -104,7 +104,9 @@ function SetupForPool(logger, poolOptions, setupFinished) {
                     return;
                 }
                 try {
-                    minPaymentSatoshis = new BigNumber(processingConfig.minimumPayment).multipliedBy(satoshisInBtc);
+                    let minimumPayment = new BigNumber(processingConfig.minimumPayment);
+                    newLogger.silly('minimumPayment = %s', minimumPayment.toString(10));
+                    minPaymentSatoshis = minimumPayment.multipliedBy(satoshisInBtc);
                 }
                 catch (e) {
                     console.log(e);
