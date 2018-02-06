@@ -99,7 +99,7 @@ function SetupForPool(logger, poolOptions, setupFinished) {
     async.parallel([
         function (callback) {
             daemon.cmd('validateaddress', [poolOptions.address], function (result) {
-                newLogger.trace('Validated %s address with result %s', poolOptions.address, result);
+                newLogger.silly('Validated %s address with result %s', poolOptions.address, result);
                 if (result.error) {
                     logger.error(logSystem, logComponent, 'Error with payment processing daemon ' + JSON.stringify(result.error));
                     callback(true);
