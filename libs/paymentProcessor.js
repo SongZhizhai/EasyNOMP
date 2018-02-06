@@ -107,6 +107,7 @@ function SetupForPool(logger, poolOptions, setupFinished) {
                     minPaymentSatoshis = new BigNumber(processingConfig.minimumPayment).multipliedBy(satoshisInBtc);
                 }
                 catch (e) {
+                    console.log(e);
                     logger.error(logSystem, logComponent, 'Error detecting number of satoshis in a coin, cannot do payment processing. Tried parsing: ' + result.data);
                     wasICaught = true;
                 }
