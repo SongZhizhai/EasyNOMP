@@ -7,29 +7,10 @@ var Stratum = require('stratum-pool');
 var util = require('stratum-pool/lib/util.js');
 
 
-const BigNum = require('bignum');
+const BigNumber = require('bignumber.js');
 
 const newLogger = require('./logger.js').getLogger('PaymentProcessor');
 
-/**
- * Minimum of two {BigNum}
- * @param bignum1 {BigNum}
- * @param bignum2 {BugNum}
- * @returns {BigNum}
- */
-function min(bignum1, bignum2) {
-    return bignum1.le(bignum2) ? bignum1 : bignum2;
-}
-
-/**
- * Maximum of two {BigNum}
- * @param bignum1 {BigNum}
- * @param bignum2 {BugNum}
- * @returns {BigNum}
- */
-function max(bignum1, bignum2) {
-    return bignum1.ge(bignum2) ? bignum1 : bignum2;
-}
 
 module.exports = function (logger) {
 
@@ -90,7 +71,7 @@ function SetupForPool(logger, poolOptions, setupFinished) {
 
     var minPaymentSatoshis;
 
-    const satoshisInBtc = new BigNum(100000000);
+    const satoshisInBtc = new BigNumber(100000000);
     const coinPrecision = 8;
     var paymentInterval;
 
@@ -123,7 +104,7 @@ function SetupForPool(logger, poolOptions, setupFinished) {
                     return;
                 }
                 try {
-                    minPaymentSatoshis = new BigNum(processingConfig.minimumPayment).mul(satoshisInBtc);
+                    minPaymentSatoshis = new BigNumber(processingConfig.minimumPayment).multipliedBy(satoshisInBtc);
                 }
                 catch (e) {
                     logger.error(logSystem, logComponent, 'Error detecting number of satoshis in a coin, cannot do payment processing. Tried parsing: ' + result.data);
@@ -157,11 +138,11 @@ function SetupForPool(logger, poolOptions, setupFinished) {
 
 
     var satoshisToCoins = function (satoshis) {
-        return satoshis.div(satoshisInBtc);
+        return satoshis.dividedBy(satoshisInBtc);
     };
 
     var coinsToSatoshies = function (coins) {
-        return coins.mul(coinPrecision);
+        return coins.multipliedBy(coinPrecision);
     };
 
     /* Deal with numbers in smallest possible units (satoshis) as much as possible. This greatly helps with accuracy
@@ -214,7 +195,7 @@ function SetupForPool(logger, poolOptions, setupFinished) {
 
                     var workers = {};
                     for (var w in results[0]) {
-                        workers[w] = { balance: coinsToSatoshies(new BigNum(results[0][w]))};
+                        workers[w] = { balance: coinsToSatoshies(new BigNumber(results[0][w]))};
                     }
 
                     var rounds = results[1].map(function (r) {
@@ -369,9 +350,9 @@ function SetupForPool(logger, poolOptions, setupFinished) {
                                         //todo validate by daemon
                                         let address = workerInfo[0];
                                         if (resultForRound[address]) {
-                                            resultForRound[address] = resultForRound[address].add(roundShare[workerStr]);
+                                            resultForRound[address] = resultForRound[address].plus(roundShare[workerStr]);
                                         } else {
-                                            resultForRound[address] = new BigNum(roundShare[workerStr]);
+                                            resultForRound[address] = new BigNumber(roundShare[workerStr]);
 
                                         }
                                     }
@@ -379,9 +360,9 @@ function SetupForPool(logger, poolOptions, setupFinished) {
                                     //todo validate by daemon
                                     let address = workerStr;
                                     if (resultForRound[address]) {
-                                        resultForRound[address] = resultForRound[address].add(roundShare[workerStr]);
+                                        resultForRound[address] = resultForRound[address].plus(roundShare[workerStr]);
                                     } else {
-                                        resultForRound[address] = new BigNum(roundShare[workerStr]);
+                                        resultForRound[address] = new BigNumber(roundShare[workerStr]);
                                     }
                                 }
                             } else {
@@ -418,26 +399,26 @@ function SetupForPool(logger, poolOptions, setupFinished) {
                                    we owe each miner based on the shares they submitted during that block round. */
                                 newLogger.info("We have found confirmed block #%s ready for payout", round.height);
                                 newLogger.silly("round.reward = %s", round.reward);
-                                var reward = new BigNum(round.reward).mul(satoshisInBtc);
+                                var reward = new BigNumber(round.reward).multipliedBy(satoshisInBtc);
                                 newLogger.silly("reward = %s", reward.toString(10));
 
                                 var totalShares = Object.keys(workerSharesForRound).reduce(function (p, c) {
                                     if (p === 0) {
-                                        p = new BigNum(0)
+                                        p = new BigNumber(0)
                                     }
-                                    return p.add(workerSharesForRound[c])
+                                    return p.plus(workerSharesForRound[c])
                                 }, 0);
                                 newLogger.silly('totalShares = %s', totalShares.toString(10));
 
                                 Object.keys(workerSharesForRound).forEach((workerAddress) => {
                                     newLogger.debug("Calculating reward for workerAddress %s", workerAddress);
-                                    let percent = workerSharesForRound[workerAddress].div(totalShares);
+                                    let percent = workerSharesForRound[workerAddress].dividedBy(totalShares);
                                     newLogger.silly("percent = %s", percent.toString(10));
-                                    let workerRewardTotal = reward.mul(percent);
+                                    let workerRewardTotal = reward.multipliedBy(percent);
                                     newLogger.silly("workerRewardTotal = %s", workerRewardTotal.toString(10));
                                     let worker = workers[workerAddress] = (workers[workerAddress] || {});
                                     newLogger.silly("worker = %s", JSON.stringify(worker));
-                                    worker.reward = (worker.reward || new BigNum(0)).add(workerRewardTotal);
+                                    worker.reward = (worker.reward || new BigNumber(0)).plus(workerRewardTotal);
                                     newLogger.silly('worker.reward = %s', worker.reward.toString(10));
                                 });
 
@@ -462,34 +443,34 @@ function SetupForPool(logger, poolOptions, setupFinished) {
                     newLogger.debug('Trying to send');
                     newLogger.silly('withholdPercent = %s', withholdPercent.toString(10));
                     var addressAmounts = {};
-                    var totalSent = new BigNum(0);
+                    var totalSent = new BigNumber(0);
                     newLogger.silly('totalSent = %s', totalSent);
                     for (var w in workers) {
                         newLogger.silly('w = %s', w);
                         var worker = workers[w];
                         newLogger.silly('worker = %s', worker);
-                        worker.balance = worker.balance || new BigNum(0);
+                        worker.balance = worker.balance || new BigNumber(0);
                         newLogger.silly('worker.balance = %s', worker.balance.toString(10));
-                        worker.reward = worker.reward || new BigNum(0);
+                        worker.reward = worker.reward || new BigNumber(0);
                         newLogger.silly('worker.reward = %s', worker.reward.toString(10));
-                        var toSend = (worker.balance.add(worker.reward)).mul(new BigNum(1).sub(withholdPercent));
+                        var toSend = (worker.balance.plus(worker.reward)).multipliedBy(new BigNumber(1).minus(withholdPercent));
                         newLogger.silly('toSend = %s', toSend.toString(10));
                         if (toSend.ge(minPaymentSatoshis)) {
-                            newLogger.info('Worker %s have reached minimum payout threshold (%s above minimum %s)', w, toSend.toString(10), minPaymentSatoshis.div(satoshisInBtc).toString(10));
-                            totalSent = totalSent.add(toSend);
+                            newLogger.info('Worker %s have reached minimum payout threshold (%s above minimum %s)', w, toSend.toString(10), minPaymentSatoshis.dividedBy(satoshisInBtc).toString(10));
+                            totalSent = totalSent.plus(toSend);
                             newLogger.silly('totalSent = %s', totalSent.toString(10));
                             var address = worker.address = (worker.address || getProperAddress(w));
                             newLogger.silly('address = %s', address);
                             worker.sent = addressAmounts[address] = satoshisToCoins(toSend);
                             newLogger.silly('worker.sent = %s', worker.sent.toString(10));
-                            worker.balanceChange = min(worker.balance, toSend).mul(new BigNum(-1));
+                            worker.balanceChange = BigNumber.min(worker.balance, toSend).multipliedBy(new BigNumber(-1));
                             newLogger.silly('worker.balanceChange = %s', worker.balanceChange.toString(10));
                         }
                         else {
-                            newLogger.debug('Worker %s have not reached minimum payout threshold %s', minPaymentSatoshis.div(satoshisInBtc).toString(10));
-                            worker.balanceChange = max(toSend.sub(worker.balance), new BigNum(0));
+                            newLogger.debug('Worker %s have not reached minimum payout threshold %s', minPaymentSatoshis.dividedBy(satoshisInBtc).toString(10));
+                            worker.balanceChange = BigNumber.max(toSend.minus(worker.balance), new BigNumber(0));
                             newLogger.silly('worker.balanceChange = %s', worker.balanceChange.toString(10));
-                            worker.sent = new BigNum(0);
+                            worker.sent = new BigNumber(0);
                             newLogger.silly('worker.sent = %s', worker.sent.toString(10));
                         }
                     }
@@ -504,9 +485,9 @@ function SetupForPool(logger, poolOptions, setupFinished) {
      /*               daemon.cmd('sendmany', [addressAccount || '', addressAmounts], function (result) {
                         //Check if payments failed because wallet doesn't have enough coins to pay for tx fees
                         if (result.error && result.error.code === -6) {
-                            var higherPercent = withholdPercent.add(new BigNum(0.01));
+                            var higherPercent = withholdPercent.plus(new BigNumber(0.01));
                             logger.warning(logSystem, logComponent, 'Not enough funds to cover the tx fees for sending out payments, decreasing rewards by '
-                                + (higherPercent.mul(new BigNum(100)).toNumber()) + '% and retrying');
+                                + (higherPercent.multipliedBy(new BigNumber(100)).toNumber()) + '% and retrying');
                             trySend(higherPercent);
                         }
                         else if (result.error) {
@@ -515,10 +496,10 @@ function SetupForPool(logger, poolOptions, setupFinished) {
                             callback(true);
                         }
                         else {
-                            logger.debug(logSystem, logComponent, 'Sent out a total of ' + (totalSent.div(satoshisInBtc))
+                            logger.debug(logSystem, logComponent, 'Sent out a total of ' + (totalSent.dividedBy(satoshisInBtc))
                                 + ' to ' + Object.keys(addressAmounts).length + ' workers');
-                            if (withholdPercent.gt(new BigNum(0))) {
-                                logger.warning(logSystem, logComponent, 'Had to withhold ' + (withholdPercent * new BigNum(100)).toNumber()
+                            if (withholdPercent.gt(new BigNumber(0))) {
+                                logger.warning(logSystem, logComponent, 'Had to withhold ' + (withholdPercent * new BigNumber(100)).toNumber()
                                     + '% of reward from miners to cover transaction fees. '
                                     + 'Fund pool wallet with coins to prevent this from happening');
                             }
@@ -526,19 +507,19 @@ function SetupForPool(logger, poolOptions, setupFinished) {
                         }
                     }, true, true);*/
                 };
-                trySend(new BigNum(0));
+                trySend(new BigNumber(0));
 
             },
             function (workers, rounds, callback) {
 
-                var totalPaid = new BigNum(0);
+                var totalPaid = new BigNumber(0);
 
                 var balanceUpdateCommands = [];
                 var workerPayoutsCommand = [];
 
                 for (var w in workers) {
                     var worker = workers[w];
-                    if (!worker.balanceChange.eq(new BigNum(0))) {
+                    if (!worker.balanceChange.eq(new BigNumber(0))) {
                         balanceUpdateCommands.push([
                             'hincrbyfloat',
                             coin + ':balances',
@@ -548,7 +529,7 @@ function SetupForPool(logger, poolOptions, setupFinished) {
                     }
                     if (worker.sent !== 0) {
                         workerPayoutsCommand.push(['hincrbyfloat', coin + ':payouts', w, worker.sent]);
-                        totalPaid = totalPaid.add(worker.sent);
+                        totalPaid = totalPaid.plus(worker.sent);
                     }
                 }
 
@@ -602,7 +583,7 @@ function SetupForPool(logger, poolOptions, setupFinished) {
                 if (roundsToDelete.length > 0)
                     finalRedisCommands.push(['del'].concat(roundsToDelete));
 
-                if (!totalPaid.eq(new BigNum(0)))
+                if (!totalPaid.eq(new BigNumber(0)))
                     finalRedisCommands.push(['hincrbyfloat', coin + ':stats', 'totalPaid', totalPaid.toFixed(coinPrecision)]);
 
                 if (finalRedisCommands.length === 0) {
