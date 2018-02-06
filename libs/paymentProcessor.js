@@ -458,7 +458,7 @@ function SetupForPool(logger, poolOptions, setupFinished) {
                         newLogger.silly('worker.reward = %s', worker.reward.toString(10));
                         var toSend = (worker.balance.plus(worker.reward)).multipliedBy(new BigNumber(1).minus(withholdPercent));
                         newLogger.silly('toSend = %s', toSend.toString(10));
-                        if (toSend.ge(minPaymentSatoshis)) {
+                        if (toSend.isGreaterThanOrEqualTo(minPaymentSatoshis)) {
                             newLogger.info('Worker %s have reached minimum payout threshold (%s above minimum %s)', w, toSend.toString(10), minPaymentSatoshis.dividedBy(satoshisInBtc).toString(10));
                             totalSent = totalSent.plus(toSend);
                             newLogger.silly('totalSent = %s', totalSent.toString(10));
@@ -501,7 +501,7 @@ function SetupForPool(logger, poolOptions, setupFinished) {
                         else {
                             logger.debug(logSystem, logComponent, 'Sent out a total of ' + (totalSent.dividedBy(satoshisInBtc))
                                 + ' to ' + Object.keys(addressAmounts).length + ' workers');
-                            if (withholdPercent.gt(new BigNumber(0))) {
+                            if (withholdPercent.isGreaterThan(new BigNumber(0))) {
                                 logger.warning(logSystem, logComponent, 'Had to withhold ' + (withholdPercent * new BigNumber(100)).toNumber()
                                     + '% of reward from miners to cover transaction fees. '
                                     + 'Fund pool wallet with coins to prevent this from happening');
