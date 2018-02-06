@@ -95,8 +95,7 @@ You can see the logs of the server with ```docker logs -f nomp```, or jump into 
 #### Lyra2Z
 If you are going to test ZCoin (lyra2z) on testnet, make sure you are uncommented proper lines in transactions.js in https://github.com/foxer666/node-stratum-pool 
 
-I have modified code to support workers. Need to test it.
-
+There is a ```payment-fixes``` branch where i fixed previous blockHash problem and corrected payouts. Check it out in this and stratum server module.
 
 -------
 ### Credits
