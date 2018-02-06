@@ -472,7 +472,7 @@ function SetupForPool(logger, poolOptions, setupFinished) {
                         newLogger.silly('worker.balance = %s', worker.balance.toString(10));
                         worker.reward = worker.reward || new BigNum(0);
                         newLogger.silly('worker.reward = %s', worker.reward.toString(10));
-                        var toSend = (worker.balance.add(worker.reward)).mul(new BigNum(1).minus(withholdPercent));
+                        var toSend = (worker.balance.add(worker.reward)).mul(new BigNum(1).sub(withholdPercent));
                         newLogger.silly('toSend = %s', toSend.toString(10));
                         if (toSend.ge(minPaymentSatoshis)) {
                             newLogger.info('Worker %s have reached minimum payout threshold (%s above minimum %s)', w, toSend.toString(10), minPaymentSatoshis.div(satoshisInBtc).toString(10));
@@ -487,7 +487,7 @@ function SetupForPool(logger, poolOptions, setupFinished) {
                         }
                         else {
                             newLogger.debug('Worker %s have not reached minimum payout threshold %s', minPaymentSatoshis.div(satoshisInBtc).toString(10));
-                            worker.balanceChange = max(toSend.minus(worker.balance), new BigNum(0));
+                            worker.balanceChange = max(toSend.sub(worker.balance), new BigNum(0));
                             newLogger.silly('worker.balanceChange = %s', worker.balanceChange.toString(10));
                             worker.sent = new BigNum(0);
                             newLogger.silly('worker.sent = %s', worker.sent.toString(10));
