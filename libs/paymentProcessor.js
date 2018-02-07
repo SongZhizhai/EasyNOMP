@@ -64,8 +64,6 @@ function SetupForPool(poolOptions, setupFinished) {
 
     var processingConfig = poolOptions.paymentProcessing;
 
-    var logSystem = 'Payments';
-    var logComponent = coin;
 
     // TODO fix logger, broken intentionally, wil fix after final migration to winston
     var daemon = new Stratum.daemon.interface([processingConfig.daemon], undefined);
@@ -89,9 +87,8 @@ function SetupForPool(poolOptions, setupFinished) {
                     callback(true);
                 }
                 else if (!result.response || !result.response.ismine) {
-                    logger.error(logSystem, logComponent,
-                        'Daemon does not own pool address - payment processing can not be done with this daemon, '
-                        + JSON.stringify(result.response));
+                    logger.error('Daemon does not own pool address - payment processing can not be done with this daemon, %s'
+                        ,JSON.stringify(result.response));
                     callback(true);
                 }
                 else {
@@ -460,7 +457,7 @@ function SetupForPool(poolOptions, setupFinished) {
                         logger.silly('worker.reward = %s', worker.reward.toString(10));
                         var toSend = (worker.balance.plus(worker.reward)).multipliedBy(new BigNumber(1).minus(withholdPercent));
                         logger.silly('toSend = %s', toSend.toString(10));
-                        if (toSend.isGreaterThanOrEqualTo(minPaymentSatoshis)) {
+                        if (toSend.isGreaterThanOrEqualTo(minPaymentSatoshis.dividedBy(satoshisInBtc))) {
                             logger.info('Worker %s have reached minimum payout threshold (%s above minimum %s)', w, toSend.toString(10), minPaymentSatoshis.dividedBy(satoshisInBtc).toString(10));
                             totalSent = totalSent.plus(toSend);
                             logger.silly('totalSent = %s', totalSent.toString(10));
@@ -491,20 +488,18 @@ function SetupForPool(poolOptions, setupFinished) {
                         //Check if payments failed because wallet doesn't have enough coins to pay for tx fees
                         if (result.error && result.error.code === -6) {
                             var higherPercent = withholdPercent.plus(new BigNumber(0.01));
-                            logger.warning(logSystem, logComponent, 'Not enough funds to cover the tx fees for sending out payments, decreasing rewards by '
-                                + (higherPercent.multipliedBy(new BigNumber(100)).toNumber()) + '% and retrying');
+                            logger.warning('Not enough funds to cover the tx fees for sending out payments, decreasing rewards by %s% and retrying');
                             trySend(higherPercent);
                         }
                         else if (result.error) {
-                            logger.error(logSystem, logComponent, 'Error trying to send payments with RPC sendmany '
-                                + JSON.stringify(result.error));
+                            logger.error('Error trying to send payments with RPC sendmany %s', result.error);
                             callback(true);
                         }
                         else {
-                            logger.debug(logSystem, logComponent, 'Sent out a total of ' + (totalSent.dividedBy(satoshisInBtc))
+                            logger.debug('Sent out a total of ' + (totalSent.dividedBy(satoshisInBtc))
                                 + ' to ' + Object.keys(addressAmounts).length + ' workers');
                             if (withholdPercent.isGreaterThan(new BigNumber(0))) {
-                                logger.warning(logSystem, logComponent, 'Had to withhold ' + (withholdPercent * new BigNumber(100)).toNumber()
+                                logger.warning('Had to withhold ' + (withholdPercent * new BigNumber(100)).toString(10)
                                     + '% of reward from miners to cover transaction fees. '
                                     + 'Fund pool wallet with coins to prevent this from happening');
                             }
