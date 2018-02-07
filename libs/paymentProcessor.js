@@ -9,13 +9,13 @@ var util = require('stratum-pool/lib/util.js');
 
 const BigNumber = require('bignumber.js');
 
-const newLogger = require('./logger.js').getLogger('PaymentProcessor');
+const loggerFactory = require('./logger.js');
 
+module.exports = function () {
+    let logger = loggerFactory.getLogger('PaymentProcessing', 'system');
 
-module.exports = function (logger) {
-
-    newLogger.info("Payment processor worker started");
     var poolConfigs = JSON.parse(process.env.pools);
+    logger.info("Payment processor worker started");
 
     var enabledPools = [];
 
@@ -24,18 +24,18 @@ module.exports = function (logger) {
         if (poolOptions.paymentProcessing &&
             poolOptions.paymentProcessing.enabled) {
             enabledPools.push(coin);
-            newLogger.info("Enabled %s for payment processing", coin)
+            logger.info("Enabled %s for payment processing", coin)
         }
     });
 
     async.filter(enabledPools, function (coin, callback) {
-        SetupForPool(logger, poolConfigs[coin], function (setupResults) {
-            newLogger.debug("Processing processor initialized. Setup results %s", setupResults);
+        SetupForPool(poolConfigs[coin], function (setupResults) {
+            logger.debug("Processing processor initialized. Setup results %s", setupResults);
             callback(null, setupResults);
         });
     }, function (err, coins) {
         if (err) {
-            newLogger.error('Error processing enabled pools in the config') // TODO: ASYNC LIB was updated, need to report a better error
+            logger.error('Error processing enabled pools in the config') // TODO: ASYNC LIB was updated, need to report a better error
         } else {
             coins.forEach(function (coin) {
 
@@ -44,29 +44,32 @@ module.exports = function (logger) {
                 var logSystem = 'Payments';
                 var logComponent = coin;
 
-                logger.debug(logSystem, logComponent, 'Payment processing setup to run every '
-                    + processingConfig.paymentInterval + ' second(s) with daemon ('
-                    + processingConfig.daemon.user + '@' + processingConfig.daemon.host + ':' + processingConfig.daemon.port
-                    + ') and redis (' + poolOptions.redis.host + ':' + poolOptions.redis.port + ')');
-
+                logger.info('Payment processing setup to run every %s second(s) with daemon (%s@%s:%s) and redis (%s:%s)',
+                    processingConfig.paymentInterval,
+                    processingConfig.daemon.user,
+                    processingConfig.daemon.host,
+                    processingConfig.daemon.port,
+                    poolOptions.redis.host,
+                    poolOptions.redis.port);
             });
         }
     });
 };
 
 
-function SetupForPool(logger, poolOptions, setupFinished) {
-
-
+function SetupForPool(poolOptions, setupFinished) {
     var coin = poolOptions.coin.name;
+    const logger = loggerFactory.getLogger('PaymentProcessor', coin);
+
+
     var processingConfig = poolOptions.paymentProcessing;
 
     var logSystem = 'Payments';
     var logComponent = coin;
 
-    var daemon = new Stratum.daemon.interface([processingConfig.daemon], function (severity, message) {
-        logger[severity](logSystem, logComponent, message);
-    });
+    // TODO fix logger, broken intentionally, wil fix after final migration to winston
+    var daemon = new Stratum.daemon.interface([processingConfig.daemon], undefined);
+
     var redisClient = redis.createClient(poolOptions.redis.port, poolOptions.redis.host);
 
     var minPaymentSatoshis;
@@ -75,14 +78,14 @@ function SetupForPool(logger, poolOptions, setupFinished) {
     const coinPrecision = 8;
     var paymentInterval;
 
-    newLogger.debug('Validating address and balance');
+    logger.debug('Validating address and balance');
 
     async.parallel([
         function (callback) {
             daemon.cmd('validateaddress', [poolOptions.address], function (result) {
-                newLogger.silly('Validated %s address with result %s', poolOptions.address, JSON.stringify(result));
+                logger.silly('Validated %s address with result %s', poolOptions.address, JSON.stringify(result));
                 if (result.error) {
-                    logger.error(logSystem, logComponent, 'Error with payment processing daemon ' + JSON.stringify(result.error));
+                    logger.error('Error with payment processing daemon %s', JSON.stringify(result.error));
                     callback(true);
                 }
                 else if (!result.response || !result.response.ismine) {
@@ -105,12 +108,12 @@ function SetupForPool(logger, poolOptions, setupFinished) {
                 }
                 try {
                     let minimumPayment = new BigNumber(processingConfig.minimumPayment);
-                    newLogger.silly('minimumPayment = %s', minimumPayment.toString(10));
+                    logger.silly('minimumPayment = %s', minimumPayment.toString(10));
                     minPaymentSatoshis = minimumPayment.multipliedBy(satoshisInBtc);
                 }
                 catch (e) {
                     console.log(e);
-                    logger.error(logSystem, logComponent, 'Error detecting number of satoshis in a coin, cannot do payment processing. Tried parsing: ' + result.data);
+                    logger.error(logSystem, logComponent, 'Error detecting number of satoshis in a coin, cannot do payment processing. Tried parsing: %s', +JSON.stringify(result.data));
                     wasICaught = true;
                 }
                 finally {
@@ -189,16 +192,15 @@ function SetupForPool(logger, poolOptions, setupFinished) {
                     endRedisTimer();
 
                     if (error) {
-                        logger.error(logSystem, logComponent, 'Could not get blocks from redis ' + JSON.stringify(error));
+                        logger.error('Could not get blocks from redis %s', JSON.stringify(error));
                         callback(true);
                         return;
                     }
 
 
-
                     var workers = {};
                     for (var w in results[0]) {
-                        workers[w] = { balance: coinsToSatoshies(new BigNumber(results[0][w]))};
+                        workers[w] = {balance: coinsToSatoshies(new BigNumber(results[0][w]))};
                     }
 
                     var rounds = results[1].map(function (r) {
@@ -230,8 +232,7 @@ function SetupForPool(logger, poolOptions, setupFinished) {
                     endRPCTimer();
 
                     if (error || !txDetails) {
-                        logger.error(logSystem, logComponent, 'Check finished - daemon rpc error with batch gettransactions '
-                            + JSON.stringify(error));
+                        logger.error('Check finished - daemon rpc error with batch gettransactions %s', JSON.stringify(error));
                         callback(true);
                         return;
                     }
@@ -248,18 +249,20 @@ function SetupForPool(logger, poolOptions, setupFinished) {
                         var round = rounds[i];
 
                         if (tx.error && tx.error.code === -5) {
-                            logger.warning(logSystem, logComponent, 'Daemon reports invalid transaction: ' + round.txHash);
+                            logger.warn('Daemon reports invalid transaction: %s', round.txHash);
+                            logger.debug('Filtering out round %s as kicked cause of invalid tx', round.height);
                             round.category = 'kicked';
                             return;
                         }
                         else if (!tx.result.details || (tx.result.details && tx.result.details.length === 0)) {
-                            logger.warning(logSystem, logComponent, 'Daemon reports no details for transaction: ' + round.txHash);
+                            logger.warn('Daemon reports no details for transaction: %s');
+                            logger.debug('Filtering out round %s as kicked cause of no details for transaction', round.height);
                             round.category = 'kicked';
                             return;
                         }
                         else if (tx.error || !tx.result) {
-                            logger.error(logSystem, logComponent, 'Odd error with gettransaction ' + round.txHash + ' '
-                                + JSON.stringify(tx));
+                            logger.error('Odd error with gettransaction %s. tx = %s', round.txHash, JSON.stringify(tx));
+                            round.category = 'kicked'
                             return;
                         }
 
@@ -273,8 +276,7 @@ function SetupForPool(logger, poolOptions, setupFinished) {
                         }
 
                         if (!generationTx) {
-                            logger.error(logSystem, logComponent, 'Missing output details to pool address for transaction '
-                                + round.txHash);
+                            logger.error('Missing output details to pool address for transaction %s', round.txHash);
                             return;
                         }
 
@@ -326,18 +328,18 @@ function SetupForPool(logger, poolOptions, setupFinished) {
                     return ['hgetall', coin + ':shares:round' + r.height]
                 });
 
-                newLogger.silly('Calling redis for %s', shareLookups);
+                logger.silly('Calling redis for %s', shareLookups);
 
                 startRedisTimer();
                 redisClient.multi(shareLookups).exec(function (error, allWorkerShares) {
                     endRedisTimer();
-                    newLogger.silly('Response from redis allWorkerShares = %s', JSON.stringify(allWorkerShares));
+                    logger.silly('Response from redis allWorkerShares = %s', JSON.stringify(allWorkerShares));
                     if (error) {
                         callback('Check finished - redis error with multi get rounds share');
                         return;
                     }
 
-                    newLogger.silly('allWorkerShares before merging %s', JSON.stringify(allWorkerShares));
+                    logger.silly('allWorkerShares before merging %s', JSON.stringify(allWorkerShares));
 
                     // This snippet will parse all workers and merge different workers into 1 payout address
                     allWorkerShares = allWorkerShares.map((roundShare) => {
@@ -375,16 +377,16 @@ function SetupForPool(logger, poolOptions, setupFinished) {
                         return resultForRound;
                     });
 
-                    newLogger.debug('Merged workers into payout address');
-                    newLogger.silly('allWorkerShares after merging %s', JSON.stringify(allWorkerShares));
+                    logger.debug('Merged workers into payout address');
+                    logger.silly('allWorkerShares after merging %s', JSON.stringify(allWorkerShares));
 
 
                     rounds.forEach(function (round, i) {
-                        newLogger.silly('iterating round #%s from allWorkerShares', i);
-                        newLogger.silly('round = %s', JSON.stringify(round));
+                        logger.silly('iterating round #%s from allWorkerShares', i);
+                        logger.silly('round = %s', JSON.stringify(round));
 
                         var workerSharesForRound = allWorkerShares[i];
-                        newLogger.silly('workerSharesForRound = %s', JSON.stringify(workerSharesForRound));
+                        logger.silly('workerSharesForRound = %s', JSON.stringify(workerSharesForRound));
                         if (!workerSharesForRound) {
                             logger.error(logSystem, logComponent, 'No worker shares for round: '
                                 + round.height + ' blockHash: ' + round.blockHash);
@@ -400,10 +402,10 @@ function SetupForPool(logger, poolOptions, setupFinished) {
                             case 'generate':
                                 /* We found a confirmed block! Now get the reward for it and calculate how much
                                    we owe each miner based on the shares they submitted during that block round. */
-                                newLogger.info("We have found confirmed block #%s ready for payout", round.height);
-                                newLogger.silly("round.reward = %s", round.reward);
+                                logger.info("We have found confirmed block #%s ready for payout", round.height);
+                                logger.silly("round.reward = %s", round.reward);
                                 var reward = new BigNumber(round.reward).multipliedBy(satoshisInBtc);
-                                newLogger.silly("reward = %s", reward.toString(10));
+                                logger.silly("reward = %s", reward.toString(10));
 
                                 var totalShares = Object.keys(workerSharesForRound).reduce(function (p, c) {
                                     if (p === 0) {
@@ -411,18 +413,18 @@ function SetupForPool(logger, poolOptions, setupFinished) {
                                     }
                                     return p.plus(workerSharesForRound[c])
                                 }, 0);
-                                newLogger.silly('totalShares = %s', totalShares.toString(10));
+                                logger.silly('totalShares = %s', totalShares.toString(10));
 
                                 Object.keys(workerSharesForRound).forEach((workerAddress) => {
-                                    newLogger.debug("Calculating reward for workerAddress %s", workerAddress);
+                                    logger.debug("Calculating reward for workerAddress %s", workerAddress);
                                     let percent = workerSharesForRound[workerAddress].dividedBy(totalShares);
-                                    newLogger.silly("percent = %s", percent.toString(10));
+                                    logger.silly("percent = %s", percent.toString(10));
                                     let workerRewardTotal = reward.multipliedBy(percent);
-                                    newLogger.silly("workerRewardTotal = %s", workerRewardTotal.toString(10));
+                                    logger.silly("workerRewardTotal = %s", workerRewardTotal.toString(10));
                                     let worker = workers[workerAddress] = (workers[workerAddress] || {});
-                                    newLogger.silly("worker = %s", JSON.stringify(worker));
+                                    logger.silly("worker = %s", JSON.stringify(worker));
                                     worker.reward = (worker.reward || new BigNumber(0)).plus(workerRewardTotal);
-                                    newLogger.silly('worker.reward = %s', worker.reward.toString(10));
+                                    logger.silly('worker.reward = %s', worker.reward.toString(10));
                                 });
 
                                 break;
@@ -441,50 +443,50 @@ function SetupForPool(logger, poolOptions, setupFinished) {
              if not sending the balance, the differnce should be +(the amount they earned this round)
              */
             function (workers, rounds, addressAccount, callback) {
-                newLogger.info("Almost ready to send funds, calculating against existing balances");
+                logger.info("Almost ready to send funds, calculating against existing balances");
                 var trySend = function (withholdPercent) {
-                    newLogger.debug('Trying to send');
-                    newLogger.silly('withholdPercent = %s', withholdPercent.toString(10));
+                    logger.debug('Trying to send');
+                    logger.silly('withholdPercent = %s', withholdPercent.toString(10));
                     var addressAmounts = {};
                     var totalSent = new BigNumber(0);
-                    newLogger.silly('totalSent = %s', totalSent);
+                    logger.silly('totalSent = %s', totalSent);
                     for (var w in workers) {
-                        newLogger.silly('w = %s', w);
+                        logger.silly('w = %s', w);
                         var worker = workers[w];
-                        newLogger.silly('worker = %s', JSON.stringify(worker));
+                        logger.silly('worker = %s', JSON.stringify(worker));
                         worker.balance = worker.balance || new BigNumber(0);
-                        newLogger.silly('worker.balance = %s', worker.balance.toString(10));
+                        logger.silly('worker.balance = %s', worker.balance.toString(10));
                         worker.reward = worker.reward || new BigNumber(0);
-                        newLogger.silly('worker.reward = %s', worker.reward.toString(10));
+                        logger.silly('worker.reward = %s', worker.reward.toString(10));
                         var toSend = (worker.balance.plus(worker.reward)).multipliedBy(new BigNumber(1).minus(withholdPercent));
-                        newLogger.silly('toSend = %s', toSend.toString(10));
+                        logger.silly('toSend = %s', toSend.toString(10));
                         if (toSend.isGreaterThanOrEqualTo(minPaymentSatoshis)) {
-                            newLogger.info('Worker %s have reached minimum payout threshold (%s above minimum %s)', w, toSend.toString(10), minPaymentSatoshis.dividedBy(satoshisInBtc).toString(10));
+                            logger.info('Worker %s have reached minimum payout threshold (%s above minimum %s)', w, toSend.toString(10), minPaymentSatoshis.dividedBy(satoshisInBtc).toString(10));
                             totalSent = totalSent.plus(toSend);
-                            newLogger.silly('totalSent = %s', totalSent.toString(10));
+                            logger.silly('totalSent = %s', totalSent.toString(10));
                             var address = worker.address = (worker.address || getProperAddress(w));
-                            newLogger.silly('address = %s', address);
+                            logger.silly('address = %s', address);
                             worker.sent = addressAmounts[address] = satoshisToCoins(toSend);
-                            newLogger.silly('worker.sent = %s', worker.sent.toString(10));
+                            logger.silly('worker.sent = %s', worker.sent.toString(10));
                             worker.balanceChange = BigNumber.min(worker.balance, toSend).multipliedBy(new BigNumber(-1));
-                            newLogger.silly('worker.balanceChange = %s', worker.balanceChange.toString(10));
+                            logger.silly('worker.balanceChange = %s', worker.balanceChange.toString(10));
                         }
                         else {
-                            newLogger.debug('Worker %s have not reached minimum payout threshold %s', minPaymentSatoshis.dividedBy(satoshisInBtc).toString(10));
+                            logger.debug('Worker %s have not reached minimum payout threshold %s', minPaymentSatoshis.dividedBy(satoshisInBtc).toString(10));
                             worker.balanceChange = BigNumber.max(toSend.minus(worker.balance), new BigNumber(0));
-                            newLogger.silly('worker.balanceChange = %s', worker.balanceChange.toString(10));
+                            logger.silly('worker.balanceChange = %s', worker.balanceChange.toString(10));
                             worker.sent = new BigNumber(0);
-                            newLogger.silly('worker.sent = %s', worker.sent.toString(10));
+                            logger.silly('worker.sent = %s', worker.sent.toString(10));
                         }
                     }
 
                     if (Object.keys(addressAmounts).length === 0) {
-                        newLogger.info('No workers was chosen for paying out');
+                        logger.info('No workers was chosen for paying out');
                         callback(null, workers, rounds);
                         return;
                     }
 
-                    newLogger.info('Payments to miners: %s', JSON.stringify(addressAmounts));
+                    logger.info('Payments to miners: %s', JSON.stringify(addressAmounts));
                     daemon.cmd('sendmany', [addressAccount || '', addressAmounts], function (result) {
                         //Check if payments failed because wallet doesn't have enough coins to pay for tx fees
                         if (result.error && result.error.code === -6) {
@@ -527,11 +529,11 @@ function SetupForPool(logger, poolOptions, setupFinished) {
                             'hincrbyfloat',
                             coin + ':balances',
                             w,
-                            satoshisToCoins(worker.balanceChange).toFixed(coinPrecision)
+                            satoshisToCoins(worker.balanceChange).toFixed(coinPrecision).toString(10)
                         ]);
                     }
                     if (worker.sent !== 0) {
-                        workerPayoutsCommand.push(['hincrbyfloat', coin + ':payouts', w, worker.sent]);
+                        workerPayoutsCommand.push(['hincrbyfloat', coin + ':payouts', w, worker.sent.toString(10)]);
                         totalPaid = totalPaid.plus(worker.sent);
                     }
                 }
@@ -599,11 +601,9 @@ function SetupForPool(logger, poolOptions, setupFinished) {
                     endRedisTimer();
                     if (error) {
                         clearInterval(paymentInterval);
-                        logger.error(logSystem, logComponent,
-                            'Payments sent but could not update redis. ' + JSON.stringify(error)
-                            + ' Disabling payment processing to prevent possible double-payouts. The redis commands in '
-                            + coin + '_finalRedisCommands.txt must be ran manually');
-                        fs.writeFile(coin + '_finalRedisCommands.txt', JSON.stringify(finalRedisCommands), function (err) {
+                        logger.error('Payments sent but could not update redis. Disabling payment processing to prevent possible double-payouts.' +
+                            ' %s The redis commands in %s_finalRedisCommands.txt must be ran manually', JSON.stringify(error), coin);
+                        fs.writeFile(coin + '_finalRedisCommands_' + new Date().getTime() + '.txt`', JSON.stringify(finalRedisCommands), function (err) {
                             logger.error('Could not write finalRedisCommands.txt, you are fucked.');
                         });
                     }
@@ -615,10 +615,10 @@ function SetupForPool(logger, poolOptions, setupFinished) {
 
 
             var paymentProcessTime = Date.now() - startPaymentProcess;
-            logger.debug(logSystem, logComponent, 'Finished interval - time spent: '
-                + paymentProcessTime + 'ms total, ' + timeSpentRedis + 'ms redis, '
-                + timeSpentRPC + 'ms daemon RPC');
-
+            logger.debug('Finished interval - time spent: %s ms total, %s ms redis, %s ms daemon RPC',
+            paymentProcessTime,
+            timeSpentRedis,
+            timeSpentRPC);
         });
     };
 
