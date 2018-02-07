@@ -492,7 +492,7 @@ function SetupForPool(poolOptions, setupFinished) {
                             trySend(higherPercent);
                         }
                         else if (result.error) {
-                            logger.error('Error trying to send payments with RPC sendmany %s', result.error);
+                            logger.error('Error trying to send payments with RPC sendmany %s', JSON.stringify(result.error));
                             callback(true);
                         }
                         else {
