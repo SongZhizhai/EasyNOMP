@@ -9,10 +9,10 @@ module.exports = {
         return createLogger({
             format: combine(
                 splat(),
-                label({label: loggerName, coin: coin}),
+                label({label: {loggerName: loggerName, coin:coin}}),
                 timestamp(),
                 printf(info => {
-                    return `[${info.timestamp}] [${info.level}] [${info.coin}] [${info.label}] : ${info.message}`;
+                    return `[${info.timestamp}] [${info.level}] [${info.label.coin}] [${info.label.loggerName}] : ${info.message}`;
                 })
             ),
             level: logLevel,
