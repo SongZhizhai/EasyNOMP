@@ -460,7 +460,7 @@ function SetupForPool(poolOptions, setupFinished) {
                             logger.silly('worker.balanceChange = %s', worker.balanceChange.toString(10));
                         }
                         else {
-                            logger.debug('Worker %s have not reached minimum payout threshold %s', minPayment.toString(10));
+                            logger.debug('Worker %s have not reached minimum payout threshold %s', w, minPayment.toString(10));
                             worker.balanceChange = BigNumber.max(toSend.minus(worker.balance), new BigNumber(0));
                             logger.silly('worker.balanceChange = %s', worker.balanceChange.toString(10));
                             worker.sent = new BigNumber(0);
