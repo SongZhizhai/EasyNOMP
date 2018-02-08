@@ -463,7 +463,7 @@ function SetupForPool(poolOptions, setupFinished) {
                             logger.silly('totalSent = %s', totalSent.toString(10));
                             var address = worker.address = (worker.address || getProperAddress(w));
                             logger.silly('address = %s', address);
-                            worker.sent = addressAmounts[address] = satoshisToCoins(toSend);
+                            worker.sent = addressAmounts[address] = toSend;
                             logger.silly('worker.sent = %s', worker.sent.toString(10));
                             worker.balanceChange = BigNumber.min(worker.balance, toSend).multipliedBy(new BigNumber(-1));
                             logger.silly('worker.balanceChange = %s', worker.balanceChange.toString(10));
@@ -484,6 +484,7 @@ function SetupForPool(poolOptions, setupFinished) {
                     }
 
                     logger.info('Payments to miners: %s', JSON.stringify(addressAmounts));
+                    addressAmounts = Object.keys(addressAmounts).map((address)=> {return addressAmounts[address].toString(10)});
                     daemon.cmd('sendmany', [addressAccount || '', addressAmounts], function (result) {
                         //Check if payments failed because wallet doesn't have enough coins to pay for tx fees
                         if (result.error && result.error.code === -6) {
