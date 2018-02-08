@@ -477,7 +477,7 @@ function SetupForPool(poolOptions, setupFinished) {
                     logger.info('Payments to miners: %s', JSON.stringify(addressAmounts));
 
                     Object.keys(addressAmounts).forEach((address) => {
-                        addressAmounts[address].amount = addressAmounts[address].amount.toFixed(coinPrecision).toString(10)
+                        addressAmounts[address] = addressAmounts[address].toFixed(coinPrecision).toString(10)
                     });
 
                     logger.info('Ok, going to pay from "%s" address with final amounts: %s', addressAccount, JSON.stringify(addressAmounts));
