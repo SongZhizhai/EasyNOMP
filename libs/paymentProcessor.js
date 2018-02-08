@@ -70,9 +70,8 @@ function SetupForPool(poolOptions, setupFinished) {
 
     var redisClient = redis.createClient(poolOptions.redis.port, poolOptions.redis.host);
 
-    var minPaymentSatoshis;
+    var minPayment;
 
-    const satoshisInBtc = new BigNumber(100000000);
     const coinPrecision = 8;
     var paymentInterval;
 
@@ -106,7 +105,7 @@ function SetupForPool(poolOptions, setupFinished) {
                 try {
                     let minimumPayment = new BigNumber(processingConfig.minimumPayment);
                     logger.silly('minimumPayment = %s', minimumPayment.toString(10));
-                    minPaymentSatoshis = minimumPayment.multipliedBy(satoshisInBtc);
+                    minPayment = minimumPayment;
                 }
                 catch (e) {
                     console.log(e);
@@ -140,13 +139,6 @@ function SetupForPool(poolOptions, setupFinished) {
     });
 
 
-    var satoshisToCoins = function (satoshis) {
-        return satoshis.dividedBy(satoshisInBtc);
-    };
-
-    var coinsToSatoshies = function (coins) {
-        return coins.multipliedBy(coinPrecision);
-    };
 
     /* Deal with numbers in smallest possible units (satoshis) as much as possible. This greatly helps with accuracy
        when rounding and whatnot. When we are storing numbers for only humans to see, store in whole coin units. */
@@ -197,7 +189,7 @@ function SetupForPool(poolOptions, setupFinished) {
 
                     var workers = {};
                     for (var w in results[0]) {
-                        workers[w] = {balance: coinsToSatoshies(new BigNumber(results[0][w]))};
+                        workers[w] = {balance: new BigNumber(results[0][w])};
                     }
 
                     var rounds = results[1].map(function (r) {
@@ -259,7 +251,7 @@ function SetupForPool(poolOptions, setupFinished) {
                         }
                         else if (tx.error || !tx.result) {
                             logger.error('Odd error with gettransaction %s. tx = %s', round.txHash, JSON.stringify(tx));
-                            round.category = 'kicked'
+                            round.category = 'kicked';
                             return;
                         }
 
@@ -401,7 +393,7 @@ function SetupForPool(poolOptions, setupFinished) {
                                    we owe each miner based on the shares they submitted during that block round. */
                                 logger.info("We have found confirmed block #%s ready for payout", round.height);
                                 logger.silly("round.reward = %s", round.reward);
-                                var reward = new BigNumber(round.reward).multipliedBy(satoshisInBtc);
+                                var reward = new BigNumber(round.reward);
                                 logger.silly("reward = %s", reward.toString(10));
 
                                 var totalShares = Object.keys(workerSharesForRound).reduce(function (p, c) {
@@ -457,19 +449,19 @@ function SetupForPool(poolOptions, setupFinished) {
                         logger.silly('worker.reward = %s', worker.reward.toString(10));
                         var toSend = (worker.balance.plus(worker.reward)).multipliedBy(new BigNumber(1).minus(withholdPercent));
                         logger.silly('toSend = %s', toSend.toString(10));
-                        if (toSend.isGreaterThanOrEqualTo(minPaymentSatoshis.dividedBy(satoshisInBtc))) {
-                            logger.info('Worker %s have reached minimum payout threshold (%s above minimum %s)', w, toSend.toString(10), minPaymentSatoshis.dividedBy(satoshisInBtc).toString(10));
+                        if (toSend.isGreaterThanOrEqualTo(minPayment)) {
+                            logger.info('Worker %s have reached minimum payout threshold (%s above minimum %s)', w, toSend.toString(10), minPayment.toString(10));
                             totalSent = totalSent.plus(toSend);
                             logger.silly('totalSent = %s', totalSent.toString(10));
                             var address = worker.address = (worker.address || getProperAddress(w));
                             logger.silly('address = %s', address);
                             worker.sent = addressAmounts[address] = toSend;
                             logger.silly('worker.sent = %s', worker.sent.toString(10));
-                            worker.balanceChange = BigNumber.min(worker.balance, toSend).multipliedBy(new BigNumber(-1));
+                            worker.balanceChange = BigNumber.min(worker.balance, worker.sent).multipliedBy(new BigNumber(-1));
                             logger.silly('worker.balanceChange = %s', worker.balanceChange.toString(10));
                         }
                         else {
-                            logger.debug('Worker %s have not reached minimum payout threshold %s', minPaymentSatoshis.dividedBy(satoshisInBtc).toString(10));
+                            logger.debug('Worker %s have not reached minimum payout threshold %s', minPayment.toString(10));
                             worker.balanceChange = BigNumber.max(toSend.minus(worker.balance), new BigNumber(0));
                             logger.silly('worker.balanceChange = %s', worker.balanceChange.toString(10));
                             worker.sent = new BigNumber(0);
@@ -497,7 +489,7 @@ function SetupForPool(poolOptions, setupFinished) {
                             callback(true);
                         }
                         else {
-                            logger.debug('Sent out a total of ' + (totalSent.dividedBy(satoshisInBtc))
+                            logger.debug('Sent out a total of ' + (totalSent)
                                 + ' to ' + Object.keys(addressAmounts).length + ' workers');
                             if (withholdPercent.isGreaterThan(new BigNumber(0))) {
                                 logger.warning('Had to withhold ' + (withholdPercent * new BigNumber(100)).toString(10)
@@ -525,7 +517,7 @@ function SetupForPool(poolOptions, setupFinished) {
                             'hincrbyfloat',
                             coin + ':balances',
                             w,
-                            satoshisToCoins(worker.balanceChange).toFixed(coinPrecision).toString(10)
+                            worker.balanceChange.toFixed(coinPrecision).toString(10)
                         ]);
                     }
                     if (worker.sent !== 0) {
