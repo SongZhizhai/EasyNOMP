@@ -230,7 +230,10 @@ function SetupForPool(poolOptions, setupFinished) {
                     txDetails.forEach(function (tx, i) {
 
                         if (i === txDetails.length - 1) {
-                            addressAccount = tx.result;
+                            //this if i choose addressAccount as last output of generation transaction
+                            //because there may masternodes payees and pool address should be last
+                            //in zcoin its tx.address
+                            addressAccount = tx.result || tx.address;
                             return;
                         }
 
