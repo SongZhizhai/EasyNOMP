@@ -87,7 +87,7 @@ function SetupForPool(poolOptions, setupFinished) {
                 }
                 else if (!result.response || !result.response.ismine) {
                     logger.error('Daemon does not own pool address - payment processing can not be done with this daemon, %s'
-                        ,JSON.stringify(result.response));
+                        , JSON.stringify(result.response));
                     callback(true);
                 }
                 else {
@@ -137,7 +137,6 @@ function SetupForPool(poolOptions, setupFinished) {
         setTimeout(processPayments, 100);
         setupFinished(true);
     });
-
 
 
     /* Deal with numbers in smallest possible units (satoshis) as much as possible. This greatly helps with accuracy
@@ -476,7 +475,13 @@ function SetupForPool(poolOptions, setupFinished) {
                     }
 
                     logger.info('Payments to miners: %s', JSON.stringify(addressAmounts));
-                    addressAmounts = Object.keys(addressAmounts).map((address)=> {return addressAmounts[address].toString(10)});
+                    addressAmounts = Object.keys(addressAmounts).map((address) => {
+                        return {
+                            address: address,
+                            amount: addressAmounts[address].toFixed(coinPrecision).toString(10)
+                        }
+                    });
+                    logger.info('Final amounts: %s', JSON.stringify(addressAmounts));
                     daemon.cmd('sendmany', [addressAccount || '', addressAmounts], function (result) {
                         //Check if payments failed because wallet doesn't have enough coins to pay for tx fees
                         if (result.error && result.error.code === -6) {
@@ -604,9 +609,9 @@ function SetupForPool(poolOptions, setupFinished) {
 
             var paymentProcessTime = Date.now() - startPaymentProcess;
             logger.debug('Finished interval - time spent: %s ms total, %s ms redis, %s ms daemon RPC',
-            paymentProcessTime,
-            timeSpentRedis,
-            timeSpentRPC);
+                paymentProcessTime,
+                timeSpentRedis,
+                timeSpentRPC);
         });
     };
 
