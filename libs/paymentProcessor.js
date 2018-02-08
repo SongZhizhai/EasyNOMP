@@ -475,13 +475,12 @@ function SetupForPool(poolOptions, setupFinished) {
                     }
 
                     logger.info('Payments to miners: %s', JSON.stringify(addressAmounts));
-                    addressAmounts = Object.keys(addressAmounts).map((address) => {
-                        return {
-                            address: address,
-                            amount: addressAmounts[address].toFixed(coinPrecision).toString(10)
-                        }
+
+                    Object.keys(addressAmounts).forEach((address) => {
+                        addressAmounts[address].amount = addressAmounts[address].toFixed(coinPrecision).toString(10)
                     });
-                    logger.info('Final amounts: %s', JSON.stringify(addressAmounts));
+
+                    logger.info('Ok, going to pay from "%s" address with final amounts: %s', addressAccount, JSON.stringify(addressAmounts));
                     daemon.cmd('sendmany', [addressAccount || '', addressAmounts], function (result) {
                         //Check if payments failed because wallet doesn't have enough coins to pay for tx fees
                         if (result.error && result.error.code === -6) {
