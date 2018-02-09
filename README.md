@@ -11,6 +11,8 @@
 Stratum Pool can be replaced with node-merged-pool (it's made in UNOMP)
 Adding new algos threw Node Multihashing libraries.
 
+Current version: v1.0.0
+
 -------
 ### Install
 ```
