@@ -42,7 +42,7 @@ You can see the logs of the server with ```docker logs -f nomp```, or jump into 
 |   | Algorithm | Comment|
 | ------------- | ------------- | ------------- |
 | ✓ | __Groestl__ | tested only shares with AuroraCoin, blocks not tested |
-| ✓ | __lyra2z__ | tested with Zcoin, check notes about testnet |
+| ✓ | __lyra2z__ | Working in tesnet *mining* and *payouts* |
 | ✓ | __Scrypt__ | tested with AntiLiteCoin, 1CREDIT, ArgusCoin, WAYAWOLFCOIN and many others |
 | ✓ | __SHA256__ | tested with VCOIN, don't use with BTC, no Segwit tested |
 | ✓ | __X11__ | tested with BrainCoin, CannabisCoin, AdzCoin and many others |
