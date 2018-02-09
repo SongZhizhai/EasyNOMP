@@ -33,7 +33,7 @@
     },
     "dependencies": {
         "async": "^2.5.0",
-        "bignum": "^0.12.5",
+        "bignumber.js": "^6.0.0",
         "body-parser": "^1.18.2",
         "colors": "^1.1.2",
         "compression": "^1.7.1",
@@ -46,7 +46,8 @@
         "nonce": "^1.0.4",
         "redis": "^2.7.1",
         "request": "^2.83.0",
-        "stratum-pool": "git://github.com/foxer666/node-stratum-pool.git"
+        "stratum-pool": "git://github.com/foxer666/node-stratum-pool.git",
+        "winston": "^3.0.0-rc1"
     },
     "engines": {
         "node": ">=8.1.4"
