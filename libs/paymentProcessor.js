@@ -124,13 +124,16 @@ function SetupForPool(poolOptions, setupFinished) {
         }
     ], function (err) {
         if (err) {
+            logger.error("There was error during payment processor setup %s", JSON.stringify(err));
             setupFinished(false);
             return;
         }
         paymentInterval = setInterval(function () {
             try {
                 processPayments();
+                logger.info("Set up to process payments every %s seconds", processingConfig.paymentInterval);
             } catch (e) {
+                logger.error("There was error during payment processor setup %s", JSON.stringify(e));
                 throw e;
             }
         }, processingConfig.paymentInterval * 1000);
@@ -171,12 +174,13 @@ function SetupForPool(poolOptions, setupFinished) {
             /* Call redis to get an array of rounds - which are coinbase transactions and block heights from submitted
                blocks. */
             function (callback) {
-
+                logger.debug("Calling redis for array of rounds");
                 startRedisTimer();
                 redisClient.multi([
                     ['hgetall', coin + ':balances'],
                     ['smembers', coin + ':blocksPending']
                 ]).exec(function (error, results) {
+                    logger.debug("Redis responsed: %s", JSON.stringify(results));
                     endRedisTimer();
 
                     if (error) {
@@ -201,6 +205,10 @@ function SetupForPool(poolOptions, setupFinished) {
                         };
                     });
 
+                    logger.debug("Prepared info basic info about payments");
+                    logger.silly("workers = %s", JSON.stringify(workers));
+                    logger.silly("rounds = %s", JSON.stringify(rounds));
+                    logger.debug("Workers count: %s Rounds: %", Object.keys(workers).length, rounds.length);
                     callback(null, workers, rounds);
                 });
             },
@@ -208,7 +216,7 @@ function SetupForPool(poolOptions, setupFinished) {
             /* Does a batch rpc call to daemon with all the transaction hashes to see if they are confirmed yet.
                It also adds the block reward amount to the round object - which the daemon gives also gives us. */
             function (workers, rounds, callback) {
-
+                logger.debug("Checking for confirmed rounds (blocks)");
                 var batchRPCcommand = rounds.map(function (r) {
                     return ['gettransaction', [r.txHash]];
                 });
@@ -228,12 +236,12 @@ function SetupForPool(poolOptions, setupFinished) {
                     var addressAccount;
 
                     txDetails.forEach(function (tx, i) {
-
                         if (i === txDetails.length - 1) {
-                            //this if i choose addressAccount as last output of generation transaction
+                            //choose addressAccount as last output of generation transaction
                             //because there may masternodes payees and pool address should be last
                             //in zcoin its tx.address
                             addressAccount = tx.result || tx.address;
+                            logger.warn("Could not decrypt address from tx (no tx.result or tx.address field) %s", JSON.stringify(tx));
                             return;
                         }
 
@@ -306,6 +314,9 @@ function SetupForPool(poolOptions, setupFinished) {
                     });
 
 
+                    logger.silly("Wokers and rounds after filtering orphans etc.");
+                    logger.silly("workers = %s", JSON.stringify(workers));
+                    logger.silly("rounds = %s", JSON.stringify(rounds));
                     callback(null, workers, rounds, addressAccount);
 
                 });
@@ -315,11 +326,12 @@ function SetupForPool(poolOptions, setupFinished) {
             /* Does a batch redis call to get shares contributed to each round. Then calculates the reward
                amount owned to each miner for each round. */
             function (workers, rounds, addressAccount, callback) {
+                logger.debug("Getting all shares for rounds and calculating rewards for miners");
                 var shareLookups = rounds.map(function (r) {
                     return ['hgetall', coin + ':shares:round' + r.height]
                 });
 
-                logger.silly('Calling redis for %s', shareLookups);
+                logger.silly('Calling redis for %s', JSON.stringify(shareLookups));
 
                 startRedisTimer();
                 redisClient.multi(shareLookups).exec(function (error, allWorkerShares) {
@@ -332,31 +344,38 @@ function SetupForPool(poolOptions, setupFinished) {
 
                     logger.silly('allWorkerShares before merging %s', JSON.stringify(allWorkerShares));
 
+                    logger.debug("Mapping workers into payout addresses");
                     // This snippet will parse all workers and merge different workers into 1 payout address
                     allWorkerShares = allWorkerShares.map((roundShare) => {
                         let resultForRound = {};
+                        logger.debug("roundShare = %s", roundShare);
 
                         Object.keys(roundShare).forEach((workerStr) => {
+                            logger.debug("Iterating worker %s", workerStr);
                             //test workername is not null (those may be if miner mine on stratum without user and worker)
                             if (workerStr) {
                                 if (workerStr.indexOf(".") !== -1) {
                                     //we have address and worker
+                                    logger.silly("%s worker have both payout address and worker, merging", workerStr);
                                     let workerInfo = workerStr.split('.');
                                     if (workerInfo.length === 2) {
                                         //todo validate by daemon
                                         let address = workerInfo[0];
                                         if (resultForRound[address]) {
+                                            logger.silly("Already have balance for address %s : %s", address, resultForRound[address].toString(10));
                                             resultForRound[address] = resultForRound[address].plus(roundShare[workerStr]);
+                                            logger.silly("New balance %s ", resultForRound[address].toString(10));
                                         } else {
                                             resultForRound[address] = new BigNumber(roundShare[workerStr]);
-
                                         }
                                     }
                                 } else {
                                     //todo validate by daemon
                                     let address = workerStr;
                                     if (resultForRound[address]) {
+                                        logger.silly("Already have balance for address %s : %s", address, resultForRound[address].toString(10));
                                         resultForRound[address] = resultForRound[address].plus(roundShare[workerStr]);
+                                        logger.silly("New balance %s ", resultForRound[address].toString(10));
                                     } else {
                                         resultForRound[address] = new BigNumber(roundShare[workerStr]);
                                     }
@@ -368,7 +387,7 @@ function SetupForPool(poolOptions, setupFinished) {
                         return resultForRound;
                     });
 
-                    logger.debug('Merged workers into payout address');
+                    logger.debug('Merged workers into payout addresses');
                     logger.silly('allWorkerShares after merging %s', JSON.stringify(allWorkerShares));
 
 
@@ -387,6 +406,7 @@ function SetupForPool(poolOptions, setupFinished) {
                         switch (round.category) {
                             case 'kicked':
                             case 'orphan':
+                                logger.warn("Round with height %s and tx %s is orphan", round.height, round.txHash);
                                 round.workerShares = workerSharesForRound;
                                 break;
 
@@ -434,7 +454,7 @@ function SetupForPool(poolOptions, setupFinished) {
              if not sending the balance, the differnce should be +(the amount they earned this round)
              */
             function (workers, rounds, addressAccount, callback) {
-                logger.info("Almost ready to send funds, calculating against existing balances");
+                logger.debug("Almost ready to send funds, calculating against existing balances");
                 var trySend = function (withholdPercent) {
                     logger.debug('Trying to send');
                     logger.silly('withholdPercent = %s', withholdPercent.toString(10));
@@ -542,7 +562,7 @@ function SetupForPool(poolOptions, setupFinished) {
                     var workerShares = r.workerShares;
                     Object.keys(workerShares).forEach(function (worker) {
                         orphanMergeCommands.push(['hincrby', coin + ':shares:roundCurrent',
-                            worker, workerShares[worker].toFixed(coinPrecision)]);
+                            worker, workerShares[worker].toFixed(coinPrecision).toString()]);
                     });
                 };
 
@@ -568,28 +588,47 @@ function SetupForPool(poolOptions, setupFinished) {
 
                 var finalRedisCommands = [];
 
-                if (movePendingCommands.length > 0)
+                logger.silly("finalRedisCommands %s", finalRedisCommands);
+                if (movePendingCommands.length > 0) {
+                    logger.silly("movePendingCommands goes in redis");
+                    logger.silly("movePendingCommands = %s", movePendingCommands);
                     finalRedisCommands = finalRedisCommands.concat(movePendingCommands);
-
-                if (orphanMergeCommands.length > 0)
+                }
+                if (orphanMergeCommands.length > 0) {
+                    logger.silly("orphanMergeCommands goes in redis");
+                    logger.silly("orphanMergeCommands = %s", orphanMergeCommands);
                     finalRedisCommands = finalRedisCommands.concat(orphanMergeCommands);
+                }
 
-                if (balanceUpdateCommands.length > 0)
+                if (balanceUpdateCommands.length > 0) {
+                    logger.silly("balanceUpdateCommands goes in redis");
+                    logger.silly("balanceUpdateCommands = %s", balanceUpdateCommands);
                     finalRedisCommands = finalRedisCommands.concat(balanceUpdateCommands);
-
-                if (workerPayoutsCommand.length > 0)
+                }
+                if (workerPayoutsCommand.length > 0) {
+                    logger.silly("workerPayoutsCommand goes in redis");
+                    logger.silly("workerPayoutsCommand = %s", workerPayoutsCommand);
                     finalRedisCommands = finalRedisCommands.concat(workerPayoutsCommand);
+                }
 
-                if (roundsToDelete.length > 0)
+                if (roundsToDelete.length > 0) {
+                    logger.silly("roundsToDelete goes in redis");
+                    logger.silly("roundsToDelete = %s", roundsToDelete);
                     finalRedisCommands.push(['del'].concat(roundsToDelete));
+                }
 
-                if (!totalPaid.eq(new BigNumber(0)))
-                    finalRedisCommands.push(['hincrbyfloat', coin + ':stats', 'totalPaid', totalPaid.toFixed(coinPrecision)]);
+                if (!totalPaid.eq(new BigNumber(0))){
+                    logger.silly("totalPaid goes in redis");
+                    logger.silly("totalPaid = %s", totalPaid);
+                    finalRedisCommands.push(['hincrbyfloat', coin + ':stats', 'totalPaid', totalPaid.toFixed(coinPrecision).toString()]);
+                }
 
                 if (finalRedisCommands.length === 0) {
+                    logger.silly("Nothing to write to redis");
                     callback();
                     return;
                 }
+                logger.silly("finalRedisCommands %s", finalRedisCommands);
 
                 startRedisTimer();
                 redisClient.multi(finalRedisCommands).exec(function (error, results) {
@@ -602,6 +641,7 @@ function SetupForPool(poolOptions, setupFinished) {
                             logger.error('Could not write finalRedisCommands.txt, you are fucked.');
                         });
                     }
+                    logger.debug("Redis have sucessfully updated after payouts");
                     callback();
                 });
             }
