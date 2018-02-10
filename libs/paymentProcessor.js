@@ -65,8 +65,7 @@ function SetupForPool(poolOptions, setupFinished) {
     var processingConfig = poolOptions.paymentProcessing;
 
 
-    // TODO fix logger, broken intentionally, wil fix after final migration to winston
-    var daemon = new Stratum.daemon.interface([processingConfig.daemon], undefined);
+    var daemon = new Stratum.daemon.interface([processingConfig.daemon], loggerFactory.getLogger('CoinDaemon', coin));
 
     var redisClient = redis.createClient(poolOptions.redis.port, poolOptions.redis.host);
 
