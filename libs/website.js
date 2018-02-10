@@ -17,7 +17,7 @@ var api = require('./api.js');
 const loggerFactory = require('./logger.js');
 const logger = loggerFactory.getLogger('Website', 'system');
 
-module.exports = function (logger) {
+module.exports = function () {
     logger.info("Starting Website module");
 
     dot.templateSettings.strip = false;
