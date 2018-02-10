@@ -15,9 +15,11 @@ var Stratum = require('stratum-pool');
 var util = require('stratum-pool/lib/util.js');
 
 var api = require('./api.js');
-
+const loggerFactory = require('./logger.js');
+const newLogger = loggerFactory.getLogger('Website', 'system');
 
 module.exports = function(logger){
+    newLogger.info("Starting Website module");
 
     dot.templateSettings.strip = false;
 
@@ -26,7 +28,7 @@ module.exports = function(logger){
 
     var websiteConfig = portalConfig.website;
 
-    var portalApi = new api(logger, portalConfig, poolConfigs);
+    var portalApi = new api(portalConfig, poolConfigs);
     var portalStats = portalApi.stats;
 
     var logSystem = 'Website';
