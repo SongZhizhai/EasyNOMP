@@ -41,8 +41,6 @@ module.exports = function () {
 
                 var poolOptions = poolConfigs[coin];
                 var processingConfig = poolOptions.paymentProcessing;
-                var logSystem = 'Payments';
-                var logComponent = coin;
 
                 logger.info('Payment processing setup to run every %s second(s) with daemon (%s@%s:%s) and redis (%s:%s)',
                     processingConfig.paymentInterval,
@@ -108,7 +106,7 @@ function SetupForPool(poolOptions, setupFinished) {
                 }
                 catch (e) {
                     console.log(e);
-                    logger.error(logSystem, logComponent, 'Error detecting number of satoshis in a coin, cannot do payment processing. Tried parsing: %s', +JSON.stringify(result.data));
+                    logger.error('Error detecting number of satoshis in a coin, cannot do payment processing. Tried parsing: %s', JSON.stringify(result.data));
                     wasICaught = true;
                 }
                 finally {
@@ -380,7 +378,7 @@ function SetupForPool(poolOptions, setupFinished) {
                                     }
                                 }
                             } else {
-                                logger.error(logSystem, logComponent, 'Warning! We have anonymous shares, null worker');
+                                logger.error('Look around! We have anonymous shares, null worker');
                             }
                         });
                         return resultForRound;
@@ -397,8 +395,7 @@ function SetupForPool(poolOptions, setupFinished) {
                         var workerSharesForRound = allWorkerShares[i];
                         logger.silly('workerSharesForRound = %s', JSON.stringify(workerSharesForRound));
                         if (!workerSharesForRound) {
-                            logger.error(logSystem, logComponent, 'No worker shares for round: '
-                                + round.height + ' blockHash: ' + round.blockHash);
+                            logger.error('No worker shares for round: %s, blockHash %s', round.height, round.blockHash);
                             return;
                         }
 
@@ -616,7 +613,7 @@ function SetupForPool(poolOptions, setupFinished) {
                     finalRedisCommands.push(['del'].concat(roundsToDelete));
                 }
 
-                if (!totalPaid.eq(new BigNumber(0))){
+                if (!totalPaid.eq(new BigNumber(0))) {
                     logger.silly("totalPaid goes in redis");
                     logger.silly("totalPaid = %s", totalPaid);
                     finalRedisCommands.push(['hincrbyfloat', coin + ':stats', 'totalPaid', totalPaid.toFixed(coinPrecision).toString()]);
