@@ -5,4 +5,4 @@
 
 ## v1.0.1
 
-* Stratum module update
+* Stratum module update https://github.com/foxer666/node-stratum-pool/pull/7
