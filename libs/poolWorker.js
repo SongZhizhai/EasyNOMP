@@ -28,6 +28,7 @@ module.exports = function () {
         switch (message.type) {
 
             case 'banIP':
+                logger.silly('incoming banip message');
                 for (var p in pools) {
                     if (pools[p].stratumServer)
                         pools[p].stratumServer.addBannedIP(message.ip);
@@ -35,6 +36,7 @@ module.exports = function () {
                 break;
 
             case 'blocknotify':
+                logger.silly('incoming blocknotify message');
 
                 var messageCoin = message.coin.toLowerCase();
                 var poolTarget = Object.keys(pools).filter(function (p) {
@@ -48,6 +50,7 @@ module.exports = function () {
 
             // IPC message for pool switching
             case 'coinswitch':
+                logger.silly('incoming coinswitch message');
                 let componentStr = `Proxy Switch [:${(parseInt(forkId) + 1)}]`;
 
                 let logger = loggerFactory.getLogger(componentStr, coin);
@@ -184,6 +187,7 @@ module.exports = function () {
             };
 
             handlers.share = function (isValidShare, isValidBlock, data) {
+                logger.silly('Handle share, execeuting shareProcessor.handleShare, isValidShare = %s, isValidBlock = %s, data = %s', isValidShare, isValidBlock, JSON.stringify(data))
                 shareProcessor.handleShare(isValidShare, isValidBlock, data);
             };
         }
@@ -193,7 +197,6 @@ module.exports = function () {
 
                 var authString = authorized ? 'Authorized' : 'Unauthorized ';
 
-                logger.debug(authString + ' ' + workerName + ':' + password + ' [' + ip + ']');
                 logger.debug('%s %s:%s [%s]', authString, workerName, password, ip);
                 callback({
                     error: null,
@@ -206,7 +209,8 @@ module.exports = function () {
 
         var pool = Stratum.createPool(poolOptions, authorizeFN, logger);
         pool.on('share', function (isValidShare, isValidBlock, data) {
-
+            logger.silly('onStratumPoolShare');
+            logger.debug("forkId %s", forkId);
             var shareDataJsonStr = JSON.stringify(data);
 
             if (data.blockHash && !isValidBlock) {
