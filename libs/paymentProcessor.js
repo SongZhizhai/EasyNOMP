@@ -504,7 +504,7 @@ function SetupForPool(poolOptions, setupFinished) {
                         //Check if payments failed because wallet doesn't have enough coins to pay for tx fees
                         if (result.error && result.error.code === -6) {
                             var higherPercent = withholdPercent.plus(new BigNumber(0.01));
-                            logger.warning('Not enough funds to cover the tx fees for sending out payments, decreasing rewards by %s% and retrying');
+                            logger.warn('Not enough funds to cover the tx fees for sending out payments, decreasing rewards by %s% and retrying');
                             trySend(higherPercent);
                         }
                         else if (result.error) {
@@ -515,7 +515,7 @@ function SetupForPool(poolOptions, setupFinished) {
                             logger.debug('Sent out a total of ' + (totalSent)
                                 + ' to ' + Object.keys(addressAmounts).length + ' workers');
                             if (withholdPercent.isGreaterThan(new BigNumber(0))) {
-                                logger.warning('Had to withhold ' + (withholdPercent * new BigNumber(100)).toString(10)
+                                logger.warn('Had to withhold ' + (withholdPercent * new BigNumber(100)).toString(10)
                                     + '% of reward from miners to cover transaction fees. '
                                     + 'Fund pool wallet with coins to prevent this from happening');
                             }
