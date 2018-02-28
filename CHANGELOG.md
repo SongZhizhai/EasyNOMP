@@ -6,3 +6,6 @@
 ## v1.0.1
 
 * Stratum module update https://github.com/foxer666/node-stratum-pool/pull/7
+
+## v1.0.2
+* Added x16r (ravencoin) support
