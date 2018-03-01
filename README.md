@@ -18,7 +18,7 @@ Current version: v1.0.2
 ```
 git clone https://github.com/foxer666/node-open-mining-portal.git pool
 cd pool
-npm update
+npm install
 node init.js
 ```
 -------
