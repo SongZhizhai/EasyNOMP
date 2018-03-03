@@ -1,11 +1,23 @@
 const { createLogger, format, transports } = require('winston');
 const { splat, combine, timestamp, label, printf } = format;
 
-const logLevel = 'silly';
+const config = require('../config.json');
+const logLevel = config.logger.level || config.logLevel || 'debug';
+
 
 
 module.exports = {
     getLogger: function (loggerName, coin) {
+
+
+        let transportz = [new transports.Console()];
+
+        if(config.logger && config.logger.file) {
+            Object.keys(config.logger.file).forEach((logLevel)=> {
+                transportz.push(new transports.File({ filename: config.logger.file[logLevel], level: logLevel }))
+            })
+        }
+
         return createLogger({
             format: combine(
                 splat(),
@@ -16,8 +28,7 @@ module.exports = {
                 })
             ),
             level: logLevel,
-            transports: [new transports.Console()
-            ],
+            transports: transportz,
         });
     },
 };

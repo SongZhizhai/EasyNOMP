@@ -6,3 +6,4 @@ Order is priority
 4) Add option to make an manual payments rather than automatic (for pools with big network diff)
 5) New frontend
 6) Move modules in one project
+7) Write different log level at one time

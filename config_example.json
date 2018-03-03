@@ -1,6 +1,11 @@
 {
-    "logLevel": "debug",
-    "logColors": true,
+
+    "logger" : {
+        "level" : "debug",
+        "file" : {
+            "debug" : "logs/nomp.log"
+        }
+    },
 
     "cliHost": "127.0.0.1",
     "cliPort": 17117,
