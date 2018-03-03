@@ -7,3 +7,4 @@ Order is priority
 5) New frontend
 6) Move modules in one project
 7) Write different log level at one time
+8) Documentation

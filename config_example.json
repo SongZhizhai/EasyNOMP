@@ -1,10 +1,7 @@
 {
-
     "logger" : {
         "level" : "debug",
-        "file" : {
-            "debug" : "logs/nomp.log"
-        }
+        "file" : "nomp_debug.log"
     },
 
     "cliHost": "127.0.0.1",
