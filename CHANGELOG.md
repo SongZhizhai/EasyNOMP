@@ -15,3 +15,6 @@
 * https://github.com/foxer666/node-open-mining-portal/issues/36
 * https://github.com/foxer666/node-open-mining-portal/issues/37
 * Onexcoin
+
+## v1.0.4
+* https://github.com/foxer666/node-open-mining-portal/issues/40
