@@ -21,3 +21,6 @@
 
 ## v1.0.5
 * https://github.com/foxer666/node-open-mining-portal/issues/42
+
+## v1.0.6
+* https://github.com/foxer666/node-open-mining-portal/issues/36 hotfix
