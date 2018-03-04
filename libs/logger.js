@@ -2,7 +2,11 @@ const {createLogger, format, transports} = require('winston');
 const {splat, combine, timestamp, label, printf} = format;
 
 const config = require('../config.json');
-const logLevel = config.logger.level || config.logLevel || 'debug';
+if(!config)  {
+    throw  new Error("Config file config.json does not exist")
+}
+
+const logLevel = config.logger ? config.logger.level || 'debug' : config.logLevel || 'debug';
 require('winston-daily-rotate-file');
 
 module.exports = {
