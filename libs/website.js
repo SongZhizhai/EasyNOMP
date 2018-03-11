@@ -93,14 +93,19 @@ module.exports = function () {
         });
     };
 
-
     //If an html file was changed reload it
-    watch('website', function (evt, filename) {
-        var basename = path.basename(filename);
-        if (basename in pageFiles) {
-            console.log(filename);
+    /* requires node-watch 0.5.0 or newer */
+    watch(['./website', './website/pages'], function(evt, filename){
+        var basename;
+        // support older versions of node-watch automatically
+        if (!filename && evt)
+            basename = path.basename(evt);
+        else
+            basename = path.basename(filename);
+        
+        if (basename in pageFiles){
             readPageFiles([basename]);
-            logger.debug('Reloaded file %s', basename);
+            logger.special(logSystem, 'Server', 'Reloaded file ' + basename);
         }
     });
 
