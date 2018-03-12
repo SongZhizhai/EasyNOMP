@@ -50,11 +50,16 @@
                   <i class="fa fa-database"></i> Pools <span class="sr-only">(current)</span>
                 </a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/stats">
-                  <i class="fa fa-bar-chart"></i> Statistics
-                </a>
-            </li>
+            <li class="nav-item dropdown">
+             <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-bar-chart"></i> Statistics</a>
+             <div class="dropdown-menu">
+               {{ for(var pool in it.stats.pools) { }}
+                <a class="dropdown-item" href="/stats/{{=it.stats.pools[pool].name}}"><img src="/static/icons/{{=it.stats.pools[pool].name}}.png" height="16px"/> {{=it.stats.pools[pool].name.charAt(0).toUpperCase() + it.stats.pools[pool].name.slice(1)}}</a>
+               {{ } }}
+               <div class="dropdown-divider"></div>
+               <a class="dropdown-item" href="/stats">Top Pools</a>
+             </div>
+           </li>
             <li class="nav-item">
               <a class="nav-link" href="#">
                   <i class="fa fa-users"></i> Workers
@@ -84,12 +89,13 @@
               </a>
             </h5>
           <ul class="nav flex-column mb-2">
-            <li class="nav-item">
-              <a class="nav-link" href="#">
-                  <img src="https://pbs.twimg.com/profile_images/925345791014612993/jye2nT5F_400x400.jpg" width="24px" height="24px" />
-                  Raven
-                </a>
-            </li>
+              {{
+                var top = Object.values(it.stats.pools).sort(function(a, b){return b.workerCount-a.workerCount}).slice(0, 5);
+                for(var pool in top) { }}
+                <li class="nav-item">
+                  <a class="nav-link" href="/stats/{{=top[pool].name}}"><strong>{{=(parseInt(pool) + 1)}}.</strong> <img src="/static/icons/{{=top[pool].name}}.png" height="16px"/> {{=top[pool].name.charAt(0).toUpperCase() + top[pool].name.slice(1)}}</a>
+                </li>
+              {{ } }}
           </ul>
         </div>
       </nav>

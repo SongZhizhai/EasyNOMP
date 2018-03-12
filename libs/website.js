@@ -43,6 +43,7 @@ module.exports = function () {
         'workers.html': 'workers',
         'api.html': 'api',
         'admin.html': 'admin',
+        'pool_stats.html': 'pool_stats',
         'mining_key.html': 'mining_key'
     };
 
@@ -220,6 +221,18 @@ module.exports = function () {
         }
     };
 
+    var statPage = function(req, res, next){
+          var pool = req.params.pool || null;
+          if (pool != null) {
+            pool = pool.toLowerCase();
+            processTemplates();
+            res.header('Content-Type', 'text/html');
+            res.end(indexesProcessed['pool_stats']);
+          } else {
+              next();
+          }
+      };
+
     var route = function (req, res, next) {
         var pageId = req.params.page || '';
         if (pageId in indexesProcessed) {
@@ -249,7 +262,7 @@ module.exports = function () {
     app.get('/key.html', function (req, res, next) {
         res.end(keyScriptProcessed);
     });
-
+    app.get('/stats/:pool', statPage);
     app.get('/:page', route);
     app.get('/', route);
 
