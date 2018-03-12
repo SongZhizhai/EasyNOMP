@@ -35,7 +35,7 @@ module.exports = function (portalConfig, poolConfigs) {
     Object.keys(poolConfigs).forEach(function (coin) {
 
         var poolConfig = poolConfigs[coin];
-
+		console.log(poolConfig.rewardRecipient);
         var redisConfig = poolConfig.redis;
 
         for (var i = 0; i < redisClients.length; i++) {
@@ -132,6 +132,7 @@ module.exports = function (portalConfig, poolConfigs) {
                     callback(err);
                 }
                 else {
+                	
                     for (var i = 0; i < replies.length; i += commandsPerCoin) {
                         var coinName = client.coins[i / commandsPerCoin | 0];
                         var coinStats = {
@@ -139,6 +140,7 @@ module.exports = function (portalConfig, poolConfigs) {
                             symbol: poolConfigs[coinName].coin.symbol.toUpperCase(),
                             algorithm: poolConfigs[coinName].coin.algorithm,
                             hashrates: replies[i + 1],
+                        	rewardRecipients: poolConfigs[coinName].rewardRecipients,
                             poolStats: {
                                 validShares: replies[i + 2] ? (replies[i + 2].validShares || 0) : 0,
                                 validBlocks: replies[i + 2] ? (replies[i + 2].validBlocks || 0) : 0,

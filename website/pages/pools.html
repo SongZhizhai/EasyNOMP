@@ -1,0 +1,37 @@
+<div id="container-fluid">
+	<table class="table table-bordered table-striped">
+	  <thead>
+	    <tr>
+	      <th>Symbol</th>
+	      	<th>Coin</th>
+	     	<th>Algorithm</th>
+	      	<th>Workers</th>
+		  	<th>Hash Rate</th>
+        	<th>Fee</th>
+	    </tr>
+	  </thead>
+	  <tbody>
+			{{ for(var pool in it.stats.pools) { }}
+		    <tr>
+		      <th scope="row"><a href="/stats/{{=it.stats.pools[pool].symbol}}">{{=it.stats.pools[pool].symbol}}</a></th>
+		 			<td>{{=it.stats.pools[pool].name}}</td>
+					<td>{{=it.stats.pools[pool].algorithm}}</td>
+					<td>{{=it.stats.pools[pool].workerCount}}</td>
+					<td>{{=it.stats.pools[pool].hashrateString}}</td>
+            		{{ var total = 0.0; }}
+            		{{ var rewardRecipients = it.stats.pools[pool].rewardRecipients || {}; }}
+            		{{ for (var r in rewardRecipients) { }}
+            			{{ total += rewardRecipients[r]; }}
+            		{{ } }}
+            		<td>{{=total}}%</td>
+		    </tr>
+			{{ } }}
+	  </tbody>
+	</table>
+</div>
+
+
+
+<script>
+    document.querySelector('main').appendChild(document.createElement('script')).src = '/static/stats.js';
+</script>

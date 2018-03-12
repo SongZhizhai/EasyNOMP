@@ -23,9 +23,7 @@ function buildChartData(){
 
 
     for (var i = 0; i < statData.length; i++){
-
         var time = statData[i].time * 1000;
-
         for (var f = 0; f < poolKeys.length; f++){
             var pName = poolKeys[f];
             var a = pools[pName] = (pools[pName] || {
@@ -43,9 +41,7 @@ function buildChartData(){
                 a.workers.push([time, 0]);
                 a.blocks.push([time, 0])
             }
-
         }
-
     }
 
     poolWorkerData = [];
@@ -54,12 +50,21 @@ function buildChartData(){
 
     for (var pool in pools){
         poolWorkerData.push({
-            key: pool,
-            values: pools[pool].workers
+            label: pool,
+            value: pools[pool].workers[pools[pool].workers.length - 1][1]
         });
+    	var hashes = [];
+    	for(hashstamp in pools[pool].hashrate) {
+        	var hash = hashstamp[1];
+        	if(!isNaN(hash)){
+        		hashes.push(hashstamp[1]);
+        	}
+        }
+    	var sum = hashes.reduce(function(a, b){ return parseFloat(a) + parseFloat(b); });
+    	var avg = sum / hashes.length;
         poolHashrateData.push({
-            key: pool,
-            values: pools[pool].hashrate
+            label: pool,
+            value: avg
         });
         poolBlockData.push({
             key: pool,
@@ -85,42 +90,36 @@ function timeOfDayFormat(timestamp){
 }
 
 function displayCharts(){
+  var chartColors = [
+      pattern.draw('square', '#ff6384'),
+      pattern.draw('circle', '#36a2eb'),
+      pattern.draw('diamond', '#cc65fe'),
+      pattern.draw('triangle', '#ffce56'),
+      pattern.draw('dots', '#dd245d'),
+  ];
+	var workerPieChart = new Chart($("#workerChart"),{
+    	type: 'pie',
+    	data: {
+        	labels: poolWorkerData.slice(0, Math.max(5, poolWorkerData.length)).map(x => x.label),
+        	datasets: [{
+            	data: poolWorkerData.slice(0, Math.max(5, poolWorkerData.length)).map(x => x.value),
+              backgroundColor: chartColors
+          }],
+      },
+    	options: {}
+	});
 
-    nv.addGraph(function() {
-        poolWorkerChart = nv.models.stackedAreaChart()
-            .margin({left: 40, right: 40})
-            .x(function(d){ return d[0] })
-            .y(function(d){ return d[1] })
-            .useInteractiveGuideline(true)
-            .clipEdge(true);
-
-        poolWorkerChart.xAxis.tickFormat(timeOfDayFormat);
-
-        poolWorkerChart.yAxis.tickFormat(d3.format('d'));
-
-        d3.select('#poolWorkers').datum(poolWorkerData).call(poolWorkerChart);
-
-        return poolWorkerChart;
-    });
-
-
-    nv.addGraph(function() {
-        poolHashrateChart = nv.models.lineChart()
-            .margin({left: 60, right: 40})
-            .x(function(d){ return d[0] })
-            .y(function(d){ return d[1] })
-            .useInteractiveGuideline(true);
-
-        poolHashrateChart.xAxis.tickFormat(timeOfDayFormat);
-
-        poolHashrateChart.yAxis.tickFormat(function(d){
-            return getReadableHashRateString(d);
-        });
-
-        d3.select('#poolHashrate').datum(poolHashrateData).call(poolHashrateChart);
-
-        return poolHashrateChart;
-    });
+	var workerPieChart = new Chart($("#hashChart"),{
+    	type: 'pie',
+    	data: {
+        	labels: poolHashrateData.slice(0, Math.max(5, poolHashrateData.length)).map(x => x.label),
+        	datasets: [{
+            	data: poolHashrateData.slice(0, Math.max(5, poolHashrateData.length)).map(x => x.value),
+              backgroundColor: chartColors
+            }]
+        },
+    	options: {}
+	});
 
 
     nv.addGraph(function() {
@@ -136,6 +135,13 @@ function displayCharts(){
 
         return poolBlockChart;
     });
+}
+
+function pastelColors(){
+    var r = (Math.round(Math.random()* 127) + 127).toString(16);
+    var g = (Math.round(Math.random()* 127) + 127).toString(16);
+    var b = (Math.round(Math.random()* 127) + 127).toString(16);
+    return '#' + r + g + b;
 }
 
 function TriggerChartUpdates(){
@@ -155,7 +161,6 @@ $.getJSON('/api/pool_stats', function(data){
 statsSource.addEventListener('message', function(e){
     var stats = JSON.parse(e.data);
     statData.push(stats);
-
 
     var newPoolAdded = (function(){
         for (var p in stats.pools){

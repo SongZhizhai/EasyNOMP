@@ -28,23 +28,24 @@
 
 </style>
 
-<div id="topCharts">
+<div class="container-fluid">
+	<div class="row">
+    	<div class="col-md-6 chartWrapper">
+        	<div class="chartLabel">Workers Distribution</div>
+        	<div class="chartHolder"><canvas id="workerChart"></canvas></div>
+    	</div>
 
-    <div class="chartWrapper">
-        <div class="chartLabel">Workers Per Pool</div>
-        <div class="chartHolder"><svg id="poolWorkers"/></div>
+    	<div class="col-md-6 chartWrapper">
+        	<div class="chartLabel">Hashrate Distribution</div>
+            <div class="chartHolder"><canvas id="hashChart"></canvas></div>
+    	</div>
     </div>
-
-    <div class="chartWrapper">
-        <div class="chartLabel">Hashrate Per Pool</div>
-        <div class="chartHolder"><svg id="poolHashrate"/></div>
-    </div>
-
-    <div class="chartWrapper">
-        <div class="chartLabel">Blocks Pending Per Pool</div>
-        <div class="chartHolder"><svg id="poolBlocks"/></div>
-    </div>
-
+	<div class="row">
+    	<div class="chartWrapper">
+        	<div class="chartLabel">Blocks Pending Per Pool</div>
+        	<div class="chartHolder"><svg id="poolBlocks"/></div>
+    	</div>
+	</div>
 </div>
 
 

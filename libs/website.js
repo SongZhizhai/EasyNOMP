@@ -36,6 +36,7 @@ module.exports = function () {
     var pageFiles = {
         'index.html': 'index',
         'home.html': '',
+    	'pools.html': 'pools',
         'getting_started.html': 'getting_started',
         'stats.html': 'stats',
         'tbs.html': 'tbs',
@@ -76,29 +77,34 @@ module.exports = function () {
     };
 
 
-    var readPageFiles = function (files) {
-        async.each(files, function (fileName, callback) {
+    var readPageFiles = function(files){
+        async.each(files, function(fileName, callback){
             var filePath = 'website/' + (fileName === 'index.html' ? '' : 'pages/') + fileName;
-            fs.readFile(filePath, 'utf8', function (err, data) {
+            fs.readFile(filePath, 'utf8', function(err, data){
                 var pTemp = dot.template(data);
                 pageTemplates[pageFiles[fileName]] = pTemp
                 callback();
             });
-        }, function (err) {
-            if (err) {
-                console.log('error reading files for creating dot templates: ' + JSON.stringify(err));
+        }, function(err){
+            if (err){
+                console.log('error reading files for creating dot templates: '+ JSON.stringify(err));
                 return;
             }
             processTemplates();
         });
     };
-
-
-    //If an html file was changed reload it
-    watch('website', function (evt, filename) {
-        var basename = path.basename(filename);
-        if (basename in pageFiles) {
-            console.log(filename);
+ 
+    // if an html file was changed reload it
+    /* requires node-watch 0.5.0 or newer */
+    watch(['./website', './website/pages'], function(evt, filename){
+        var basename;
+        // support older versions of node-watch automatically
+        if (!filename && evt)
+            basename = path.basename(evt);
+        else
+            basename = path.basename(filename);
+        
+        if (basename in pageFiles){
             readPageFiles([basename]);
             logger.debug('Reloaded file %s', basename);
         }
