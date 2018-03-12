@@ -91,11 +91,11 @@ function timeOfDayFormat(timestamp){
 
 function displayCharts(){
   var chartColors = [
-      pattern.draw('square', '#ff6384'),
-      pattern.draw('circle', '#36a2eb'),
-      pattern.draw('diamond', '#cc65fe'),
-      pattern.draw('triangle', '#ffce56'),
-      pattern.draw('dots', '#dd245d'),
+    '#1976D2',
+    '#388E3C',
+    '#FBC02D',
+    '#512DA8',
+    '#C2185B'
   ];
 	var workerPieChart = new Chart($("#workerChart"),{
     	type: 'pie',

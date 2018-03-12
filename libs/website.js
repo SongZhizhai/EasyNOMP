@@ -36,7 +36,7 @@ module.exports = function () {
     var pageFiles = {
         'index.html': 'index',
         'home.html': '',
-    	'pools.html': 'pools',
+    	   'pools.html': 'pools',
         'getting_started.html': 'getting_started',
         'stats.html': 'stats',
         'tbs.html': 'tbs',
@@ -93,13 +93,6 @@ module.exports = function () {
             processTemplates();
         });
     };
-<<<<<<< HEAD
- 
-    // if an html file was changed reload it
-=======
-
-    //If an html file was changed reload it
->>>>>>> e3f7422b49e6bd84967edaa16d0f3cdfd551a072
     /* requires node-watch 0.5.0 or newer */
     watch(['./website', './website/pages'], function(evt, filename){
         var basename;
@@ -108,7 +101,7 @@ module.exports = function () {
             basename = path.basename(evt);
         else
             basename = path.basename(filename);
-        
+
         if (basename in pageFiles){
             readPageFiles([basename]);
             logger.debug('Reloaded file %s', basename);

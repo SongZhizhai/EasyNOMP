@@ -12,9 +12,9 @@
         "litecoin",
         "scrypt"
     ],
-    "homepage": "https://github.com/foxer666/node-open-mining-portal",
+    "homepage": "https://github.com/1301313Y/BootNOMP",
     "bugs": {
-        "url": "https://github.com/foxer666/node-open-mining-portal/issues"
+        "url": "https://github.com/1301313Y/BootNOMP/issues"
     },
     "license": "GPL-2.0",
     "author": "Matthew Little",
@@ -31,7 +31,7 @@
     },
     "repository": {
         "type": "git",
-        "url": "https://github.com/foxer666/node-open-mining-portal.git"
+        "url": "https://github.com/1301313Y/BootNOMP.git"
     },
     "dependencies": {
         "async": "^2.5.0",
@@ -48,7 +48,7 @@
         "nonce": "^1.0.4",
         "redis": "^2.7.1",
         "request": "^2.83.0",
-        "stratum-pool": "git://github.com/foxer666/node-stratum-pool.git",
+        "stratum-pool": "git://github.com/1301313Y/node-stratum-pool.git",
         "winston": "^3.0.0-rc1",
         "winston-daily-rotate-file": "^2.0.0-rc.2"
     },
