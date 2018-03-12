@@ -1,15 +1,24 @@
-### We are trying to reborn NOMP. Need contributors!
+## Helping give NOMP new life! With some style.
+#### If you want to help contribute, please look at the original [project](https://github.com/foxer666/node-open-mining-portal) first!
+
+BootNOMP is all the things great about NOMP, now with modern style and design of BootStrap 4! Having disliked the previous UI, due to cramping, little to no info displayed while what is displayed is not very helpful to users. I decided to fork a already great project, and add some stylistic touches it severely needs. I would of considered requesting pulls to the main branch, though with such heavy changes to the project, I decided a hard fork would be well suited. But if you would like to contribute, please consider looking at the [original project](https://github.com/foxer666/node-open-mining-portal) first, as these guys are the ones who helped get this NOMP rebirthing process started.
+
 -------
-# Lyra2z (Zcoin) algo fixed, next step is neoscrypt
+## Updates
+* v1.0.8
+    * Fixed C11 algorithm.
+    * Starting major UI overhaul using BootStrap 4.
+* v1.0.7
+    * Lyra2z (Zcoin) algo fixed, next step is neoscrypt.
 
 -------
 ### Node Open Mining Portal consists from 3 main modules:
-* Main module - https://github.com/foxer666/node-open-mining-portal
-* Stratum Pool - https://github.com/foxer666/node-stratum-pool
-* Node Multihashing libraries https://github.com/foxer666/node-multi-hashing
+* [NOMP](https://github.com/1301313Y/node-open-mining-portal)
+* [Stratum Pool](https://github.com/1301313Y/node-stratum-pool)
+* [Node Multihashing](https://github.com/1301313Y/node-multi-hashing)
 
-Stratum Pool can be replaced with node-merged-pool (it's made in UNOMP)
-Adding new algos threw Node Multihashing libraries.
+_Stratum Pool can be replaced with [node-merged-pool](https://github.com/UNOMP/node-merged-pool)._<br>
+_Add new algorithms using [Node Multihashing](https://github.com/1301313Y/node-multi-hashing)._
 
 Current version: v1.0.7
 
@@ -28,7 +37,7 @@ node init.js
 * Redis Server
 
 ### Run in Docker
-
+_I Do Not Use Docker, So I Will Not Be Maintaining This Feature_
 1) Correct configs appropriately to your environment in docker directory
 2) ```cd docker```
 3) ```docker build -t nomp .```
@@ -48,6 +57,7 @@ You can see the logs of the server with ```docker logs -f nomp```, or jump into 
 | ✓ | __Scrypt__ | tested with AntiLiteCoin, 1CREDIT, ArgusCoin, WAYAWOLFCOIN and many others |
 | ✓ | __SHA256__ | tested with VCOIN, don't use with BTC, no Segwit tested |
 | ✓ | __X11__ | tested with BrainCoin, CannabisCoin, AdzCoin and many others |
+| ✓ | __C11__ | tested only shares with Dixicoin |
 | ✓ | __X16r__ | tested with RavenCoin |
 
 #### Need tests
