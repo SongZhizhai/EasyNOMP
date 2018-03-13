@@ -5,6 +5,11 @@ BootNOMP is all the things great about NOMP, now with modern style and design of
 
 -------
 ## Updates
+* v1.0.8-1
+    * Added pool statistic pages.
+    * Expanded API.
+    * Cleaned up main nav bar.
+    * Added Ravencoin config file.
 * v1.0.8
     * Fixed C11 algorithm.
     * Starting major UI overhaul using BootStrap 4.
@@ -20,7 +25,7 @@ BootNOMP is all the things great about NOMP, now with modern style and design of
 _Stratum Pool can be replaced with [node-merged-pool](https://github.com/UNOMP/node-merged-pool)._<br>
 _Add new algorithms using [Node Multihashing](https://github.com/1301313Y/node-multi-hashing)._
 
-Current version: v1.0.7
+Current version: v1.0.8-1
 
 -------
 ### Install
