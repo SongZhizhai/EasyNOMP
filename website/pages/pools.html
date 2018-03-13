@@ -2,19 +2,20 @@
 	<table class="table table-bordered table-striped">
 	  <thead>
 	    <tr>
-	      <th>Symbol</th>
+					<th>Port</port>
+	      	<th>Symbol</th>
 	      	<th>Coin</th>
-	     	<th>Algorithm</th>
+	     		<th>Algorithm</th>
 	      	<th>Workers</th>
-		  	<th>Hash Rate</th>
+		  		<th>Hash Rate</th>
         	<th>Fee</th>
 	    </tr>
 	  </thead>
 	  <tbody>
 			{{ for(var pool in it.stats.pools) { }}
-		    <tr>
-		      <th scope="row"><a href="/stats/{{=it.stats.pools[pool].symbol}}">{{=it.stats.pools[pool].symbol}}</a></th>
-		 			<td>{{=it.stats.pools[pool].name}}</td>
+		   		<th scope="row">{{=Object.keys(it.poolsConfigs[pool].ports)}}</th>
+		      <th><a href="/stats/{{=it.stats.pools[pool].symbol}}">{{=it.stats.pools[pool].symbol}}</a></th>
+		 			<td>{{=it.stats.pools[pool].name.charAt(0).toUpperCase() + it.stats.pools[pool].name.slice(1)}}</td>
 					<td>{{=it.stats.pools[pool].algorithm}}</td>
 					<td>{{=it.stats.pools[pool].workerCount}}</td>
 					<td>{{=it.stats.pools[pool].hashrateString}}</td>

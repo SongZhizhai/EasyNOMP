@@ -26,52 +26,120 @@ function buildChartData() {
     var time = statData[i].time * 1000;
     for (var f = 0; f < poolKeys.length; f++) {
       var pName = poolKeys[f];
+      if (pName !== poolName) {
+        continue;
+      }
       var a = pools[pName] = (pools[pName] || {
         hashrate: [],
+        validShares: [],
+        invalidShares: [],
         workers: [],
         blocks: []
       });
+      var date = new Date(time).valueOf();
       if (pName in statData[i].pools) {
-        a.hashrate.push([time, statData[i].pools[pName].hashrate]);
-        a.workers.push([time, statData[i].pools[pName].workerCount]);
-        a.blocks.push({ t: new Date(time), y: statData[i].pools[pName].blocks.pending})
+        a.hashrate.push({
+          t: date,
+          y: statData[i].pools[pName].hashrate
+        });
+        a.workers.push({
+          t: date,
+          y: statData[i].pools[pName].workerCount
+        });
+        a.blocks.push({
+          t: date,
+          y: statData[i].pools[pName].blocks.pending
+        })
       } else {
-        a.hashrate.push([time, 0]);
-        a.workers.push([time, 0]);
-        a.blocks.push({x: time, y: 0})
+        a.workers.push({
+          t: date,
+          y: 0
+        });
+        a.hashrate.push({
+          t: date,
+          y: 0
+        });
+        a.blocks.push({
+          t: date,
+          y: 0
+        })
       }
     }
   }
 
-  poolWorkerData = [];
-  poolHashrateData = [];
+  poolShareData = [];
+  poolHashrateData = {
+    label: "",
+    speed: "",
+    data: []
+  };
   poolBlockData = [];
-
-  for (var pool in pools) {
-    poolWorkerData.push({
-      label: pool,
-      value: pools[pool].workers[pools[pool].workers.length - 1][1]
+  if (poolName in pools) {
+    var pool = pools[poolName];
+    poolShareData.push({
+      label: "Test",
+      value: [0, 1]
     });
-    var hashes = [];
-    for (hashstamp in pools[pool].hashrate) {
-      var hash = hashstamp[1];
-      if (!isNaN(hash)) {
-        hashes.push(hashstamp[1]);
-      }
+    var byteUnits = [' KH/s', ' MH/s', ' GH/s', ' TH/s', ' PH/s'];
+    var mappedHashrate = pool.hashrate.map(x => x.y);
+    var maxHash = Math.max.apply(null, mappedHashrate);
+    var hashFactor = hashrateScaleFactor(maxHash);
+    for (var i in pool.hashrate) {
+      pool.hashrate[i].y /= Math.pow(1024, hashFactor);
     }
-    var sum = hashes.reduce(function(a, b) {
-      return parseFloat(a) + parseFloat(b);
-    });
-    var avg = sum / hashes.length;
-    poolHashrateData.push({
-      label: pool,
-      value: avg
-    });
+    poolHashrateData = {
+      label: poolName,
+      speed: byteUnits[hashFactor - 1],
+      data: pool.hashrate,
+      sma: getHashAverage(pool.hashrate, 4)
+    };
     poolBlockData.push({
-      label: pool,
-      value: pools[pool].blocks
+      label: poolName,
+      value: pool.blocks
     });
   }
+}
+
+var getHashAverage = function(hashrates, n){
+  var moveMean = [];
+  var timestamp = 0;
+  var skip = 60 * 60 * 1000;
+  alert(hashrates[0].t)
+  for (var i = 0; i < hashrates.length; i++) {
+    if(timestamp === 0){
+      timestamp = hashrates[i].t;
+    } else if(timestamp + skip < hashrates[i].t || i == hashrates.length - 1){
+      timestamp = hashrates[i].t;
+      moveMean.push(hashrates[i]);
+    }
+  }
+  return moveMean;
+}
+
+function calculateMovingHashAverage(hashrate, nPoints) {
+  var N = hashrate.length;
+  var moveMean = [];
+  for (var i = 1; i < N-1; i++) {
+      var mean = (hashrate[i].y + hashrate[i-1].y + hashrate[i+1].y) / nPoints;
+      moveMean.push({t: new Data, y: mean});
+  }
+  return moveMean;
+}
+
+function hashrateScaleFactor(hashrate) {
+  var i = 0;
+  do {
+    hashrate = hashrate / 1024;
+    i++;
+  } while (hashrate > 1024);
+  return i;
+}
+
+function simplifyHashrate(hashrate, factor) {
+  if(hashrate > 1024 && factor > 0){
+    return simplifyHashrate(hashrate / 1024, factor--);
+  }
+  return Math.round(hashrate);
 }
 
 function getReadableHashRateString(hashrate) {
@@ -98,66 +166,55 @@ function displayCharts() {
     '#512DA8',
     '#C2185B'
   ];
-  poolWorkerChart = new Chart($("#workerChart"), {
-    type: 'pie',
+  var hashChartData = [];
+  poolHashrateChart = new Chart($("#poolHashChart"), {
+    type: 'line',
     data: {
-      labels: poolWorkerData.slice(0, Math.max(5, poolWorkerData.length)).map(x => x.label),
       datasets: [{
-        data: poolWorkerData.slice(0, Math.max(5, poolWorkerData.length)).map(x => x.value),
-        backgroundColor: chartColors
-      }],
-    },
-    options: {
-      responsive: true
-    }
-  });
-
-  poolHashrateChart = new Chart($("#hashChart"), {
-    type: 'pie',
-    data: {
-      labels: poolHashrateData.slice(0, Math.max(5, poolHashrateData.length)).map(x => x.label),
-      datasets: [{
-        data: poolHashrateData.slice(0, Math.max(5, poolHashrateData.length)).map(x => x.value),
-        backgroundColor: chartColors
+        fill: false,
+        backgroundColor: chartColors[0],
+        borderColor: chartColors[0],
+        label: 'Minute',
+        data: poolHashrateData.data
+      },
+      {
+        fill: false,
+        backgroundColor: chartColors[4],
+        borderColor: chartColors[4],
+        label: 'Hour',
+        data: poolHashrateData.sma
       }]
     },
     options: {
-      responsive: true
-    }
-  });
-
-  var blockData = [];
-  var labels = poolBlockData.slice(0, Math.max(5, poolBlockData.length)).map(x => x.label);
-  var values = poolBlockData.slice(0, Math.max(5, poolBlockData.length)).map(x => x.value);
-  for(var i = 0; i < poolBlockData.length; i++) {
-    blockData.push(
-      {
-        label: labels[i],
-        data: values[i],
-        backgroundColor: chartColors[i],
-        borderColor: chartColors[i]
-      }
-    );
-  }
-    $("#blockChart").height = 200;
-  poolBlockChart = new Chart($("#blockChart"), {
-    type: 'line',
-    data: {
-      datasets: blockData
-    },
-    options: {
-      maintainAspectRatio: false,
       responsive: true,
+      elements: {
+        point: { radius: 0 }
+      },
       scales: {
         xAxes: [{
-          time: {
-            unit: 'minute'
+          type: 'time',
+          display: true,
+          scaleLabel: {
+            display: true,
+            labelString: 'Time'
+          },
+          ticks: {
+            major: {
+              fontStyle: 'bold',
+              fontColor: chartColors[0]
+            }
+          }
+        }],
+        yAxes: [{
+          display: true,
+          scaleLabel: {
+            display: true,
+            labelString: poolHashrateData.speed
           }
         }]
       }
     }
   });
-
 }
 
 function pastelColors() {
@@ -173,7 +230,7 @@ function TriggerChartUpdates() {
   poolBlockChart.update();
 }
 
-$.getJSON('/api/pool_stats?' + _pool, function(data) {
+$.getJSON('/api/pool_stats?' + poolName, function(data) {
   statData = data;
   buildChartData();
   displayCharts();
@@ -198,10 +255,10 @@ statsSource.addEventListener('message', function(e) {
     var time = stats.time * 1000;
     for (var f = 0; f < poolKeys.length; f++) {
       var pool = poolKeys[f];
-      for (var i = 0; i < poolWorkerData.length; i++) {
-        if (poolWorkerData[i].key === pool) {
-          poolWorkerData[i].values.shift();
-          poolWorkerData[i].values.push([time, pool in stats.pools ? stats.pools[pool].workerCount : 0]);
+      for (var i = 0; i < poolShareData.length; i++) {
+        if (poolShareData[i].key === pool) {
+          poolShareData[i].values.shift();
+          poolShareData[i].values.push([time, pool in stats.pools ? stats.pools[pool].workerCount : 0]);
           break;
         }
       }

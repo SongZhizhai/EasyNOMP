@@ -52,20 +52,9 @@ function buildChartData() {
       label: pool,
       value: pools[pool].workers[pools[pool].workers.length - 1][1]
     });
-    var hashes = [];
-    for (hashstamp in pools[pool].hashrate) {
-      var hash = hashstamp[1];
-      if (!isNaN(hash)) {
-        hashes.push(hashstamp[1]);
-      }
-    }
-    var sum = hashes.reduce(function(a, b) {
-      return parseFloat(a) + parseFloat(b);
-    });
-    var avg = sum / hashes.length;
     poolHashrateData.push({
       label: pool,
-      value: avg
+      value: parseInt(pools[pool].hashrate[pools[pool].hashrate.length - 1][1] / 2048)
     });
     poolBlockData.push({
       label: pool,
@@ -101,9 +90,9 @@ function displayCharts() {
   poolWorkerChart = new Chart($("#workerChart"), {
     type: 'pie',
     data: {
-      labels: poolWorkerData.slice(0, Math.max(5, poolWorkerData.length)).map(x => x.label),
+      labels: poolWorkerData.slice(0, 5).map(x => x.label),
       datasets: [{
-        data: poolWorkerData.slice(0, Math.max(5, poolWorkerData.length)).map(x => x.value),
+        data: poolWorkerData.slice(0, 5).map(x => x.value),
         backgroundColor: chartColors
       }],
     },
@@ -115,9 +104,9 @@ function displayCharts() {
   poolHashrateChart = new Chart($("#hashChart"), {
     type: 'pie',
     data: {
-      labels: poolHashrateData.slice(0, Math.max(5, poolHashrateData.length)).map(x => x.label),
+      labels: poolHashrateData.slice(0, 5).map(x => x.label),
       datasets: [{
-        data: poolHashrateData.slice(0, Math.max(5, poolHashrateData.length)).map(x => x.value),
+        data: poolHashrateData.slice(0, 5).map(x => x.value),
         backgroundColor: chartColors
       }]
     },
@@ -127,8 +116,8 @@ function displayCharts() {
   });
 
   var blockData = [];
-  var labels = poolBlockData.slice(0, Math.max(5, poolBlockData.length)).map(x => x.label);
-  var values = poolBlockData.slice(0, Math.max(5, poolBlockData.length)).map(x => x.value);
+  var labels = poolBlockData.slice(0, 5).map(x => x.label);
+  var values = poolBlockData.slice(0, 5).map(x => x.value);
   for(var i = 0; i < poolBlockData.length; i++) {
     blockData.push(
       {
@@ -139,7 +128,7 @@ function displayCharts() {
       }
     );
   }
-    $("#blockChart").height = 200;
+  $("#blockChart").height = 200;
   poolBlockChart = new Chart($("#blockChart"), {
     type: 'line',
     data: {

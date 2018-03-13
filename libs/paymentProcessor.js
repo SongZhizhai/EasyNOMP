@@ -653,6 +653,69 @@ function SetupForPool(poolOptions, setupFinished) {
         });
     };
 
+    var cacheNetworkStats = function () {
+            var params = null;
+            daemon.cmd('getmininginfo', params,
+                function (result) {
+                    if (!result || result.error || result[0].error || !result[0].response) {
+                        logger.error('Error with RPC call getmininginfo '+ JSON.stringify(result[0].error));
+                        return;
+                    }
+
+                    var coin = poolOptions.coin.name;
+                    var finalRedisCommands = [];
+
+                    if (result[0].response.blocks !== null) {
+                        finalRedisCommands.push(['hset', coin + ':stats', 'networkBlocks', result[0].response.blocks]);
+                    }
+                    if (result[0].response.difficulty !== null) {
+                        finalRedisCommands.push(['hset', coin + ':stats', 'networkDiff', result[0].response.difficulty]);
+                    }
+                    if (result[0].response.networkhashps !== null) {
+                        finalRedisCommands.push(['hset', coin + ':stats', 'networkSols', result[0].response.networkhashps]);
+                    }
+
+                    daemon.cmd('getnetworkinfo', params,
+                        function (result) {
+                            if (!result || result.error || result[0].error || !result[0].response) {
+                                logger.error('Error with RPC call getnetworkinfo '+ JSON.stringify(result[0].error));
+                                return;
+                            }
+
+                            if (result[0].response.connections !== null) {
+                                finalRedisCommands.push(['hset', coin + ':stats', 'networkConnections', result[0].response.connections]);
+                            }
+                            if (result[0].response.version !== null) {
+                                finalRedisCommands.push(['hset', coin + ':stats', 'networkVersion', result[0].response.version]);
+                            }
+                            if (result[0].response.subversion !== null) {
+                                finalRedisCommands.push(['hset', coin + ':stats', 'networkSubVersion', result[0].response.subversion]);
+                            }
+                            if (result[0].response.protocolversion !== null) {
+                                finalRedisCommands.push(['hset', coin + ':stats', 'networkProtocolVersion', result[0].response.protocolversion]);
+                            }
+
+                            if (finalRedisCommands.length <= 0)
+                                return;
+
+                            redisClient.multi(finalRedisCommands).exec(function(error, results){
+                                if (error){
+                                    logger.error('Error with redis during call to cacheNetworkStats() ' + JSON.stringify(error));
+                                    return;
+                                }
+                            });
+                        }
+                    );
+                }
+            );
+        };
+
+  // network stats caching every 58 seconds
+    var stats_interval = 58 * 1000;
+    var statsInterval = setInterval(function() {
+        // update network stats using coin daemon
+        cacheNetworkStats();
+    }, stats_interval);
 
     var getProperAddress = function (address) {
         if (address.length === 40) {

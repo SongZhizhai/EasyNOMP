@@ -11,7 +11,7 @@ var algos = require('stratum-pool/lib/algoProperties.js');
 const logger = require('./logger.js').getLogger('Stats', 'system');
 
 
-module.exports = function (portalConfig, poolConfigs) {
+module.exports = function(portalConfig, poolConfigs) {
     logger.info("Starting stats module");
 
     var _this = this;
@@ -32,251 +32,279 @@ module.exports = function (portalConfig, poolConfigs) {
     logger.debug("Setting up statHistory");
     gatherStatHistory();
 
-    Object.keys(poolConfigs).forEach(function (coin) {
+    Object.keys(poolConfigs).forEach(function(coin) {
 
-        var poolConfig = poolConfigs[coin];
-		console.log(poolConfig.rewardRecipient);
-        var redisConfig = poolConfig.redis;
+      var poolConfig = poolConfigs[coin];
+      console.log(poolConfig.rewardRecipient);
+      var redisConfig = poolConfig.redis;
 
-        for (var i = 0; i < redisClients.length; i++) {
-            var client = redisClients[i];
-            if (client.client.port === redisConfig.port && client.client.host === redisConfig.host) {
-                client.coins.push(coin);
-                return;
-            }
+      for (var i = 0; i < redisClients.length; i++) {
+        var client = redisClients[i];
+        if (client.client.port === redisConfig.port && client.client.host === redisConfig.host) {
+          client.coins.push(coin);
+          return;
         }
-        redisClients.push({
-            coins: [coin],
-            client: redis.createClient(redisConfig.port, redisConfig.host)
-        });
+      }
+      redisClients.push({
+        coins: [coin],
+        client: redis.createClient(redisConfig.port, redisConfig.host)
+      });
     });
 
 
     function setupStatsRedis() {
-        redisStats = redis.createClient(portalConfig.redis.port, portalConfig.redis.host);
-        redisStats.on('error', function (err) {
-            logger.error('Redis for stats had an error = %s', JSON.stringify(err));
-        });
+      redisStats = redis.createClient(portalConfig.redis.port, portalConfig.redis.host);
+      redisStats.on('error', function(err) {
+        logger.error('Redis for stats had an error = %s', JSON.stringify(err));
+      });
     }
 
     function gatherStatHistory() {
 
-        var retentionTime = (((Date.now() / 1000) - portalConfig.website.stats.historicalRetention) | 0).toString();
-        redisStats.zrangebyscore(['statHistory', retentionTime, '+inf'], function (err, replies) {
-            if (err) {
-                logger.error('Error when trying to grab historical stats, err = %s', JSON.stringify(err));
-                return;
-            }
-            for (var i = 0; i < replies.length; i++) {
-                _this.statHistory.push(JSON.parse(replies[i]));
-            }
-            _this.statHistory = _this.statHistory.sort(function (a, b) {
-                return a.time - b.time;
-            });
-            _this.statHistory.forEach(function (stats) {
-                addStatPoolHistory(stats);
-            });
+      var retentionTime = (((Date.now() / 1000) - portalConfig.website.stats.historicalRetention) | 0).toString();
+      redisStats.zrangebyscore(['statHistory', retentionTime, '+inf'], function(err, replies) {
+        if (err) {
+          logger.error('Error when trying to grab historical stats, err = %s', JSON.stringify(err));
+          return;
+        }
+        for (var i = 0; i < replies.length; i++) {
+          _this.statHistory.push(JSON.parse(replies[i]));
+        }
+        _this.statHistory = _this.statHistory.sort(function(a, b) {
+          return a.time - b.time;
         });
+        _this.statHistory.forEach(function(stats) {
+          addStatPoolHistory(stats);
+        });
+      });
     }
 
     function addStatPoolHistory(stats) {
-        var data = {
-            time: stats.time,
-            pools: {}
-        };
-        for (var pool in stats.pools) {
-            data.pools[pool] = {
-                hashrate: stats.pools[pool].hashrate,
-                workerCount: stats.pools[pool].workerCount,
-                blocks: stats.pools[pool].blocks
-            }
+      var data = {
+        time: stats.time,
+        pools: {}
+      };
+      for (var pool in stats.pools) {
+        data.pools[pool] = {
+          hashrate: stats.pools[pool].hashrate,
+          workerCount: stats.pools[pool].workerCount,
+          blocks: stats.pools[pool].blocks
         }
-        _this.statPoolHistory.push(data);
+      }
+      _this.statPoolHistory.push(data);
     }
 
 
-    this.getGlobalStats = function (callback) {
+    this.getGlobalStats = function(callback) {
 
-        var statGatherTime = Date.now() / 1000 | 0;
+      var statGatherTime = Date.now() / 1000 | 0;
 
-        var allCoinStats = {};
+      var allCoinStats = {};
 
-        async.each(redisClients, function (client, callback) {
-            var windowTime = (((Date.now() / 1000) - portalConfig.website.stats.hashrateWindow) | 0).toString();
-            var redisCommands = [];
-
-
-            var redisCommandTemplates = [
-                ['zremrangebyscore', ':hashrate', '-inf', '(' + windowTime],
-                ['zrangebyscore', ':hashrate', windowTime, '+inf'],
-                ['hgetall', ':stats'],
-                ['scard', ':blocksPending'],
-                ['scard', ':blocksConfirmed'],
-                ['scard', ':blocksOrphaned']
-            ];
-
-            var commandsPerCoin = redisCommandTemplates.length;
-
-            client.coins.map(function (coin) {
-                redisCommandTemplates.map(function (t) {
-                    var clonedTemplates = t.slice(0);
-                    clonedTemplates[1] = coin + clonedTemplates[1];
-                    redisCommands.push(clonedTemplates);
-                });
-            });
+      async.each(redisClients, function(client, callback) {
+        var windowTime = (((Date.now() / 1000) - portalConfig.website.stats.hashrateWindow) | 0).toString();
+        var redisCommands = [];
 
 
-            client.client.multi(redisCommands).exec(function (err, replies) {
-                if (err) {
-                    logger.error('Error with getting global stats, err = %s', JSON.stringify(err));
-                    callback(err);
-                }
-                else {
-                	
-                    for (var i = 0; i < replies.length; i += commandsPerCoin) {
-                        var coinName = client.coins[i / commandsPerCoin | 0];
-                        var coinStats = {
-                            name: coinName,
-                            symbol: poolConfigs[coinName].coin.symbol.toUpperCase(),
-                            algorithm: poolConfigs[coinName].coin.algorithm,
-                            hashrates: replies[i + 1],
-                        	rewardRecipients: poolConfigs[coinName].rewardRecipients,
-                            poolStats: {
-                                validShares: replies[i + 2] ? (replies[i + 2].validShares || 0) : 0,
-                                validBlocks: replies[i + 2] ? (replies[i + 2].validBlocks || 0) : 0,
-                                invalidShares: replies[i + 2] ? (replies[i + 2].invalidShares || 0) : 0,
-                                totalPaid: replies[i + 2] ? (replies[i + 2].totalPaid || 0) : 0
-                            },
-                            blocks: {
-                                pending: replies[i + 3],
-                                confirmed: replies[i + 4],
-                                orphaned: replies[i + 5]
-                            }
-                        };
-                        allCoinStats[coinStats.name] = (coinStats);
-                    }
-                    callback();
-                }
-            });
-        }, function (err) {
-            if (err) {
-                logger.error('Error getting all stats, err = %s', JSON.stringify(err));
-                callback();
-                return;
-            }
+        var redisCommandTemplates = [
+          ['zremrangebyscore', ':hashrate', '-inf', '(' + windowTime],
+          ['zrangebyscore', ':hashrate', windowTime, '+inf'],
+          ['hgetall', ':stats'],
+          ['scard', ':blocksPending'],
+          ['scard', ':blocksConfirmed'],
+          ['scard', ':blocksOrphaned']
+        ];
 
-            var portalStats = {
-                time: statGatherTime,
-                global: {
-                    workers: 0,
-                    hashrate: 0
-                },
-                algos: {},
-                pools: allCoinStats
-            };
+        var commandsPerCoin = redisCommandTemplates.length;
 
-            Object.keys(allCoinStats).forEach(function (coin) {
-                var coinStats = allCoinStats[coin];
-                coinStats.workers = {};
-                coinStats.shares = 0;
-                coinStats.hashrates.forEach(function (ins) {
-                    var parts = ins.split(':');
-                    var workerShares = parseFloat(parts[0]);
-                    var worker = parts[1];
-                    if (workerShares > 0) {
-                        coinStats.shares += workerShares;
-                        if (worker in coinStats.workers)
-                            coinStats.workers[worker].shares += workerShares;
-                        else
-                            coinStats.workers[worker] = {
-                                shares: workerShares,
-                                invalidshares: 0,
-                                hashrateString: null
-                            };
-                    }
-                    else {
-                        if (worker in coinStats.workers)
-                            coinStats.workers[worker].invalidshares -= workerShares; // workerShares is negative number!
-                        else
-                            coinStats.workers[worker] = {
-                                shares: 0,
-                                invalidshares: -workerShares,
-                                hashrateString: null
-                            };
-                    }
-                });
-
-                var shareMultiplier = Math.pow(2, 32) / algos[coinStats.algorithm].multiplier;
-                coinStats.hashrate = shareMultiplier * coinStats.shares / portalConfig.website.stats.hashrateWindow;
-
-                coinStats.workerCount = Object.keys(coinStats.workers).length;
-                portalStats.global.workers += coinStats.workerCount;
-
-                /* algorithm specific global stats */
-                var algo = coinStats.algorithm;
-                if (!portalStats.algos.hasOwnProperty(algo)) {
-                    portalStats.algos[algo] = {
-                        workers: 0,
-                        hashrate: 0,
-                        hashrateString: null
-                    };
-                }
-                portalStats.algos[algo].hashrate += coinStats.hashrate;
-                portalStats.algos[algo].workers += Object.keys(coinStats.workers).length;
-
-                for (var worker in coinStats.workers) {
-                    coinStats.workers[worker].hashrateString = _this.getReadableHashRateString(shareMultiplier * coinStats.workers[worker].shares / portalConfig.website.stats.hashrateWindow);
-                }
-
-                delete coinStats.hashrates;
-                delete coinStats.shares;
-                coinStats.hashrateString = _this.getReadableHashRateString(coinStats.hashrate);
-            });
-
-            Object.keys(portalStats.algos).forEach(function (algo) {
-                var algoStats = portalStats.algos[algo];
-                algoStats.hashrateString = _this.getReadableHashRateString(algoStats.hashrate);
-            });
-
-            _this.stats = portalStats;
-            _this.statsString = JSON.stringify(portalStats);
-
-
-            _this.statHistory.push(portalStats);
-            addStatPoolHistory(portalStats);
-
-            var retentionTime = (((Date.now() / 1000) - portalConfig.website.stats.historicalRetention) | 0);
-
-            for (var i = 0; i < _this.statHistory.length; i++) {
-                if (retentionTime < _this.statHistory[i].time) {
-                    if (i > 0) {
-                        _this.statHistory = _this.statHistory.slice(i);
-                        _this.statPoolHistory = _this.statPoolHistory.slice(i);
-                    }
-                    break;
-                }
-            }
-
-            redisStats.multi([
-                ['zadd', 'statHistory', statGatherTime, _this.statsString],
-                ['zremrangebyscore', 'statHistory', '-inf', '(' + retentionTime]
-            ]).exec(function (err, replies) {
-                if (err)
-                    logger.error('Error adding stats to historics, err = %s',  JSON.stringify(err));
-            });
-            callback();
+        client.coins.map(function(coin) {
+          redisCommandTemplates.map(function(t) {
+            var clonedTemplates = t.slice(0);
+            clonedTemplates[1] = coin + clonedTemplates[1];
+            redisCommands.push(clonedTemplates);
+          });
         });
+
+
+        client.client.multi(redisCommands).exec(function(err, replies) {
+          if (err) {
+            logger.error('Error with getting global stats, err = %s', JSON.stringify(err));
+            callback(err);
+          } else {
+
+            for (var i = 0; i < replies.length; i += commandsPerCoin) {
+              var coinName = client.coins[i / commandsPerCoin | 0];
+              var coinStats = {
+                name: coinName,
+                symbol: poolConfigs[coinName].coin.symbol.toUpperCase(),
+                algorithm: poolConfigs[coinName].coin.algorithm,
+                hashrates: replies[i + 1],
+                rewardRecipients: poolConfigs[coinName].rewardRecipients,
+                poolStats: {
+                  validShares: replies[i + 2] ? (replies[i + 2].validShares || 0) : 0,
+                  validBlocks: replies[i + 2] ? (replies[i + 2].validBlocks || 0) : 0,
+                  invalidShares: replies[i + 2] ? (replies[i + 2].invalidShares || 0) : 0,
+                  totalPaid: replies[i + 2] ? (replies[i + 2].totalPaid || 0) : 0,
+                     networkBlocks: replies[i + 2] ? (replies[i + 2].networkBlocks || 0) : 0,
+                     networkSols: replies[i + 2] ? (replies[i + 2].networkSols || 0) : 0,
+                     networkSolsString: _this.getReadableHashRateString(replies[i + 2] ? (replies[i + 2].networkSols || 0) : 0),
+                     networkDiff: replies[i + 2] ? (replies[i + 2].networkDiff || 0) : 0,
+                     networkConnections: replies[i + 2] ? (replies[i + 2].networkConnections || 0) : 0,
+                                     networkVersion: replies[i + 2] ? (replies[i + 2].networkSubVersion || 0) : 0,
+                                     networkProtocolVersion: replies[i + 2] ? (replies[i + 2].networkProtocolVersion || 0) : 0
+                },
+                blocks: {
+                  pending: replies[i + 3],
+                  confirmed: replies[i + 4],
+                  orphaned: replies[i + 5]
+                }
+              };
+              allCoinStats[coinStats.name] = (coinStats);
+            }
+            callback();
+          }
+        });
+      }, function(err) {
+        if (err) {
+          logger.error('Error getting all stats, err = %s', JSON.stringify(err));
+          callback();
+          return;
+        }
+
+        var portalStats = {
+          time: statGatherTime,
+          global: {
+            workers: 0,
+            hashrate: 0
+          },
+          algos: {},
+          pools: allCoinStats
+        };
+
+        Object.keys(allCoinStats).forEach(function(coin) {
+          var coinStats = allCoinStats[coin];
+          coinStats.workers = {};
+          coinStats.shares = 0;
+          coinStats.hashrates.forEach(function(ins) {
+            var parts = ins.split(':');
+            var workerShares = parseFloat(parts[0]);
+            var worker = parts[1];
+            if (workerShares > 0) {
+              coinStats.shares += workerShares;
+              if (worker in coinStats.workers)
+                coinStats.workers[worker].shares += workerShares;
+              else
+                coinStats.workers[worker] = {
+                  shares: workerShares,
+                  invalidshares: 0,
+                  hashrateString: null,
+                  luckDays: null,
+								  luckHours: null
+                };
+            } else {
+              if (worker in coinStats.workers)
+                coinStats.workers[worker].invalidshares -= workerShares; // workerShares is negative number!
+              else
+                coinStats.workers[worker] = {
+                  shares: 0,
+                  invalidshares: -workerShares,
+                  hashrateString: null,
+                  luckDays: null,
+								  luckHours: null
+                };
+            }
+          });
+
+          var shareMultiplier = Math.pow(2, 32) / algos[coinStats.algorithm].multiplier;
+          coinStats.hashrate = shareMultiplier * coinStats.shares / portalConfig.website.stats.hashrateWindow;
+          var _blocktime = 160;
+  				var _networkHashRate = parseFloat(coinStats.poolStats.networkSols) * 1.2;
+  				var _myHashRate = (coinStats.hashrate / 1000000) * 2;
+  				coinStats.luckDays =  ((_networkHashRate / _myHashRate * _blocktime) / (24 * 60 * 60)).toFixed(3);
+  				coinStats.luckHours = ((_networkHashRate / _myHashRate * _blocktime) / (60 * 60)).toFixed(3);
+          coinStats.workerCount = Object.keys(coinStats.workers).length;
+          portalStats.global.workers += coinStats.workerCount;
+
+          /* algorithm specific global stats */
+          var algo = coinStats.algorithm;
+          if (!portalStats.algos.hasOwnProperty(algo)) {
+            portalStats.algos[algo] = {
+              workers: 0,
+              hashrate: 0,
+              hashrateString: null
+            };
+          }
+          portalStats.algos[algo].hashrate += coinStats.hashrate;
+          portalStats.algos[algo].workers += Object.keys(coinStats.workers).length;
+
+          for (var worker in coinStats.workers) {
+            coinStats.workers[worker].hashrateString = _this.getReadableHashRateString(shareMultiplier * coinStats.workers[worker].shares / portalConfig.website.stats.hashrateWindow);
+            var _workerRate = shareMultiplier * coinStats.workers[worker].shares / portalConfig.website.stats.hashrateWindow;
+  					var _wHashRate = (_workerRate / 1000000) * 2;
+  					coinStats.workers[worker].luckDays = ((_networkHashRate / _wHashRate * _blocktime) / (24 * 60 * 60)).toFixed(3);
+  					coinStats.workers[worker].luckHours = ((_networkHashRate / _wHashRate * _blocktime) / (60 * 60)).toFixed(3);
+  					coinStats.workers[worker].hashrate = _workerRate;
+  					coinStats.workers[worker].hashrateString = _this.getReadableHashRateString(_workerRate);
+          }
+
+          delete coinStats.hashrates;
+          delete coinStats.shares;
+          coinStats.hashrateString = _this.getReadableHashRateString(coinStats.hashrate);
+        });
+
+        Object.keys(portalStats.algos).forEach(function(algo) {
+          var algoStats = portalStats.algos[algo];
+          algoStats.hashrateString = _this.getReadableHashRateString(algoStats.hashrate);
+        });
+
+        _this.stats = portalStats;
+        _this.statsString = JSON.stringify(portalStats);
+
+
+        _this.statHistory.push(portalStats);
+        addStatPoolHistory(portalStats);
+
+        var retentionTime = (((Date.now() / 1000) - portalConfig.website.stats.historicalRetention) | 0);
+
+        for (var i = 0; i < _this.statHistory.length; i++) {
+          if (retentionTime < _this.statHistory[i].time) {
+            if (i > 0) {
+              _this.statHistory = _this.statHistory.slice(i);
+              _this.statPoolHistory = _this.statPoolHistory.slice(i);
+            }
+            break;
+          }
+        }
+
+        redisStats.multi([
+          ['zadd', 'statHistory', statGatherTime, _this.statsString],
+          ['zremrangebyscore', 'statHistory', '-inf', '(' + retentionTime]
+        ]).exec(function(err, replies) {
+          if (err)
+            logger.error('Error adding stats to historics, err = %s', JSON.stringify(err));
+        });
+        callback();
+      });
 
     };
 
-    this.getReadableHashRateString = function (hashrate) {
+    this.getPoolStats = function(coin, cback) {
+      if (coin.length > 0) {
+        _this.stats.coin = coin;
+          cback({
+            name: coin
+          });
+        }
+      };
+
+      this.getReadableHashRateString = function(hashrate) {
         var i = -1;
         var byteUnits = [' KH', ' MH', ' GH', ' TH', ' PH'];
         do {
-            hashrate = hashrate / 1000;
-            i++;
+          hashrate = hashrate / 1000;
+          i++;
         } while (hashrate > 1000);
         return hashrate.toFixed(2) + byteUnits[i];
-    };
+      };
 
-};
+    };

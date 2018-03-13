@@ -221,13 +221,13 @@ module.exports = function () {
         }
     };
 
-    var statPage = function(req, res, next){
-          var pool = req.params.pool || null;
-          if (pool != null) {
-            pool = pool.toLowerCase();
-            processTemplates();
-            res.header('Content-Type', 'text/html');
-            res.end(indexesProcessed['pool_stats']);
+    var poolStatPage = function(req, res, next) {
+          var coin = req.params.coin || null;
+          if (coin != null) {
+            portalStats.getPoolStats(coin, function(){
+                processTemplates();
+                res.end(indexesProcessed['pool_stats']);
+            });
           } else {
               next();
           }
@@ -262,7 +262,7 @@ module.exports = function () {
     app.get('/key.html', function (req, res, next) {
         res.end(keyScriptProcessed);
     });
-    app.get('/stats/:pool', statPage);
+    app.get('/stats/:coin', poolStatPage);
     app.get('/:page', route);
     app.get('/', route);
 
@@ -290,7 +290,7 @@ module.exports = function () {
 
     app.use(function (err, req, res, next) {
         console.error(err.stack);
-        res.send(500, 'Something broke!');
+        res.status(500).send('Something broke!');
     });
 
     try {
