@@ -11,10 +11,7 @@ require('winston-daily-rotate-file');
 
 module.exports = {
     getLogger: function (loggerName, coin) {
-
-
         let transportz = [new transports.Console()];
-
         if (config.logger && config.logger.file) {
             transportz.push(
                 new transports.DailyRotateFile({
@@ -26,7 +23,6 @@ module.exports = {
                 })
             );
         }
-
         return createLogger({
             format: combine(
                 splat(),
@@ -39,5 +35,5 @@ module.exports = {
             level: logLevel,
             transports: transportz,
         });
-    },
+    }
 };

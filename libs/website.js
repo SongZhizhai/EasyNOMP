@@ -40,11 +40,13 @@ module.exports = function () {
         'getting_started.html': 'getting_started',
         'stats.html': 'stats',
         'tbs.html': 'tbs',
-        'workers.html': 'workers',
+        'dashboard.html': 'dashboard',
         'api.html': 'api',
         'admin.html': 'admin',
+        'miner_stats.html': 'miner_stats',
         'pool_stats.html': 'pool_stats',
-        'mining_key.html': 'mining_key'
+        'mining_key.html': 'mining_key',
+        'payments.html': 'payments'
     };
 
     var pageTemplates = {};
@@ -233,6 +235,20 @@ module.exports = function () {
           }
       };
 
+      var minerpage = function(req, res, next){
+        var address = req.params.address || null;
+        if (address != null) {
+  			address = address.split(".")[0];
+        portalStats.getBalanceByAddress(address, function(){
+          processTemplates();
+  		    res.header('Content-Type', 'text/html');
+              res.end(indexesProcessed['miner_stats']);
+          });
+        } else {
+            next();
+        }
+      };
+
     var route = function (req, res, next) {
         var pageId = req.params.page || '';
         if (pageId in indexesProcessed) {
@@ -262,6 +278,7 @@ module.exports = function () {
     app.get('/key.html', function (req, res, next) {
         res.end(keyScriptProcessed);
     });
+    app.get('/workers/:address', minerpage);
     app.get('/stats/:coin', poolStatPage);
     app.get('/:page', route);
     app.get('/', route);

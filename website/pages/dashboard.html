@@ -1,0 +1,62 @@
+<style>
+
+    #topCharts {
+        padding: 18px;
+    }
+
+    #topCharts > div > div > svg {
+        display: block;
+        height: 280px;
+    }
+
+    .chartWrapper {
+        border: solid 1px #c7c7c7;
+        border-radius: 5px;
+        padding: 5px;
+        margin-bottom: 18px;
+    }
+
+    .chartLabel {
+        font-size: 1.2em;
+        text-align: center;
+        padding: 4px;
+    }
+
+    .chartHolder {
+
+    }
+
+    table {
+        width: 100%;
+    }
+
+</style>
+
+
+<div class="container-fluid">
+  <div class="row">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th scope="col" colspan="3"><i class="fa fa-money"></i> Wallets</th>
+        </tr>
+      </thead>
+      <tbody id="walletTableBody">
+        <form id="searchForm">
+          <tr>
+            <td colspan="2">
+              <input type="text" id="searchBar" class="form-control" name="search" placeholder="Wallet Address" aria-label="Wallet Address">
+            </td>
+            <td>
+              <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i> Lookup</button>
+            </td>
+          </tr>
+        </form>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+  document.querySelector('main').appendChild(document.createElement('script')).src = '/static/dashboard.js';
+</script>

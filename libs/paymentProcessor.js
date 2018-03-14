@@ -35,7 +35,7 @@ module.exports = function () {
         });
     }, function (err, coins) {
         if (err) {
-            logger.error('Error processing enabled pools in the config') // TODO: ASYNC LIB was updated, need to report a better error
+            logger.error('Error processing enabled pools in the config'); // TODO: ASYNC LIB was updated, need to report a better error
         } else {
             coins.forEach(function (coin) {
 
@@ -202,10 +202,10 @@ function SetupForPool(poolOptions, setupFinished) {
                         };
                     });
 
-                    logger.debug("Prepared info basic info about payments");
+                    logger.debug("Prepared Basic Info About Payments.");
                     logger.silly("workers = %s", JSON.stringify(workers));
                     logger.silly("rounds = %s", JSON.stringify(rounds));
-                    logger.debug("Workers count: %s Rounds: %", Object.keys(workers).length, rounds.length);
+                    logger.debug("There Were %s Worker(s) Over a % Round Period.", Object.keys(workers).length, rounds.length);
                     callback(null, workers, rounds);
                 });
             },
@@ -213,32 +213,31 @@ function SetupForPool(poolOptions, setupFinished) {
             /* Does a batch rpc call to daemon with all the transaction hashes to see if they are confirmed yet.
                It also adds the block reward amount to the round object - which the daemon gives also gives us. */
             function (workers, rounds, callback) {
-                logger.debug("Checking for confirmed rounds (blocks)");
+                logger.debug("Checking For Confirmed Rounds/Blocks...");
                 var batchRPCcommand = rounds.map(function (r) {
                     return ['gettransaction', [r.txHash]];
                 });
 
                 batchRPCcommand.push(['getaccount', [poolOptions.address]]);
-
                 startRPCTimer();
                 daemon.batchCmd(batchRPCcommand, function (error, txDetails) {
                     endRPCTimer();
-
                     if (error || !txDetails) {
-                        logger.error('Check finished - daemon rpc error with batch gettransactions %s', JSON.stringify(error));
+                        logger.error('Error Occurred While Checking Blocks! Message: \"daemon rpc error with batch gettransactions %s\"', JSON.stringify(error));
                         callback(true);
                         return;
                     }
-
                     var addressAccount;
-
                     txDetails.forEach(function (tx, i) {
                         if (i === txDetails.length - 1) {
                             //choose addressAccount as last output of generation transaction
                             //because there may masternodes payees and pool address should be last
                             //in zcoin its tx.address
+                            logger.debug("[TESTING] " + tx.result);
                             addressAccount = tx.result || tx.address;
-                            logger.warn("Could not decrypt address from tx (no tx.result or tx.address field) %s", JSON.stringify(tx));
+                            if(!addressAccount){
+                              logger.warn("Could not decrypt address from tx (no tx.result or tx.address field) %s", JSON.stringify(tx));
+                            }
                             return;
                         }
 
@@ -341,14 +340,14 @@ function SetupForPool(poolOptions, setupFinished) {
 
                     logger.silly('allWorkerShares before merging %s', JSON.stringify(allWorkerShares));
 
-                    logger.debug("Mapping workers into payout addresses");
+                    logger.debug("Mapping Workers Payout Addresses...");
                     // This snippet will parse all workers and merge different workers into 1 payout address
                     allWorkerShares = allWorkerShares.map((roundShare) => {
                         let resultForRound = {};
-                        logger.debug("roundShare = %s", roundShare);
+                        logger.debug("Share For Round: %s", roundShare);
 
                         Object.keys(roundShare).forEach((workerStr) => {
-                            logger.debug("Iterating worker %s", workerStr);
+                            logger.debug("Analyzing Worker %s", workerStr);
                             //test workername is not null (those may be if miner mine on stratum without user and worker)
                             if (workerStr) {
                                 if (workerStr.indexOf(".") !== -1) {
@@ -384,7 +383,7 @@ function SetupForPool(poolOptions, setupFinished) {
                         return resultForRound;
                     });
 
-                    logger.debug('Merged workers into payout addresses');
+                    logger.debug('Merged Workers Into Payout Addresses');
                     logger.silly('allWorkerShares after merging %s', JSON.stringify(allWorkerShares));
 
 
@@ -402,28 +401,28 @@ function SetupForPool(poolOptions, setupFinished) {
                         switch (round.category) {
                             case 'kicked':
                             case 'orphan':
-                                logger.warn("Round with height %s and tx %s is orphan", round.height, round.txHash);
+                                logger.warn("Round With Height %s And TX %s Is An Orphan!", round.height, round.txHash);
                                 round.workerShares = workerSharesForRound;
                                 break;
 
                             case 'generate':
                                 /* We found a confirmed block! Now get the reward for it and calculate how much
                                    we owe each miner based on the shares they submitted during that block round. */
-                                logger.info("We have found confirmed block #%s ready for payout", round.height);
+                                logger.info("We Have Found A Confirmed Block #%s, Ready For Payout!", round.height);
                                 logger.silly("round.reward = %s", round.reward);
                                 var reward = new BigNumber(round.reward);
                                 logger.silly("reward = %s", reward.toString(10));
 
                                 var totalShares = Object.keys(workerSharesForRound).reduce(function (p, c) {
                                     if (p === 0) {
-                                        p = new BigNumber(0)
+                                        p = new BigNumber(0);
                                     }
-                                    return p.plus(workerSharesForRound[c])
+                                    return p.plus(workerSharesForRound[c]);
                                 }, 0);
                                 logger.silly('totalShares = %s', totalShares.toString(10));
 
                                 Object.keys(workerSharesForRound).forEach((workerAddress) => {
-                                    logger.debug("Calculating reward for workerAddress %s", workerAddress);
+                                    logger.debug("Calculating Reward For Worker: %s", workerAddress);
                                     let percent = workerSharesForRound[workerAddress].dividedBy(totalShares);
                                     logger.silly("percent = %s", percent.toString(10));
                                     let workerRewardTotal = reward.multipliedBy(percent);
@@ -450,9 +449,9 @@ function SetupForPool(poolOptions, setupFinished) {
              if not sending the balance, the differnce should be +(the amount they earned this round)
              */
             function (workers, rounds, addressAccount, callback) {
-                logger.debug("Almost ready to send funds, calculating against existing balances");
+                logger.debug("Checking For Any Balances Due, Calculating Against Existing Balances...");
                 var trySend = function (withholdPercent) {
-                    logger.debug('Trying to send');
+                    logger.debug('Checking If Any Worker Is Due For Payout...');
                     logger.silly('withholdPercent = %s', withholdPercent.toString(10));
                     var addressAmounts = {};
                     var totalSent = new BigNumber(0);
@@ -468,7 +467,7 @@ function SetupForPool(poolOptions, setupFinished) {
                         var toSend = (worker.balance.plus(worker.reward)).multipliedBy(new BigNumber(1).minus(withholdPercent));
                         logger.silly('toSend = %s', toSend.toString(10));
                         if (toSend.isGreaterThanOrEqualTo(minPayment)) {
-                            logger.info('Worker %s have reached minimum payout threshold (%s above minimum %s)', w, toSend.toString(10), minPayment.toString(10));
+                            logger.info('Worker Has Earned %s, Reaching Minimum Payout Threshold of %s!', w, toSend.toString(10), minPayment.toString(10));
                             totalSent = totalSent.plus(toSend);
                             logger.silly('totalSent = %s', totalSent.toString(10));
                             var address = worker.address = (worker.address || getProperAddress(w));
@@ -479,7 +478,7 @@ function SetupForPool(poolOptions, setupFinished) {
                             logger.silly('worker.balanceChange = %s', worker.balanceChange.toString(10));
                         }
                         else {
-                            logger.debug('Worker %s have not reached minimum payout threshold %s', w, minPayment.toString(10));
+                            logger.debug('No Work Has %s Reached Minimum Payout Threshold of %s...', w, minPayment.toString(10));
                             worker.balanceChange = BigNumber.max(toSend.minus(worker.balance), new BigNumber(0));
                             logger.silly('worker.balanceChange = %s', worker.balanceChange.toString(10));
                             worker.sent = new BigNumber(0);
@@ -488,18 +487,18 @@ function SetupForPool(poolOptions, setupFinished) {
                     }
 
                     if (Object.keys(addressAmounts).length === 0) {
-                        logger.info('No workers was chosen for paying out');
+                        logger.info('No Worker Is Due For Payout!');
                         callback(null, workers, rounds);
                         return;
                     }
 
-                    logger.info('Payments to miners: %s', JSON.stringify(addressAmounts));
+                    logger.info('Payments To Workers: %s', JSON.stringify(addressAmounts));
 
                     Object.keys(addressAmounts).forEach((address) => {
                         addressAmounts[address] = new BigNumber(addressAmounts[address].toFixed(coinPrecision, 1)).toNumber();
                     });
 
-                    logger.info('Ok, going to pay from "%s" address with final amounts: %s', addressAccount, JSON.stringify(addressAmounts));
+                    logger.info('Executing Payments! Sending a Total of %s From "%s"!', JSON.stringify(addressAmounts), addressAccount);
                     daemon.cmd('sendmany', [addressAccount || '', addressAmounts], function (result) {
                         //Check if payments failed because wallet doesn't have enough coins to pay for tx fees
                         if (result.error && result.error.code === -6) {
@@ -653,69 +652,6 @@ function SetupForPool(poolOptions, setupFinished) {
         });
     };
 
-    var cacheNetworkStats = function () {
-            var params = null;
-            daemon.cmd('getmininginfo', params,
-                function (result) {
-                    if (!result || result.error || result[0].error || !result[0].response) {
-                        logger.error('Error with RPC call getmininginfo '+ JSON.stringify(result[0].error));
-                        return;
-                    }
-
-                    var coin = poolOptions.coin.name;
-                    var finalRedisCommands = [];
-
-                    if (result[0].response.blocks !== null) {
-                        finalRedisCommands.push(['hset', coin + ':stats', 'networkBlocks', result[0].response.blocks]);
-                    }
-                    if (result[0].response.difficulty !== null) {
-                        finalRedisCommands.push(['hset', coin + ':stats', 'networkDiff', result[0].response.difficulty]);
-                    }
-                    if (result[0].response.networkhashps !== null) {
-                        finalRedisCommands.push(['hset', coin + ':stats', 'networkSols', result[0].response.networkhashps]);
-                    }
-
-                    daemon.cmd('getnetworkinfo', params,
-                        function (result) {
-                            if (!result || result.error || result[0].error || !result[0].response) {
-                                logger.error('Error with RPC call getnetworkinfo '+ JSON.stringify(result[0].error));
-                                return;
-                            }
-
-                            if (result[0].response.connections !== null) {
-                                finalRedisCommands.push(['hset', coin + ':stats', 'networkConnections', result[0].response.connections]);
-                            }
-                            if (result[0].response.version !== null) {
-                                finalRedisCommands.push(['hset', coin + ':stats', 'networkVersion', result[0].response.version]);
-                            }
-                            if (result[0].response.subversion !== null) {
-                                finalRedisCommands.push(['hset', coin + ':stats', 'networkSubVersion', result[0].response.subversion]);
-                            }
-                            if (result[0].response.protocolversion !== null) {
-                                finalRedisCommands.push(['hset', coin + ':stats', 'networkProtocolVersion', result[0].response.protocolversion]);
-                            }
-
-                            if (finalRedisCommands.length <= 0)
-                                return;
-
-                            redisClient.multi(finalRedisCommands).exec(function(error, results){
-                                if (error){
-                                    logger.error('Error with redis during call to cacheNetworkStats() ' + JSON.stringify(error));
-                                    return;
-                                }
-                            });
-                        }
-                    );
-                }
-            );
-        };
-
-  // network stats caching every 58 seconds
-    var stats_interval = 58 * 1000;
-    var statsInterval = setInterval(function() {
-        // update network stats using coin daemon
-        cacheNetworkStats();
-    }, stats_interval);
 
     var getProperAddress = function (address) {
         if (address.length === 40) {

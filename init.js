@@ -177,6 +177,58 @@ var buildPoolConfigs = function () {
     return configs;
 };
 
+var buildAuxConfigs = function(){
+    var configs = {};
+    var configDir = 'aux_configs/';
+
+    var poolConfigFiles = [];
+
+
+    /* Get filenames of pool config json files that are enabled */
+    fs.readdirSync(configDir).forEach(function(file){
+        if (!fs.existsSync(configDir + file) || path.extname(configDir + file) !== '.json') return;
+        var poolOptions = JSON.parse(JSON.minify(fs.readFileSync(configDir + file, {encoding: 'utf8'})));
+        if (!poolOptions.enabled) return;
+        poolOptions.fileName = file;
+        poolConfigFiles.push(poolOptions);
+    });
+
+    poolConfigFiles.forEach(function(poolOptions){
+
+        poolOptions.coinFileName = poolOptions.coin;
+
+        var poolFilePath = 'coins/' + poolOptions.coinFileName;
+        if (!fs.existsSync(poolFilePath)){
+            logger.warn('Master', poolOptions.coinFileName, 'could not find file: ' + poolFilePath);
+            return;
+        }
+
+        var poolProfile = JSON.parse(JSON.minify(fs.readFileSync(poolFilePath, {encoding: 'utf8'})));
+        poolOptions.coin = poolProfile;
+        poolOptions.coin.name = poolOptions.coin.name.toLowerCase();
+        configs[poolOptions.coin.name] = poolOptions;
+
+        for (var option in portalConfig.defaultPoolConfigs){
+            if (!(option in poolOptions)){
+                var toCloneOption = portalConfig.defaultPoolConfigs[option];
+                var clonedOption = {};
+                if (toCloneOption.constructor === Object)
+                    extend(true, clonedOption, toCloneOption);
+                else
+                    clonedOption = toCloneOption;
+                poolOptions[option] = clonedOption;
+            }
+        }
+
+        if (!(poolProfile.algorithm in algos)){
+            logger.warn('Master', coinProfile.name, 'Cannot run a pool for unsupported algorithm "' + coinProfile.algorithm + '"');
+            delete configs[poolOptions.coin.name];
+        }
+
+    });
+    return configs;
+};
+
 
 var spawnPoolWorkers = function () {
 
@@ -364,14 +416,13 @@ var processCoinSwitchCommand = function (params, options, reply) {
 
 };
 
-
-var startPaymentProcessor = function () {
+var startPaymentProcessor = function(){
 
     var enabledForAny = false;
-    for (var pool in poolConfigs) {
+    for (var pool in poolConfigs){
         var p = poolConfigs[pool];
         var enabled = p.enabled && p.paymentProcessing && p.paymentProcessing.enabled;
-        if (enabled) {
+        if (enabled){
             enabledForAny = true;
             break;
         }
@@ -384,13 +435,41 @@ var startPaymentProcessor = function () {
         workerType: 'paymentProcessor',
         pools: JSON.stringify(poolConfigs)
     });
-    worker.on('exit', function (code, signal) {
+    worker.on('exit', function(code, signal){
         logger.error('Master', 'Payment Processor', 'Payment processor died, spawning replacement...');
-        setTimeout(function () {
+        setTimeout(function(){
             startPaymentProcessor(poolConfigs);
         }, 2000);
     });
 };
+
+var startAuxPaymentProcessor = function(){
+
+    var enabledForAny = false;
+    for (var aux in auxConfigs){
+        var p = auxConfigs[aux];
+        var enabled = p.enabled && p.paymentProcessing && p.paymentProcessing.enabled;
+        if (enabled){
+            enabledForAny = true;
+            break;
+        }
+    }
+
+    if (!enabledForAny)
+        return;
+
+    var worker = cluster.fork({
+        workerType: 'paymentProcessor',
+        pools: JSON.stringify(auxConfigs)
+    });
+    worker.on('exit', function(code, signal){
+        logger.error('Master', 'Auxilliary Payment Processor', 'Auxilliary Payment processor died, spawning replacement...');
+        setTimeout(function(){
+            startPaymentProcessor(auxConfigs);
+        }, 2000);
+    });
+};
+
 
 
 var startWebsite = function () {
@@ -436,14 +515,20 @@ var startProfitSwitch = function () {
 
     poolConfigs = buildPoolConfigs();
 
+    auxConfigs = buildAuxConfigs();
+
     spawnPoolWorkers();
 
-    startPaymentProcessor();
+    setTimeout(function(){
+      startPaymentProcessor();
 
-    startWebsite();
+      startAuxPaymentProcessor();
 
-    startProfitSwitch();
+      startWebsite();
 
-    startCliListener();
+      startProfitSwitch();
+
+      startCliListener();
+    }, 2000);
 
 })();

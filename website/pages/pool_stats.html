@@ -26,82 +26,69 @@
 
     }
 
+    @media (max-width: 768px) {
+      #poolHashChart {
+          width: 50%;
+      }
+    }
+}
+
 </style>
 
 <div class="container-fluid">
 	<div class="row">
-    	<div class="col-md-2">
-        <table class="table table-bordered">
-          <thead>
-            <tr>
-              <th colspan="2" scope="col" style="text-align: center;">Information</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Coin: </td>
-              <td><img src="/static/icons/{{=String(it.stats.coin)}}.png" height="24px" style="display: block; margin-left: auto; margin-right: auto;"/></td>
-            <tr>
-            <tr>
-              <td>Name: </td>
-              <td>{{=(String(it.stats.coin).charAt(0).toUpperCase() + String(it.stats.coin).slice(1))}}</td>
-            </tr>
-            <tr>
-              <td>Port:</td>
-              {{ for(var pool in it.poolsConfigs) { }}
-                {{ if(pool !== it.stats.coin) continue; }}
-                <td>{{=Object.keys(it.poolsConfigs[pool].ports)}}</td>
-                {{ break; }}
-              {{ } }}
-            </tr>
-
-              {{ for(var pool in it.stats.pools) { }}
-                {{ if(pool !== it.stats.coin) continue; }}
-                <tr>
-                  <td>Workers:</td>
-                  <td>{{=it.stats.pools[pool].workerCount}}</td>
-                </tr>
-                <tr>
-                  <td>HashRate:</td>
-                  <td>{{=it.stats.pools[pool].hashrateString}}</td>
-                </tr>
-                <tr>
-                  <td>Difficulty:</td>
-                    <td>{{=String(it.stats.pools[pool].poolStats.networkDiff).slice(0, 12)}}</td>
-                </tr>
-                <tr>
-                  <td>Luck*:</td>
-                  {{ var luckDays = it.stats.pools[pool].luckDays; }}
-                  {{ if(luckDays <= 0) { }}
-                    {{ var luckHours = it.stats.pools[pool].slice(0, 7); }}
-                    {{ if(luckHours.endsWith('.')) { }}
-                      {{ luckHours = luckHours.slice(0, 6); }}
-                    {{ } }}
-                    <td>{{=luckHours + ' Hours'}}</td>
-                  {{ } }}
-                  {{ if(luckDays > 0) { }}
-                    {{ luckDays = luckDays.slice(0, 8); }}
-                    {{ if(luckDays.endsWith('.')) { }}
-                      {{ luckDays = luckDays.slice(0, 7);}}
-                    {{ } }}
-                    <td>{{=luckDays + ' Days'}}</td>
-                  {{ } }}
-                </tr>
-                {{ break; }}
-              {{ } }}
-          </tbody>
-        </table>
-    	</div>
-
-    	<div class="col-md-10 chartWrapper">
-        	<div class="chartLabel">Recent Hashrate History</div>
-            <div class="chartHolder"><canvas id="poolHashChart" height="100px"></canvas></div>
-    	</div>
-    </div>
+  	<div class="col-md-12 pl-0 pr-0">
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th colspan="4" scope="col" style="text-align: center;">General Information</th>
+            <th colspan="2" scope="col" style="text-align: center;">Share Information</th>
+            <th colspan="2" scope="col" style="text-align: center;">Block Information</th>
+          </tr>
+        </thead>
+        <tbody>
+            {{ for(var pool in it.stats.pools) { }}
+              {{ if(pool !== it.stats.coin) continue; }}
+              <tr>
+                <td>Coin: </td>
+                <td><img src="/static/icons/{{=String(it.stats.coin)}}.png" height="24px"/></td>
+                <td>Port:</td>
+                {{ for(var pool in it.poolsConfigs) { }}
+                  {{ if(pool !== it.stats.coin) continue; }}
+                  <td>{{=Object.keys(it.poolsConfigs[pool].ports)}}</td>
+                  {{ break; }}
+                {{ } }}
+                <td>HashRate:</td>
+                <td>{{=it.stats.pools[pool].hashrateString}}</td>
+                <td>Pending Blocks:</td>
+                <td>{{=it.stats.pools[pool].blocks.pending}}</td>
+              <tr>
+              <tr>
+                <td>Name: </td>
+                <td>{{=(String(it.stats.coin).charAt(0).toUpperCase() + String(it.stats.coin).slice(1))}}</td>
+                <td>Workers:</td>
+                <td>{{=it.stats.pools[pool].workerCount}}</td>
+                <td>Valid Shares:</td>
+                <td>{{=it.stats.pools[pool].poolStats.validShares}}</td>
+                <td>Confirmed Blocks:</td>
+                <td>{{=it.stats.pools[pool].blocks.confirmed}}</td>
+              </tr>
+              {{ break; }}
+            {{ } }}
+        </tbody>
+      </table>
+  	</div>
+  </div>
+  <div class="row">
+  	<div class="col-md-12 chartWrapper">
+      	<div class="chartLabel">Recent Hashrate History</div>
+          <div class="chartHolder"><canvas id="poolHashChart" height="70px"></canvas></div>
+  	</div>
+  </div>
 	<div class="row">
     	<div class="col-md-12 chartWrapper">
-        	<div class="chartLabel">Top 5 Blocks Pending Per Pool</div>
-        	<div class="chartHolder"><canvas id="blockChart" height="200px"></canvas></div>
+        	<div class="chartLabel">Block History</div>
+        	<div class="chartHolder"><canvas id="blockChart" height="45px"></canvas></div>
     	</div>
 	</div>
 </div>

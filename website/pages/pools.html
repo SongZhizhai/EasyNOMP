@@ -13,8 +13,8 @@
 	  </thead>
 	  <tbody>
 			{{ for(var pool in it.stats.pools) { }}
-		   		<th scope="row">{{=Object.keys(it.poolsConfigs[pool].ports)}}</th>
-		      <th><a href="/stats/{{=it.stats.pools[pool].symbol}}">{{=it.stats.pools[pool].symbol}}</a></th>
+		   		<th scope="row">{{=Object.keys(it.poolsConfigs[pool].ports)[0]}}</th>
+		      <th><a href="/stats/{{=it.stats.pools[pool].name}}">{{=it.stats.pools[pool].symbol}}</a></th>
 		 			<td>{{=it.stats.pools[pool].name.charAt(0).toUpperCase() + it.stats.pools[pool].name.slice(1)}}</td>
 					<td>{{=it.stats.pools[pool].algorithm}}</td>
 					<td>{{=it.stats.pools[pool].workerCount}}</td>

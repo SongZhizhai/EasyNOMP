@@ -1,0 +1,84 @@
+var statData;
+var poolKeys;
+
+//this function is executed when the page's dom is loaded
+// assumes jQuery is loaded already
+$(function(){
+  var cachedWallets = Cookies.get('wallets');
+  if(cachedWallets && cachedWallets.length > 0){
+    cachedWallets = JSON.parse(cachedWallets);
+    for(w in cachedWallets) {
+      var wallet = cachedWallets[w].split(',');
+      var coin = wallet[0];
+      var address = wallet[1];
+      var item = "<tr>" +
+        "<td colspan=\"2\"><a href=\"/workers/" + address + "\"><img src=\"./static/icons/" + coin + ".png\" height=\"24px\"/> " + address + "</a></td>" +
+        "<td><button id=\"" + address + "\" type=\"button\" class=\"btn btn-danger\" style=\"padding-top: 0; height: 23px;\"><i class=\"fa fa-trash-o\"></i> Delete&nbsp;</button></td>" +
+        "</tr>";
+
+      $('#walletTableBody').append($(item));
+      $('#' + address).click(function(event) {
+        if(confirm("Are you should you want to delete address: " + address)){
+          cachedWallets.splice(w, 1);
+          Cookies.remove('wallets');
+          Cookies.set('wallets', cachedWallets, { expires: 30 });
+          location.reload();
+        }
+      });
+    }
+  }
+  //binds the myFormOnSubmit method below to run as part of your form's onsubmit method
+  $('#searchForm').submit(myFormOnSubmit);
+
+  //runs when the form is trying to submit
+  function myFormOnSubmit(event) {
+      var f = $(this);
+
+      // note, you have to match on attribute selectors
+      //  you may want to give each of these fields an id=".." attribute as well to select against #IdName
+      var search = $('#searchBar').val();
+      var isValid = false;
+
+      var coin = "";
+      var wallets = Cookies.get('wallets');
+      var stored = false;
+      if(wallets) {
+        wallets = JSON.parse(wallets);
+        for(w in wallets) {
+          if(wallets[w].split(',')[1] === search) {
+            stored = true;
+            break;
+          }
+        }
+      }
+      if(stored){
+        alert('Address Already Stored!');
+        event.preventDefault(); //stop submit
+        return;
+      }
+      if(!wallets){
+        wallets = [];
+      }
+      alert(statData.pool);
+      $.each(statData.pools, function(i, v) {
+          for(worker in v.workers){
+            alert
+            if(worker === search){
+              isValid = true;
+              wallets.push(String(i + ',' + worker));
+              return;
+            }
+          }
+      });
+      if (!isValid) {
+        event.preventDefault(); //stop submit
+      } else {
+        Cookies.remove('wallets');
+        Cookies.set('wallets', wallets, { expires: 30 });
+      }
+    }
+});
+
+$.getJSON('/api/stats', function(data) {
+  statData = data;
+});

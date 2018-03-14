@@ -34,7 +34,9 @@ function buildChartData() {
         validShares: [],
         invalidShares: [],
         workers: [],
-        blocks: []
+        confirmedBlocks: [],
+        pendingBlocks: [],
+        orphanedBlocks: []
       });
       var date = new Date(time).valueOf();
       if (pName in statData[i].pools) {
@@ -46,9 +48,17 @@ function buildChartData() {
           t: date,
           y: statData[i].pools[pName].workerCount
         });
-        a.blocks.push({
+        a.pendingBlocks.push({
           t: date,
           y: statData[i].pools[pName].blocks.pending
+        })
+        a.confirmedBlocks.push({
+          t: date,
+          y: statData[i].pools[pName].blocks.confirmed
+        })
+        a.orphanedBlocks.push({
+          t: date,
+          y: statData[i].pools[pName].blocks.orphaned
         })
       } else {
         a.workers.push({
@@ -59,7 +69,15 @@ function buildChartData() {
           t: date,
           y: 0
         });
-        a.blocks.push({
+        a.pendingBlocks.push({
+          t: date,
+          y: 0
+        }),
+        a.confirmedBlocks.push({
+          t: date,
+          y: 0
+        }),
+        a.orphanedBlocks.push({
           t: date,
           y: 0
         })
@@ -73,7 +91,12 @@ function buildChartData() {
     speed: "",
     data: []
   };
-  poolBlockData = [];
+  poolBlockData = {
+    label: "",
+    pending: [],
+    orphaned: [],
+    confirmed: []
+  };
   if (poolName in pools) {
     var pool = pools[poolName];
     poolShareData.push({
@@ -93,10 +116,12 @@ function buildChartData() {
       data: pool.hashrate,
       sma: getHashAverage(pool.hashrate, 4)
     };
-    poolBlockData.push({
+    poolBlockData = {
       label: poolName,
-      value: pool.blocks
-    });
+      pending: pool.pendingBlocks,
+      orphaned: pool.orphanedBlocks,
+      confirmed: pool.confirmedBlocks
+    }
   }
 }
 
@@ -104,7 +129,6 @@ var getHashAverage = function(hashrates, n){
   var moveMean = [];
   var timestamp = 0;
   var skip = 60 * 60 * 1000;
-  alert(hashrates[0].t)
   for (var i = 0; i < hashrates.length; i++) {
     if(timestamp === 0){
       timestamp = hashrates[i].t;
@@ -164,9 +188,11 @@ function displayCharts() {
     '#388E3C',
     '#FBC02D',
     '#512DA8',
-    '#C2185B'
+    '#C2185B',
+    '#4CAF50',
+    '#FFC107',
+    '#F44336'
   ];
-  var hashChartData = [];
   poolHashrateChart = new Chart($("#poolHashChart"), {
     type: 'line',
     data: {
@@ -215,6 +241,66 @@ function displayCharts() {
       }
     }
   });
+  poolBlockChart = new Chart($("#blockChart"), {
+    type: 'line',
+    data: {
+      datasets: [{
+        fill: false,
+        backgroundColor: chartColors[5],
+        borderColor: chartColors[5],
+        label: 'Confirmed',
+        data: poolHashrateData.confirmed
+      },
+      {
+        fill: false,
+        backgroundColor: chartColors[6],
+        borderColor: chartColors[6],
+        label: 'Pending',
+        data: poolBlockData.pending
+      },
+      {
+        fill: false,
+        backgroundColor: chartColors[7],
+        borderColor: chartColors[7],
+        label: 'Orphaned',
+        data: poolHashrateData.orphaned
+      }]
+    },
+    options: {
+      responsive: true,
+      elements: {
+        point: { radius: 0 }
+      },
+      scales: {
+        xAxes: [{
+          type: 'time',
+          display: true,
+          scaleLabel: {
+            display: true,
+            labelString: 'Time'
+          },
+          ticks: {
+            major: {
+              fontStyle: 'bold',
+              fontColor: chartColors[0]
+            }
+          }
+        }],
+        yAxes: [{
+          ticks: {
+            beginAtZero: true,
+            fixedStepSize: 1
+          },
+          display: true,
+          stacked: true,
+          scaleLabel: {
+            display: true,
+            labelString: 'Blocks'
+          }
+        }]
+      }
+    }
+  });
 }
 
 function pastelColors() {
@@ -225,7 +311,6 @@ function pastelColors() {
 }
 
 function TriggerChartUpdates() {
-  poolWorkerChart.update();
   poolHashrateChart.update();
   poolBlockChart.update();
 }
