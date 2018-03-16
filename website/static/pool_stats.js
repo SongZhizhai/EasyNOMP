@@ -9,6 +9,23 @@ var poolBlockChart;
 var statData;
 var poolKeys;
 
+var totalHash;
+var totalImmature;
+var totalBal;
+var totalPaid;
+var totalShares;
+
+var byteUnits = [' KH/s', ' MH/s', ' GH/s', ' TH/s', ' PH/s'];
+
+this.getReadableHashRateString = function(hashrate) {
+  var i = -1;
+  do {
+    hashrate = hashrate / 1000;
+    i++;
+  } while (hashrate > 1000);
+  return hashrate.toFixed(2) + byteUnits[i];
+};
+
 function buildChartData() {
 
   var pools = {};
@@ -51,15 +68,15 @@ function buildChartData() {
         a.pendingBlocks.push({
           t: date,
           y: statData[i].pools[pName].blocks.pending
-        })
+        });
         a.confirmedBlocks.push({
           t: date,
           y: statData[i].pools[pName].blocks.confirmed
-        })
+        });
         a.orphanedBlocks.push({
           t: date,
           y: statData[i].pools[pName].blocks.orphaned
-        })
+        });
       } else {
         a.workers.push({
           t: date,
@@ -72,15 +89,15 @@ function buildChartData() {
         a.pendingBlocks.push({
           t: date,
           y: 0
-        }),
+        });
         a.confirmedBlocks.push({
           t: date,
           y: 0
-        }),
+        });
         a.orphanedBlocks.push({
           t: date,
           y: 0
-        })
+        });
       }
     }
   }
@@ -114,7 +131,7 @@ function buildChartData() {
       label: poolName,
       speed: byteUnits[hashFactor - 1],
       data: pool.hashrate,
-      sma: getHashAverage(pool.hashrate, 4)
+      sma: calculateEMA(pool.hashrate, 30)
     };
     poolBlockData = {
       label: poolName,
@@ -140,16 +157,6 @@ var getHashAverage = function(hashrates, n){
   return moveMean;
 }
 
-function calculateMovingHashAverage(hashrate, nPoints) {
-  var N = hashrate.length;
-  var moveMean = [];
-  for (var i = 1; i < N-1; i++) {
-      var mean = (hashrate[i].y + hashrate[i-1].y + hashrate[i+1].y) / nPoints;
-      moveMean.push({t: new Data, y: mean});
-  }
-  return moveMean;
-}
-
 function hashrateScaleFactor(hashrate) {
   var i = 0;
   do {
@@ -164,16 +171,6 @@ function simplifyHashrate(hashrate, factor) {
     return simplifyHashrate(hashrate / 1024, factor--);
   }
   return Math.round(hashrate);
-}
-
-function getReadableHashRateString(hashrate) {
-  var i = -1;
-  var byteUnits = [' KH', ' MH', ' GH', ' TH', ' PH'];
-  do {
-    hashrate = hashrate / 1024;
-    i++;
-  } while (hashrate > 1024);
-  return Math.round(hashrate) + byteUnits[i];
 }
 
 function timeOfDayFormat(timestamp) {
@@ -200,14 +197,15 @@ function displayCharts() {
         fill: false,
         backgroundColor: chartColors[0],
         borderColor: chartColors[0],
-        label: 'Minute',
+        label: 'Real',
         data: poolHashrateData.data
       },
       {
+        lineTension: 0.0,
         fill: false,
         backgroundColor: chartColors[4],
         borderColor: chartColors[4],
-        label: 'Hour',
+        label: 'EMA(30)',
         data: poolHashrateData.sma
       }]
     },
@@ -303,6 +301,13 @@ function displayCharts() {
   });
 }
 
+function updateStats() {
+
+
+  $("#validShares").text(luckDays);
+  $("#confirmedBlocks").text(totalImmature);
+}
+
 function pastelColors() {
   var r = (Math.round(Math.random() * 127) + 127).toString(16);
   var g = (Math.round(Math.random() * 127) + 127).toString(16);
@@ -337,33 +342,10 @@ statsSource.addEventListener('message', function(e) {
     buildChartData();
     displayCharts();
   } else {
-    var time = stats.time * 1000;
-    for (var f = 0; f < poolKeys.length; f++) {
-      var pool = poolKeys[f];
-      for (var i = 0; i < poolShareData.length; i++) {
-        if (poolShareData[i].key === pool) {
-          poolShareData[i].values.shift();
-          poolShareData[i].values.push([time, pool in stats.pools ? stats.pools[pool].workerCount : 0]);
-          break;
-        }
-      }
-      for (var i = 0; i < poolHashrateData.length; i++) {
-        if (poolHashrateData[i].key === pool) {
-          poolHashrateData[i].values.shift();
-          poolHashrateData[i].values.push([time, pool in stats.pools ? stats.pools[pool].hashrate : 0]);
-          break;
-        }
-      }
-      for (var i = 0; i < poolBlockData.length; i++) {
-        if (poolBlockData[i].key === pool) {
-          poolBlockData[i].values.shift();
-          poolBlockData[i].values.push([time, pool in stats.pools ? stats.pools[pool].blocks.pending : 0]);
-          break;
-        }
-      }
-    }
-    TriggerChartUpdates();
+    $("#validShares").text(poolName in stats.pools ? stats.pools[poolName].poolStats.validShares : 0);
+    $("#poolHashRate").text(poolName in stats.pools ? stats.pools[poolName].hashrateString : '0.00H/s');
+    $("#poolWorkers").text(poolName in stats.pools ? stats.pools[poolName].workerCount : 0);
+    $("#pendingBlocks").text(poolName in stats.pools ? stats.pools[poolName].blocks.pending : 0);
+    $("#confirmedBlocks").text(poolName in stats.pools ? stats.pools[poolName].blocks.confirmed : 0);
   }
-
-
 });

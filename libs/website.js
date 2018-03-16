@@ -32,7 +32,6 @@ module.exports = function () {
 
     var logSystem = 'Website';
 
-
     var pageFiles = {
         'index.html': 'index',
         'home.html': '',

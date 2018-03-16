@@ -1,4 +1,4 @@
-<style>
+<style
 
     #topCharts{
         padding: 18px;
@@ -35,15 +35,15 @@
 
 </style>
 
-<div class="container-fluid">
+<div class="container-fluid p-4">
 	<div class="row">
   	<div class="col-md-12 pl-0 pr-0">
       <table class="table table-bordered">
         <thead>
           <tr>
             <th colspan="4" scope="col" style="text-align: center;">General Information</th>
-            <th colspan="2" scope="col" style="text-align: center;">Share Information</th>
-            <th colspan="2" scope="col" style="text-align: center;">Block Information</th>
+            <th colspan="4" scope="col" style="text-align: center;">Pool Information</th>
+            <th colspan="4" scope="col" style="text-align: center;">Network Information</th>
           </tr>
         </thead>
         <tbody>
@@ -58,20 +58,28 @@
                   <td>{{=Object.keys(it.poolsConfigs[pool].ports)}}</td>
                   {{ break; }}
                 {{ } }}
-                <td>HashRate:</td>
-                <td>{{=it.stats.pools[pool].hashrateString}}</td>
-                <td>Pending Blocks:</td>
-                <td>{{=it.stats.pools[pool].blocks.pending}}</td>
+                <td>Hashrate:</td>
+                <td id="poolHashRate">{{=it.stats.pools[pool].hashrateString}}</td>
+                <td>Pending:</td>
+                <td id="pendingBlocks">{{=it.stats.pools[pool].blocks.pending}}</td>
+                <td>Connections:</td>
+                <td>{{=it.stats.pools[pool].poolStats.networkConnections}}</td>
+                <td>Difficulty:</td>
+                <td>{{=Number(Math.round(it.stats.pools[pool].poolStats.networkDiff + 'e' + 4) + 'e-' + 4)}}</td>
               <tr>
               <tr>
                 <td>Name: </td>
                 <td>{{=(String(it.stats.coin).charAt(0).toUpperCase() + String(it.stats.coin).slice(1))}}</td>
                 <td>Workers:</td>
-                <td>{{=it.stats.pools[pool].workerCount}}</td>
+                <td id="poolWorkers">{{=it.stats.pools[pool].workerCount}}</td>
                 <td>Valid Shares:</td>
-                <td>{{=it.stats.pools[pool].poolStats.validShares}}</td>
-                <td>Confirmed Blocks:</td>
-                <td>{{=it.stats.pools[pool].blocks.confirmed}}</td>
+                <td id="validShares">{{=it.stats.pools[pool].poolStats.validShares}}</td>
+                <td>Confirmed:</td>
+                <td id="confirmedBlocks">{{=it.stats.pools[pool].blocks.confirmed}}</td>
+                <td>Hashrate:</td>
+                <td>{{=it.stats.pools[pool].poolStats.networkSolsString}}</td>
+                <td>Height:</td>
+                <td>{{=it.stats.pools[pool].poolStats.networkBlocks}}</td>
               </tr>
               {{ break; }}
             {{ } }}
@@ -82,13 +90,13 @@
   <div class="row">
   	<div class="col-md-12 chartWrapper">
       	<div class="chartLabel">Recent Hashrate History</div>
-          <div class="chartHolder"><canvas id="poolHashChart" height="70px"></canvas></div>
+          <div class="chartHolder"><canvas id="poolHashChart" height="70%"></canvas></div>
   	</div>
   </div>
 	<div class="row">
     	<div class="col-md-12 chartWrapper">
         	<div class="chartLabel">Block History</div>
-        	<div class="chartHolder"><canvas id="blockChart" height="45px"></canvas></div>
+        	<div class="chartHolder"><canvas id="blockChart" height="50%"></canvas></div>
     	</div>
 	</div>
 </div>
@@ -97,5 +105,6 @@
 
 <script>
   var poolName = "{{=it.stats.coin}}";
+  document.querySelector('main').appendChild(document.createElement('script')).src = '/static/methods.js';
   document.querySelector('main').appendChild(document.createElement('script')).src = '/static/pool_stats.js';
 </script>

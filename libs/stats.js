@@ -12,7 +12,7 @@ const logger = require('./logger.js').getLogger('Stats', 'system');
 
 
 module.exports = function(portalConfig, poolConfigs) {
-  logger.info("Starting stats module");
+  logger.info("Starting Stats Module...");
 
   var _this = this;
 
@@ -35,7 +35,6 @@ module.exports = function(portalConfig, poolConfigs) {
   Object.keys(poolConfigs).forEach(function(coin) {
 
     var poolConfig = poolConfigs[coin];
-    console.log(poolConfig.rewardRecipient);
     var redisConfig = poolConfig.redis;
 
     for (var i = 0; i < redisClients.length; i++) {
@@ -111,12 +110,54 @@ module.exports = function(portalConfig, poolConfigs) {
     return +(test.toFixed(digits));
   }
 
-  var satoshisToCoins = function(satoshis){
-        return roundTo((satoshis / magnitude), coinPrecision);
+  var satoshisToCoins = function(satoshis) {
+    return roundTo((satoshis / magnitude), coinPrecision);
   };
 
-  var coinsToSatoshies = function(coins){
-       return Math.round(coins * magnitude);
+  var coinsToSatoshies = function(coins) {
+    return Math.round(coins * magnitude);
+  };
+
+  this.getTotalSharesByAddress = function(address, cback) {
+    var a = address.split(".")[0];
+    var client = redisClients[0].client,
+      coins = redisClients[0].coins,
+      shares = [];
+
+    var pindex = parseInt(0);
+    var totalShares = parseFloat(0);
+    async.each(_this.stats.pools, function(pool, pcb) {
+      pindex++;
+      var coin = String(_this.stats.pools[pool.name].name);
+      client.hscan(coin + ':shares:roundCurrent', 0, "match", a + "*", "count", 1000, function(error, result) {
+        if (error) {
+          pcb(error);
+          return;
+        }
+        var workerName = "";
+        var shares = 0;
+        for (var i in result[1]) {
+          if (Math.abs(i % 2) != 1) {
+            workerName = String(result[1][i]);
+          } else {
+            shares += parseFloat(result[1][i]);
+          }
+        }
+        if (shares > 0) {
+          totalShares = shares;
+        }
+        pcb();
+      });
+    }, function(err) {
+      if (err) {
+        cback(0);
+        return;
+      }
+      if (totalShares > 0 || (pindex >= Object.keys(_this.stats.pools).length)) {
+        cback(totalShares);
+        return;
+      }
+    });
   };
 
   this.getBalanceByAddress = function(address, cback) {
