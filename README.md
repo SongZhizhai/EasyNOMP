@@ -6,6 +6,11 @@ BootNOMP is all the things great about NOMP, now with modern style and design of
 -------
 ## Updates (Road to v2.0.0)
 _Updates marked with `*` are considered stable releases._
+* v1.1.0
+    * Added new homepage design.
+    * Added dashboard functionality.
+    * Added EMA to graphing.
+    * Confirmed C11 functionality with Dixicoin.
 * v1.0.9
     * Added pool statistic pages.
     * Expanded API.
@@ -26,7 +31,7 @@ _Updates marked with `*` are considered stable releases._
 _Stratum Pool can be replaced with [node-merged-pool](https://github.com/UNOMP/node-merged-pool)._<br>
 _Add new algorithms using [Node Multihashing](https://github.com/1301313Y/node-multi-hashing)._
 
-Current version: v1.0.9
+Current version: v1.1.0
 
 -------
 ### Install
@@ -63,8 +68,10 @@ You can see the logs of the server with ```docker logs -f nomp```, or jump into 
 | ✓ | __Scrypt__ | tested with AntiLiteCoin, 1CREDIT, ArgusCoin, WAYAWOLFCOIN and many others |
 | ✓ | __SHA256__ | tested with VCOIN, don't use with BTC, no Segwit tested |
 | ✓ | __X11__ | tested with BrainCoin, CannabisCoin, AdzCoin and many others |
-| ✓ | __C11__ | tested only shares with Dixicoin |
+| ✓ | __C11__ | tested shares and payments with Dixicoin |
 | ✓ | __X16r__ | tested with RavenCoin |
+| ✓ | __Qubit__ | Shares works, and blocks should now too. |
+| ✓ | __NeoScrypt__ | working now thanks to @foxer666 pushing update to parent repo |
 
 #### Need tests
 |   | Algorithm | Comment|
@@ -78,7 +85,6 @@ You can see the logs of the server with ```docker logs -f nomp```, or jump into 
 | ? | __Fresh__ | need tests |
 | ? | __Fugue__ | need tests |
 | ? | __GroestlMyriad__ | need tests |
-| ? | __Qubit__ | Shares works, blocks finding, but error 'We thought a block was found but it was rejected by the daemon'. No blocks presented in pools web interface |
 | ? | __Quark__ | need tests |
 | ? | __Hefty1__ | need tests |
 | ? | __Keccak__ | need tests |
@@ -87,7 +93,6 @@ You can see the logs of the server with ```docker logs -f nomp```, or jump into 
 | ? | __lyra2re2__ | need tests |
 | ? | __lyra2rev2__ | need tests |
 | ? | __lyra2z330__ | need tests |
-| ? | __NeoScrypt__ | working on it |
 | ? | __NIST5__ | need tests |
 | ? | __S3__ | need tests |
 | ? | __Scrypt-N__ | need tests |
