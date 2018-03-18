@@ -4,8 +4,14 @@
 BootNOMP is all the things great about NOMP, now with modern style and design of BootStrap 4! Having disliked the previous UI, due to cramping, little to no info displayed while what is displayed is not very helpful to users. I decided to fork a already great project, and add some stylistic touches it severely needs. I would of considered requesting pulls to the main branch, though with such heavy changes to the project, I decided a hard fork would be well suited. But if you would like to contribute, please consider looking at the [original project](https://github.com/foxer666/node-open-mining-portal) first, as these guys are the ones who helped get this NOMP rebirthing process started.
 
 -------
-## Updates (Road to v2.0.0)
+## Updates
 _Updates marked with `*` are considered stable releases._
+* v1.1.1
+   * Added payment info to redis.
+   * Finished initial version of payment history page.
+   * Finished initial version of block history page.
+   * Finished new homepage.
+   * Almost ready for stable release!
 * v1.1.0
     * Added new homepage design.
     * Added dashboard functionality.
@@ -31,7 +37,7 @@ _Updates marked with `*` are considered stable releases._
 _Stratum Pool can be replaced with [node-merged-pool](https://github.com/UNOMP/node-merged-pool)._<br>
 _Add new algorithms using [Node Multihashing](https://github.com/1301313Y/node-multi-hashing)._
 
-Current version: v1.1.0
+Current version: v1.1.1
 
 -------
 ### Install
