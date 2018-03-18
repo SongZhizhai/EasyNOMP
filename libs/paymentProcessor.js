@@ -205,7 +205,7 @@ function SetupForPool(poolOptions, setupFinished) {
                     logger.debug("Prepared info basic info about payments");
                     logger.silly("workers = %s", JSON.stringify(workers));
                     logger.silly("rounds = %s", JSON.stringify(rounds));
-                    logger.debug("Workers count: %s Rounds: %", Object.keys(workers).length, rounds.length);
+                    logger.debug("Workers count: %s Rounds: %s", Object.keys(workers).length, rounds.length);
                     callback(null, workers, rounds);
                 });
             },
@@ -431,6 +431,8 @@ function SetupForPool(poolOptions, setupFinished) {
                                     let worker = workers[workerAddress] = (workers[workerAddress] || {});
                                     logger.silly("worker = %s", JSON.stringify(worker));
                                     worker.reward = (worker.reward || new BigNumber(0)).plus(workerRewardTotal);
+                                    worker.roundShares = workerSharesForRound[workerAddress] || new BigNumber(0);
+                                    worker.totalShares = (worker.totalShares || new BigNumber(0)).plus(worker.roundShares);
                                     logger.silly('worker.reward = %s', worker.reward.toString(10));
                                 });
 
@@ -456,11 +458,16 @@ function SetupForPool(poolOptions, setupFinished) {
                     logger.silly('withholdPercent = %s', withholdPercent.toString(10));
                     var addressAmounts = {};
                     var totalSent = new BigNumber(0);
+                    var totalShares = new BigNumber(0);
+                    var shareAmounts = {};
+                    var balanceAmounts = {};
                     logger.silly('totalSent = %s', totalSent);
                     for (var w in workers) {
                         logger.silly('w = %s', w);
                         var worker = workers[w];
                         logger.silly('worker = %s', JSON.stringify(worker));
+                        totalShares = totalShares.plus(worker.totalShares || new BigNumber(0));
+                        logger.silly('worker.totalShares = %s', worker.totalShares.toString(10));
                         worker.balance = worker.balance || new BigNumber(0);
                         logger.silly('worker.balance = %s', worker.balance.toString(10));
                         worker.reward = worker.reward || new BigNumber(0);
@@ -484,12 +491,28 @@ function SetupForPool(poolOptions, setupFinished) {
                             logger.silly('worker.balanceChange = %s', worker.balanceChange.toString(10));
                             worker.sent = new BigNumber(0);
                             logger.silly('worker.sent = %s', worker.sent.toString(10));
+                            // track balance changes
+                            if (worker.balanceChange > 0) {
+                               if (balanceAmounts[address] != null && balanceAmounts[address].isGreaterThan(0)) {
+                                   balanceAmounts[address] = balanceAmounts[address].plus(worker.balanceChange);
+                               } else {
+                                   balanceAmounts[address] = worker.balanceChange;
+                               }
+                           }
+                        }
+                        // track share work
+                        if (worker.totalShares && worker.totalShares.isGreaterThan(0)) {
+                            if (shareAmounts[address] && shareAmounts[address].isGreaterThan(0)) {
+                                shareAmounts[address] = shareAmounts[address].plus(worker.totalShares);
+                            } else {
+                                shareAmounts[address] = worker.totalShares;
+                            }
                         }
                     }
 
                     if (Object.keys(addressAmounts).length === 0) {
                         logger.info('No workers was chosen for paying out');
-                        callback(null, workers, rounds);
+                        callback(null, workers, rounds, []);
                         return;
                     }
 
@@ -512,6 +535,14 @@ function SetupForPool(poolOptions, setupFinished) {
                             callback(true);
                         }
                         else {
+                            // make sure sendmany gives us back a txid
+                            var txid = null;
+                            if (result.response) {
+                                txid = result.response;
+                            }
+                            if(!txid || txid == null){
+                              logger.warn('We didn\'t get a txid from \'sendmany\'... This could be a problem! Tried parsing: %s', JSON.stringify(result));
+                            }
                             logger.debug('Sent out a total of ' + (totalSent)
                                 + ' to ' + Object.keys(addressAmounts).length + ' workers');
                             if (withholdPercent.isGreaterThan(new BigNumber(0))) {
@@ -519,14 +550,30 @@ function SetupForPool(poolOptions, setupFinished) {
                                     + '% of reward from miners to cover transaction fees. '
                                     + 'Fund pool wallet with coins to prevent this from happening');
                             }
-                            callback(null, workers, rounds);
+                            // save payments data to redis
+                            var paymentBlocks = rounds.filter(r => r.category == 'generate').map(r => parseInt(r.height));
+                            var paymentsUpdate = [];
+                            var paymentsData = {
+                               time: Date.now(),
+                               txid: txid,
+                               shares: totalShares,
+                               paid: totalSent,
+                               miners: Object.keys(addressAmounts).length,
+                               blocks: paymentBlocks,
+                               amounts: addressAmounts,
+                               balances: balanceAmounts,
+                               work: shareAmounts
+                            };
+                            logger.debug("[TESTING PAYMENT]" + JSON.stringify(paymentsData));
+                            paymentsUpdate.push(['zadd', poolOptions.coin.name + ':payments', Date.now(), JSON.stringify(paymentsData)]);
+                            callback(null, workers, rounds, paymentsUpdate);
                         }
                     }, true, true);
                 };
                 trySend(new BigNumber(0));
 
             },
-            function (workers, rounds, callback) {
+            function (workers, rounds, paymentsUpdate, callback) {
 
                 var totalPaid = new BigNumber(0);
 
@@ -611,6 +658,12 @@ function SetupForPool(poolOptions, setupFinished) {
                     logger.silly("roundsToDelete goes in redis");
                     logger.silly("roundsToDelete = %s", roundsToDelete);
                     finalRedisCommands.push(['del'].concat(roundsToDelete));
+                }
+
+                if (paymentsUpdate.length > 0) {
+                  logger.silly("paymentsUpdate goes in redis");
+                  logger.silly("paymentsUpdate = %s", roundsToDelete);
+                  finalRedisCommands = finalRedisCommands.concat(paymentsUpdate);
                 }
 
                 if (!totalPaid.eq(new BigNumber(0))) {

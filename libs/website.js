@@ -41,6 +41,7 @@ module.exports = function () {
         'tbs.html': 'tbs',
         'dashboard.html': 'dashboard',
         'api.html': 'api',
+        'history.html': 'history',
         'admin.html': 'admin',
         'miner_stats.html': 'miner_stats',
         'pool_stats.html': 'pool_stats',

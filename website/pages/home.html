@@ -85,9 +85,8 @@
     }
 
     .header-blue {
-      background: linear-gradient(135deg, #0288D1, #00BCD4);
+      background: linear-gradient(135deg, #43d091, #00BCD4);
       background-color: #184e8e;
-
     }
 
     .header-blue .action-button, .header-blue .action-button:not(.disabled):active {
@@ -150,7 +149,9 @@
 
     .features-boxed .item .icon {
       font-size: 60px;
-      color: #0288D1;
+      background: -webkit-linear-gradient(#43d091, #00BCD4);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
       margin-top: 20px;
       margin-bottom: 35px;
     }
@@ -167,6 +168,12 @@
         padding-top: 40px;
         padding-bottom: 70px;
         line-height: 1.2;
+      }
+    }
+
+    @media(max-width:992px) {
+      .header-blue {
+        padding-top: 40px;
       }
     }
 

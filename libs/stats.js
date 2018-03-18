@@ -268,7 +268,9 @@ module.exports = function(portalConfig, poolConfigs) {
         ['hgetall', ':stats'],
         ['scard', ':blocksPending'],
         ['scard', ':blocksConfirmed'],
-        ['scard', ':blocksOrphaned']
+        ['scard', ':blocksOrphaned'],
+        ['smembers', ':blocksConfirmed'],
+        ['zrange', ':payments', -100, -1]
       ];
 
       var commandsPerCoin = redisCommandTemplates.length;
@@ -281,17 +283,18 @@ module.exports = function(portalConfig, poolConfigs) {
         });
       });
 
-
       client.client.multi(redisCommands).exec(function(err, replies) {
         if (err) {
           logger.error('Error with getting global stats, err = %s', JSON.stringify(err));
           callback(err);
         } else {
-
           for (var i = 0; i < replies.length; i += commandsPerCoin) {
             var coinName = client.coins[i / commandsPerCoin | 0];
             var coinStats = {
               name: coinName,
+              explorerGetBlock: poolConfigs[coinName].coin.explorerGetBlock,
+              explorerGetBlockJSON: poolConfigs[coinName].coin.explorerGetBlockJSON,
+              explorerGetTX: poolConfigs[coinName].coin.explorerGetTX,
               symbol: poolConfigs[coinName].coin.symbol.toUpperCase(),
               algorithm: poolConfigs[coinName].coin.algorithm,
               hashrates: replies[i + 1],
@@ -312,9 +315,22 @@ module.exports = function(portalConfig, poolConfigs) {
               blocks: {
                 pending: replies[i + 3],
                 confirmed: replies[i + 4],
+                confirmedData: replies[i + 6] && replies[i + 6].length > 0 ? replies[i + 6].sort(function(a, b){ return parseInt(b.split(':')[2] - a.split(':')[2])}) : replies[i + 6],
                 orphaned: replies[i + 5]
-              }
+              },
+              payments: []
             };
+            for(var j = replies[i + 7].length; j > 0; j--){
+                 var jsonObj;
+                 try {
+                     jsonObj = JSON.parse(replies[i + 7][j-1]);
+                 } catch(e) {
+                     jsonObj = null;
+                 }
+                 if (jsonObj !== null) {
+                     coinStats.payments.push(jsonObj);
+                 }
+             }
             allCoinStats[coinStats.name] = (coinStats);
           }
           callback();
