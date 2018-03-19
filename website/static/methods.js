@@ -1,11 +1,11 @@
-function calculateEMA(mArray, mRange) {
+function calculateExpMovingAvg(mArray, mRange) {
   var k = 2/ (mRange + 1);
   // first item is just the same as the first item in the input
-  emaArray = [{t: mArray[0].t, y: mArray[0].y}];
+  emaArray = [[mArray[0][0], mArray[0][1]]];
   // for the rest of the items, they are computed with the previous one
   for (var i = 1; i < mArray.length; i++) {
-    var height = mArray[i].y * k + emaArray[i - 1].y * (1 - k);
-    emaArray.push({ t: mArray[i].t, y: height });
+    var height = mArray[i][1] * k + emaArray[i - 1][1] * (1 - k);
+    emaArray.push([mArray[i][0], height]);
   }
   return emaArray;
 }

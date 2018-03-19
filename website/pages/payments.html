@@ -74,7 +74,7 @@
   <fieldset>
   <form action="" class="form-group" method="post">
   <div class="col-md-12 table-responsive">
-    <table id="blockTable" class="table table-bordered" cellspacing="0">
+    <table id="blockTable" class="table table-bordered table-hover" cellspacing="0">
       <thead>
         <tr>
           <th>Height</th>
@@ -118,8 +118,6 @@
         "{{ var pool = sortedPools[i]; }}";
         if("{{=pool}}" === value){
           if(updateText){
-            $('#tdHistoryPending').text("{{=it.stats.pools[pool].blocks.pending}}");
-            $('#tdHistoryConfirmed').text("{{=it.stats.pools[pool].blocks.confirmed}}");
             $('#tdHistoryPaid').text("{{=it.stats.pools[pool].poolStats.totalPaid}} {{=it.stats.pools[pool].symbol}}");
           }
           if(dataTable.row) {
@@ -131,7 +129,7 @@
 
           $.getJSON(url.replace('{0}', '{{=payment.txid}}'), function(data) {
             dataTable.row.add([
-              "{{=payment.blocks.reduce(function(a, b){ return a > b; })}}",
+              "{{=Math.max.apply(null, payment.blocks)}}",
               parseInt("{{=payment.shares}}"),
               "{{=payment.miners}}",
               "{{=payment.paid}}",

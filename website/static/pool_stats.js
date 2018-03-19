@@ -15,6 +15,9 @@ var totalBal;
 var totalPaid;
 var totalShares;
 
+var highest = 0;
+var scale = 0;
+
 var byteUnits = [' KH/s', ' MH/s', ' GH/s', ' TH/s', ' PH/s'];
 
 this.getReadableHashRateString = function(hashrate) {
@@ -23,154 +26,73 @@ this.getReadableHashRateString = function(hashrate) {
     hashrate = hashrate / 1000;
     i++;
   } while (hashrate > 1000);
-  return hashrate.toFixed(2) + byteUnits[i];
+  return Math.floor(hashrate.toFixed(2)) + byteUnits[i];
 };
 
-function buildChartData() {
-
-  var pools = {};
-
-  poolKeys = [];
-  for (var i = 0; i < statData.length; i++) {
-    for (var pool in statData[i].pools) {
-      if (poolKeys.indexOf(pool) === -1)
-        poolKeys.push(pool);
-    }
+this.getReadableHashRate = function(hashrate) {
+  var needsRescale = false;
+  if(highest < hashrate){
+    highest = hashrate;
+    needsRescale = true;
   }
-
-
-  for (var i = 0; i < statData.length; i++) {
-    var time = statData[i].time * 1000;
-    for (var f = 0; f < poolKeys.length; f++) {
-      var pName = poolKeys[f];
-      if (pName !== poolName) {
-        continue;
-      }
-      var a = pools[pName] = (pools[pName] || {
-        hashrate: [],
-        validShares: [],
-        invalidShares: [],
-        workers: [],
-        confirmedBlocks: [],
-        pendingBlocks: [],
-        orphanedBlocks: []
-      });
-      var date = new Date(time).valueOf();
-      if (pName in statData[i].pools) {
-        a.hashrate.push({
-          t: date,
-          y: statData[i].pools[pName].hashrate
-        });
-        a.workers.push({
-          t: date,
-          y: statData[i].pools[pName].workerCount
-        });
-        a.pendingBlocks.push({
-          t: date,
-          y: statData[i].pools[pName].blocks.pending
-        });
-        a.confirmedBlocks.push({
-          t: date,
-          y: statData[i].pools[pName].blocks.confirmed
-        });
-        a.orphanedBlocks.push({
-          t: date,
-          y: statData[i].pools[pName].blocks.orphaned
-        });
-      } else {
-        a.workers.push({
-          t: date,
-          y: 0
-        });
-        a.hashrate.push({
-          t: date,
-          y: 0
-        });
-        a.pendingBlocks.push({
-          t: date,
-          y: 0
-        });
-        a.confirmedBlocks.push({
-          t: date,
-          y: 0
-        });
-        a.orphanedBlocks.push({
-          t: date,
-          y: 0
-        });
-      }
-    }
-  }
-
-  poolShareData = [];
-  poolHashrateData = {
-    label: "",
-    speed: "",
-    data: []
-  };
-  poolBlockData = {
-    label: "",
-    pending: [],
-    orphaned: [],
-    confirmed: []
-  };
-  if (poolName in pools) {
-    var pool = pools[poolName];
-    poolShareData.push({
-      label: "Test",
-      value: [0, 1]
-    });
-    var byteUnits = [' KH/s', ' MH/s', ' GH/s', ' TH/s', ' PH/s'];
-    var mappedHashrate = pool.hashrate.map(x => x.y);
-    var maxHash = Math.max.apply(null, mappedHashrate);
-    var hashFactor = hashrateScaleFactor(maxHash);
-    for (var i in pool.hashrate) {
-      pool.hashrate[i].y /= Math.pow(1024, hashFactor);
-    }
-    poolHashrateData = {
-      label: poolName,
-      speed: byteUnits[hashFactor - 1],
-      data: pool.hashrate,
-      sma: calculateEMA(pool.hashrate, 30)
-    };
-    poolBlockData = {
-      label: poolName,
-      pending: pool.pendingBlocks,
-      orphaned: pool.orphanedBlocks,
-      confirmed: pool.confirmedBlocks
-    }
-  }
-}
-
-var getHashAverage = function(hashrates, n){
-  var moveMean = [];
-  var timestamp = 0;
-  var skip = 60 * 60 * 1000;
-  for (var i = 0; i < hashrates.length; i++) {
-    if(timestamp === 0){
-      timestamp = hashrates[i].t;
-    } else if(timestamp + skip < hashrates[i].t || i == hashrates.length - 1){
-      timestamp = hashrates[i].t;
-      moveMean.push(hashrates[i]);
-    }
-  }
-  return moveMean;
-}
-
-function hashrateScaleFactor(hashrate) {
-  var i = 0;
+  var i = -1;
   do {
-    hashrate = hashrate / 1024;
+    hashrate = hashrate / 1000;
     i++;
-  } while (hashrate > 1024);
-  return i;
-}
-
-function simplifyHashrate(hashrate, factor) {
-  if(hashrate > 1024 && factor > 0){
-    return simplifyHashrate(hashrate / 1024, factor--);
+  } while (hashrate > 1000);
+  if(needsRescale) {
+    scale = i;
   }
-  return Math.round(hashrate);
+  return Math.floor(hashrate.toFixed(2));
+};
+
+this.getReadableHashRateString = function(hashrate) {
+  var i = -1;
+  do {
+    hashrate = hashrate / 1000;
+    i++;
+  } while (hashrate > 1000);
+  return Math.floor(hashrate.toFixed(2)) + byteUnits[i];
+};
+
+function buildChartData(){
+
+    var pool = {
+        hashrate: [],
+        workers: [],
+        blocks: []
+    };
+
+    for (var i = 0; i < statData.length; i++){
+        var time = statData[i].time * 1000;
+        if (poolName in statData[i].pools){
+            pool.hashrate.push([time, getReadableHashRate(statData[i].pools[poolName].hashrate)]);
+            pool.workers.push([time, statData[i].pools[poolName].workerCount]);
+            pool.blocks.push([time, statData[i].pools[poolName].blocks.pending])
+        } else{
+            pool.hashrate.push([time, 0]);
+            pool.workers.push([time, 0]);
+            pool.blocks.push([time, 0])
+        }
+    }
+
+    poolWorkerData = [];
+    poolHashrateData = [{
+        key: 'Real',
+        values: pool.hashrate
+    },
+    {
+        key: 'Moving Average',
+        values: calculateExpMovingAvg(pool.hashrate, 30)
+    }];
+    poolBlockData = [{
+        key: poolName,
+        values: pool.blocks
+    }];
+    poolWorkerData.push({
+        key: poolName,
+        values: pool.workers
+    });
 }
 
 function timeOfDayFormat(timestamp) {
@@ -179,131 +101,85 @@ function timeOfDayFormat(timestamp) {
   return dStr;
 }
 
-function displayCharts() {
-  var chartColors = [
-    '#1976D2',
-    '#388E3C',
-    '#FBC02D',
-    '#512DA8',
-    '#C2185B',
-    '#4CAF50',
-    '#FFC107',
-    '#F44336'
-  ];
-  poolHashrateChart = new Chart($("#poolHashChart"), {
-    type: 'line',
-    data: {
-      datasets: [{
-        fill: false,
-        backgroundColor: chartColors[0],
-        borderColor: chartColors[0],
-        label: 'Real',
-        data: poolHashrateData.data
-      },
-      {
-        lineTension: 0.0,
-        fill: false,
-        backgroundColor: chartColors[4],
-        borderColor: chartColors[4],
-        label: 'EMA(30)',
-        data: poolHashrateData.sma
-      }]
-    },
-    options: {
-      responsive: true,
-      elements: {
-        point: { radius: 0 }
-      },
-      scales: {
-        xAxes: [{
-          type: 'time',
-          display: true,
-          scaleLabel: {
-            display: true,
-            labelString: 'Time'
-          },
-          ticks: {
-            major: {
-              fontStyle: 'bold',
-              fontColor: chartColors[0]
-            }
-          }
-        }],
-        yAxes: [{
-          display: true,
-          scaleLabel: {
-            display: true,
-            labelString: poolHashrateData.speed
-          }
-        }]
-      }
-    }
+function updateCharts(){
+
+  nv.addGraph(function() {
+      poolHashrateChart = nv.models.lineChart()
+          .margin({left: 60, right: 40})
+          .x(function(d){ return d[0] })
+          .y(function(d){ return d[1] })
+          .useInteractiveGuideline(true);
+
+      poolHashrateChart.xAxis.tickFormat(timeOfDayFormat);
+
+      poolHashrateChart.yAxis.tickFormat(function(d){
+          return getReadableHashRateString(d);
+      });
+
+      d3.select('#poolHashChart').datum(poolHashrateData).call(poolHashrateChart);
+
+      return poolHashrateChart;
   });
-  poolBlockChart = new Chart($("#blockChart"), {
-    type: 'line',
-    data: {
-      datasets: [{
-        fill: false,
-        backgroundColor: chartColors[5],
-        borderColor: chartColors[5],
-        label: 'Confirmed',
-        data: poolHashrateData.confirmed
-      },
-      {
-        fill: false,
-        backgroundColor: chartColors[6],
-        borderColor: chartColors[6],
-        label: 'Pending',
-        data: poolBlockData.pending
-      },
-      {
-        fill: false,
-        backgroundColor: chartColors[7],
-        borderColor: chartColors[7],
-        label: 'Orphaned',
-        data: poolHashrateData.orphaned
-      }]
-    },
-    options: {
-      responsive: true,
-      elements: {
-        point: { radius: 0 }
-      },
-      scales: {
-        xAxes: [{
-          type: 'time',
-          display: true,
-          scaleLabel: {
-            display: true,
-            labelString: 'Time'
-          },
-          ticks: {
-            major: {
-              fontStyle: 'bold',
-              fontColor: chartColors[0]
-            }
-          }
-        }],
-        yAxes: [{
-          ticks: {
-            beginAtZero: true,
-            fixedStepSize: 1
-          },
-          display: true,
-          stacked: true,
-          scaleLabel: {
-            display: true,
-            labelString: 'Blocks'
-          }
-        }]
-      }
-    }
+
+  nv.addGraph(function() {
+      poolBlockChart = nv.models.multiBarChart()
+          .x(function(d){ return d[0] })
+          .y(function(d){ return d[1] });
+
+      poolBlockChart.xAxis.tickFormat(timeOfDayFormat);
+
+      poolBlockChart.yAxis.tickFormat(d3.format('d'));
+
+      d3.select('#blockChart').datum(poolBlockData).call(poolBlockChart);
+
+      return poolBlockChart;
   });
 }
 
+function displayCharts(){
+
+  nv.addGraph(function() {
+      poolHashrateChart = nv.models.lineChart()
+          .margin({left: 60, right: 40})
+          .x(function(d){ return d[0] })
+          .y(function(d){ return d[1] })
+          .useInteractiveGuideline(true);
+
+      poolHashrateChart.xAxis.tickFormat(timeOfDayFormat);
+
+      poolHashrateChart.yAxis.tickFormat(function(d){
+          return d + " " + byteUnits[scale];
+      });
+
+      d3.select('#poolHashChart')
+      .datum(poolHashrateData)
+      .transition().duration(500)
+      .call(poolHashrateChart);
+
+      return poolHashrateChart;
+  });
+
+  nv.addGraph(function() {
+      poolBlockChart = nv.models.multiBarChart()
+          .x(function(d){ return d[0] })
+          .y(function(d){ return d[1] });
+
+      poolBlockChart.xAxis.tickFormat(timeOfDayFormat);
+
+      poolBlockChart.yAxis.tickFormat(d3.format('d'));
+
+      d3.select('#blockChart')
+      .datum(poolBlockData)
+      .transition().duration(500)
+      .call(poolBlockChart);
+
+      return poolBlockChart;
+  });
+}
+
+nv.utils.windowResize(triggerChartUpdates);
+
 function updateStats() {
-
-
   $("#validShares").text(luckDays);
   $("#confirmedBlocks").text(totalImmature);
 }
@@ -315,7 +191,7 @@ function pastelColors() {
   return '#' + r + g + b;
 }
 
-function TriggerChartUpdates() {
+function triggerChartUpdates() {
   poolHashrateChart.update();
   poolBlockChart.update();
 }
@@ -329,16 +205,7 @@ $.getJSON('/api/pool_stats?' + poolName, function(data) {
 statsSource.addEventListener('message', function(e) {
   var stats = JSON.parse(e.data);
   statData.push(stats);
-
-  var newPoolAdded = (function() {
-    for (var p in stats.pools) {
-      if (poolKeys.indexOf(p) === -1)
-        return true;
-    }
-    return false;
-  })();
-
-  if (newPoolAdded || Object.keys(stats.pools).length > poolKeys.length) {
+  if (!poolHashrateData || !poolHashrateChart || !poolBlockData || !poolBlockChart) {
     buildChartData();
     displayCharts();
   } else {
@@ -347,5 +214,14 @@ statsSource.addEventListener('message', function(e) {
     $("#poolWorkers").text(poolName in stats.pools ? stats.pools[poolName].workerCount : 0);
     $("#pendingBlocks").text(poolName in stats.pools ? stats.pools[poolName].blocks.pending : 0);
     $("#confirmedBlocks").text(poolName in stats.pools ? stats.pools[poolName].blocks.confirmed : 0);
+    var time = stats.time * 1000;
+    poolHashrateData[0].values.shift();
+    poolHashrateData[0].values.push([time, poolName in stats.pools ? getReadableHashRate(stats.pools[poolName].hashrate) : 0]);
+    poolHashrateData[1].values.shift();
+    var avg = calculateExpMovingAvg(poolHashrateData[0].values, 30);
+    poolHashrateData[1].values.push([time, avg[avg.length - 1]]);
+    poolBlockData[0].values.shift();
+    poolBlockData[0].values.push([time, poolName in stats.pools ? stats.pools[poolName].blocks.pending : 0]);
+    triggerChartUpdates();
   }
 });
