@@ -161,6 +161,9 @@ http://www.gnu.org/licenses/gpl-2.0.html
 ### Buy Me Some Coffee?
 I drink a lot trust me... I will love you forever!
 BTC: `148UCoHdsiRQShaYpLBD3ymagMxZ3ypjfp`
+
 ETH: `0xdC88283D6DeD303CeAF88221869B6F3e6F1f69Ab`
+
 DXC: `DE9seweYFGhSnpnELimB9vDNsbWn81ERvD`
+
 WAVI: `WVES2K3J42Ayj9WVQ3erN7u7ze129JSXMN`
