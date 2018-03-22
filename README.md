@@ -6,6 +6,13 @@ BootNOMP is all the things great about NOMP, now with modern style and design of
 -------
 ## Updates
 _Updates marked with `*` are considered stable releases._
+* v1.1.2
+   * Change charts once again, to ChartJS
+   * Redesigned Pool/Worker stats pages
+   * Added Yescrypt R16 & R32 to dependency projects, currently being testing with Wavicoin.
+   * Completed more of Dashboard.
+   * Added new NavBar
+   * Initial Completetion, Almost Ready For Production. Going live @[NotoHash.club](https://notohash.club) soon.
 * v1.1.1
    * Added payment info to redis.
    * Finished initial version of payment history page.
