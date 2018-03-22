@@ -526,7 +526,7 @@ function SetupForPool(poolOptions, setupFinished) {
             var worker = workers[w];
             logger.silly('worker = %s', JSON.stringify(worker));
             totalShares = totalShares.plus(worker.totalShares || new BigNumber(0));
-            logger.silly('worker.totalShares = %s', worker.totalShares.toString(10));
+            logger.silly('worker.totalShares = %s', (worker.totalShares || new BigNumber(0)).toString(10));
             worker.balance = worker.balance || new BigNumber(0);
             logger.silly('worker.balance = %s', worker.balance.toString(10));
             worker.reward = worker.reward || new BigNumber(0);

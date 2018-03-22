@@ -4,6 +4,12 @@ var poolKeys;
 //this function is executed when the page's dom is loaded
 // assumes jQuery is loaded already
 $(function(){
+  var dataTable = $("#walletTable").DataTable({
+      "order": [[ 0, "desc" ]],
+      "pageLength": 5,
+      "bLengthChange": false,
+      "iDisplayLength": 5
+  });
   var cachedWallets = Cookies.get('wallets');
   if(cachedWallets && cachedWallets.length > 0){
     cachedWallets = JSON.parse(cachedWallets);
@@ -11,12 +17,10 @@ $(function(){
       var wallet = cachedWallets[w].split(',');
       var coin = wallet[0];
       var address = wallet[1];
-      var item = "<tr>" +
-        "<td colspan=\"2\"><a href=\"/workers/" + address + "\"><img src=\"./static/icons/" + coin + ".png\" height=\"24px\"/> " + address + "</a></td>" +
-        "<td><button id=\"" + address + "\" type=\"button\" class=\"btn btn-danger\" style=\"padding-top: 0; height: 23px;\"><i class=\"fa fa-trash-o\"></i> Delete&nbsp;</button></td>" +
-        "</tr>";
-
-      $('#walletTableBody').append($(item));
+      dataTable.row.add([
+        "<a href=\"/workers/" + address + "\"><img src=\"./static/icons/" + coin + ".png\" height=\"24px\"/> " + address + "</a>",
+        "<button id=\"" + address + "\" type=\"button\" class=\"btn btn-danger\" style=\"padding-top: 0; height: 23px;\"><i class=\"fa fa-trash-o\"></i> Delete&nbsp;</button></td>"
+      ]).draw(false);
       $('#' + address).click(function(event) {
         if(confirm("Are you should you want to delete address: " + address)){
           cachedWallets.splice(w, 1);
@@ -28,7 +32,7 @@ $(function(){
     }
   }
   //binds the myFormOnSubmit method below to run as part of your form's onsubmit method
-  $('#searchForm').submit(myFormOnSubmit);
+  $('#searchButton').submit(myFormOnSubmit);
 
   //runs when the form is trying to submit
   function myFormOnSubmit(event) {
@@ -78,6 +82,8 @@ $(function(){
       }
     }
 });
+
+
 
 $.getJSON('/api/stats', function(data) {
   statData = data;

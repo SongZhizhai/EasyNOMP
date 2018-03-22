@@ -33,31 +33,49 @@
 </style>
 
 
-<div class="container-fluid">
+<div class="container-fluid pt-3">
+  <div class="row col pb-0">
+    <p class="lead mb-1">Look Up Address</p>
+  </div>
+  <div class="row pl-3 mb-0">
+    <form id="searchForm">
+      <div class="input-group">
+        <input type="text" id="searchBar" class="form-control" placeholder="Wallet Address" aria-label="Wallet Address" aria-describedby="basic-addon2" style="padding-right: 300px;">
+        <div class="input-group-append">
+          <button class="btn btn-outline-secondary" id="searchButton" type="submit"><i class="fa fa-search"></i> Lookup</button>
+        </div>
+      </div>
+    </form>
+  </div>
   <div class="row">
-    <table class="table table-bordered">
+    <table id="walletTable" class="table table-bordered">
       <thead>
         <tr>
-          <th scope="col" colspan="3"><i class="fa fa-money"></i> Wallets</th>
+          <th scope="col"><i class="fa fa-money"></i> Wallets</th>
+          <th></th>
         </tr>
       </thead>
       <tbody id="walletTableBody">
-        <form id="searchForm">
-          <tr>
-            <td colspan="2">
-              <input type="text" id="searchBar" class="form-control" name="search" placeholder="Wallet Address" aria-label="Wallet Address">
-            </td>
-            <td>
-              <button type="submit" class="btn btn-dark"><i class="fa fa-search"></i> Lookup</button>
-            </td>
-          </tr>
-        </form>
       </tbody>
     </table>
   </div>
 </div>
-<div class="container-fluid">
-  <iframe src="https://discordapp.com/widget?id=425127650370256906&theme=dark" width="350" height="500" allowtransparency="true" frameborder="0"></iframe>
+<div class="container-fluid mt-3">
+  <div class="row">
+    <div class="col-md-3">
+      <iframe src="https://discordapp.com/widget?id=425127650370256906&theme=dark" width="350" height="500" allowtransparency="true" frameborder="0"></iframe>
+    </div>
+    <div class="col-md-9">
+      <div class="jumbotron-fluid">
+        <h1 class="display-4">Hello Welcome To NotoHash!</h1>
+        <p class="lead">Thank you for choosing us for mining! If you like it, be sure to let your friends know about us!
+        If you ever have any questions, suggestions, or just wanna chat, make sure to join
+        our Discord!</p>
+        <hr class="my-4">
+        <p>Enjoy the new update! We rewrote everything! From the pool framework, to the website! We hope you all enjoy!</p>
+      </div>
+    </div>
+  </div>
 </div>
 <script>
   document.querySelector('main').appendChild(document.createElement('script')).src = '/static/dashboard.js';

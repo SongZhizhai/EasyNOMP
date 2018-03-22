@@ -1,44 +1,20 @@
-  <style
+<style>
 
-    #topCharts{
-        padding: 18px;
-    }
-
-    #topCharts > div > div > svg{
-        display: block;
-        height: 280px;
-    }
-
-    .chartWrapper{
-        border: solid 1px #c7c7c7;
-        border-radius: 5px;
-        padding: 5px;
-        margin-bottom: 18px;
-    }
-
-    .chartLabel{
-        font-size: 1.2em;
-        text-align: center;
-        padding: 4px;
-    }
-
-    .chartHolder{
-
-    }
-
-    @media (max-width: 768px) {
-      #poolHashChart {
-          width: 50%;
-      }
-    }
-}
+  .chartLabel {
+    text-align: center;
+    font-size: 20px;
+    font-weight: 300;
+  }
+  .chartHolder {
+    min-height: 300px;
+  }
 
 </style>
 
 <div class="container-fluid p-4">
 	<div class="row">
   	<div class="col-md-12 pl-0 pr-0">
-      <table class="table table-bordered">
+      <table class="table table-bordered table-responsive-lg">
         <thead>
           <tr>
             <th colspan="4" scope="col" style="text-align: center;">General Information</th>
@@ -90,13 +66,19 @@
   <div class="row justify-content-center">
   	<div class="col-md-12 chartWrapper">
       <div class="chartLabel">Hashrate History</div>
-      <div class="chartHolder"><svg id="poolHashChart"/></div>
+      <div class="chartHolder"><canvas id="poolHashChart" height="50"></canvas></div>
   	</div>
   </div>
-	<div class="row">
+  <div class="row justify-content-center">
+    <div class="col-md-12 chartWrapper">
+      <div class="chartLabel">Worker History</div>
+      <div class="chartHolder"><canvas id="poolWorkerChart" height="50"></canvas></div>
+    </div>
+  </div>
+	<div class="row justify-content-center">
     	<div class="col-md-12 chartWrapper">
         	<div class="chartLabel">Pending Block History</div>
-        	<div class="chartHolder"><svg id="blockChart"/></div>
+        	<div class="chartHolder"><canvas id="blockChart" height="50"></div>
     	</div>
 	</div>
 </div>
@@ -104,7 +86,10 @@
 
 
 <script>
+  //use doT to get the name of the pool (a.k.a. name of coin)
   var poolName = "{{=it.stats.coin}}";
+  //Used for EMA calculations and other misc. fucntions
   document.querySelector('main').appendChild(document.createElement('script')).src = '/static/methods.js';
+  //Then connect the graph handler
   document.querySelector('main').appendChild(document.createElement('script')).src = '/static/pool_stats.js';
 </script>

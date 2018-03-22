@@ -293,6 +293,7 @@ module.exports = function(portalConfig, poolConfigs) {
             var coinStats = {
               name: coinName,
               explorerGetBlock: poolConfigs[coinName].coin.explorerGetBlock,
+              blockTime: poolConfigs[coinName].coin.blockTime,
               explorerGetBlockJSON: poolConfigs[coinName].coin.explorerGetBlockJSON,
               explorerGetTX: poolConfigs[coinName].coin.explorerGetTX,
               symbol: poolConfigs[coinName].coin.symbol.toUpperCase(),
@@ -389,7 +390,7 @@ module.exports = function(portalConfig, poolConfigs) {
 
         var shareMultiplier = Math.pow(2, 32) / algos[coinStats.algorithm].multiplier;
         coinStats.hashrate = shareMultiplier * coinStats.shares / portalConfig.website.stats.hashrateWindow;
-        var _blocktime = 160;
+        var _blocktime = coinStats.blockTime || 60;
         var _networkHashRate = parseFloat(coinStats.poolStats.networkSols) * 1.2;
         var _myHashRate = (coinStats.hashrate / 1000000) * 2;
         coinStats.luckDays = ((_networkHashRate / _myHashRate * _blocktime) / (24 * 60 * 60)).toFixed(3);

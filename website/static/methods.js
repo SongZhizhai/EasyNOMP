@@ -29,3 +29,20 @@ function generateName(){
 	return name;
 
 }
+
+function getRandomColor() {
+    var letters = '0123456789ABCDEF'.split('');
+    var color = '#';
+    for (var i = 0; i < 6; i++ ) {
+        color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+}
+
+function addChartData(chart, dataset, data, update) {
+  dataset.data.shift();
+  dataset.data.push(data);
+  if(update){
+    chart.update();
+  }
+}

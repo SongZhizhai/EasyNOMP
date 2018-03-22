@@ -37,7 +37,7 @@
         "async": "^2.5.0",
         "bignumber.js": "^6.0.0",
         "body-parser": "^1.18.2",
-        "chartjs-plugin-draggable": "^0.1.6",
+        "chartjs-plugin-zoom": "^0.6.3",
         "colors": "^1.1.2",
         "compression": "^1.7.1",
         "dateformat": "^2.2.0",
@@ -52,8 +52,8 @@
         "request": "^2.83.0",
         "sma": "^0.1.0",
         "stratum-pool": "git://github.com/1301313Y/node-stratum-pool.git",
-        "winston": "^3.0.0-rc1",
-        "winston-daily-rotate-file": "^2.0.0-rc.2"
+        "winston": "3.0.0-rc2",
+        "winston-daily-rotate-file": "^3.0.0"
     },
     "engines": {
         "node": ">=8.1.4"
