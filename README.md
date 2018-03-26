@@ -6,6 +6,13 @@ BootNOMP is all the things great about NOMP, now with modern style and design of
 -------
 ## Updates
 _Updates marked with `*` are considered stable releases._
+* v1.1.2
+   * Change charts once again, to ChartJS
+   * Redesigned Pool/Worker stats pages
+   * Added Yescrypt R16 & R32 to dependency projects, currently being testing with Wavicoin.
+   * Completed more of Dashboard.
+   * Added new NavBar
+   * Initial Completetion, Almost Ready For Production. Going live @[NotoHash.club](https://notohash.club) soon.
 * v1.1.1
    * Added payment info to redis.
    * Finished initial version of payment history page.
@@ -37,7 +44,7 @@ _Updates marked with `*` are considered stable releases._
 _Stratum Pool can be replaced with [node-merged-pool](https://github.com/UNOMP/node-merged-pool)._<br>
 _Add new algorithms using [Node Multihashing](https://github.com/1301313Y/node-multi-hashing)._
 
-Current version: v1.1.1
+Current version: v1.1.2
 
 -------
 ### Install
@@ -78,6 +85,9 @@ You can see the logs of the server with ```docker logs -f nomp```, or jump into 
 | ✓ | __X16r__ | tested with RavenCoin |
 | ✓ | __Qubit__ | Shares works, and blocks should now too. |
 | ✓ | __NeoScrypt__ | working now thanks to @foxer666 pushing update to parent repo |
+| ✓ | __Yescrypt__ | needs tests, though should work |
+| ✓ | __YescryptR16__ | needs tests, though should work |
+| ✓ | __YescryptR32__ | currently being tested with WaviCoin. shares work, payments unconfirmed |
 
 #### Need tests
 |   | Algorithm | Comment|
@@ -110,7 +120,6 @@ You can see the logs of the server with ```docker logs -f nomp```, or jump into 
 | ? | __X13__ | need tests |
 | ? | __X14__ | need tests |
 | ? | __X15__ | need tests |
-| ? | __Yescrypt__ | need tests |
 | ? | __zr5__ | need tests |
 | ? | __ziftr__ | need tests |
 
@@ -147,3 +156,16 @@ There is a ```payment-fixes``` branch where i fixed previous blockHash problem a
 ### License
 Released under the GNU General Public License v2
 http://www.gnu.org/licenses/gpl-2.0.html
+
+
+### Buy Me Some Coffee?
+I drink a lot trust me... I will love you forever!
+
+
+BTC: `148UCoHdsiRQShaYpLBD3ymagMxZ3ypjfp`
+
+ETH: `0xdC88283D6DeD303CeAF88221869B6F3e6F1f69Ab`
+
+DXC: `DE9seweYFGhSnpnELimB9vDNsbWn81ERvD`
+
+WAVI: `WVES2K3J42Ayj9WVQ3erN7u7ze129JSXMN`
