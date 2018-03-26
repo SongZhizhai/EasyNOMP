@@ -93,6 +93,7 @@ You can see the logs of the server with ```docker logs -f nomp```, or jump into 
 | ✓ | __Yescrypt__ | needs tests, though should work |
 | ✓ | __YescryptR16__ | needs tests, though should work |
 | ✓ | __YescryptR32__ | currently being tested with WaviCoin. shares work, payments unconfirmed |
+| ✓ | __lyra2rev2__ | shares work, needs tests with payments. currently being tested with Lunex coin |
 
 #### Need tests
 |   | Algorithm | Comment|
@@ -112,7 +113,6 @@ You can see the logs of the server with ```docker logs -f nomp```, or jump into 
 | ? | __Lbry__ | need tests |
 | ? | __lyra2re__ | need tests |
 | ? | __lyra2re2__ | need tests |
-| ? | __lyra2rev2__ | need tests |
 | ? | __lyra2z330__ | need tests |
 | ? | __NIST5__ | need tests |
 | ? | __S3__ | need tests |
@@ -134,11 +134,6 @@ You can see the logs of the server with ```docker logs -f nomp```, or jump into 
 | - | __Scrypt-Jane__ | submitblock not working tested with CacheCoin, Yacoin |
 
 -------
-### Notes
-#### Lyra2Z
-If you are going to test ZCoin (lyra2z) on testnet, make sure you are uncommented proper lines in transactions.js in https://github.com/foxer666/node-stratum-pool 
-
-There is a ```payment-fixes``` branch where i fixed previous blockHash problem and corrected payouts. Check it out in this and stratum server module.
 
 -------
 ### Credits
@@ -155,6 +150,7 @@ There is a ```payment-fixes``` branch where i fixed previous blockHash problem a
 * [svirusxxx](//github.com/svirusxxx) - sponsored development of MPOS mode
 * [icecube45](//github.com/icecube45) - helping out with the repo wiki
 * [Fcases](//github.com/Fcases) - ordered me a pizza <3
+* [yoshuki43](//github.com/yoshuki43) - his K-Nomp project has really help the development!
 * Those that contributed to [node-stratum-pool](//github.com/zone117x/node-stratum-pool#credits)
 
 -------
