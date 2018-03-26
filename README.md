@@ -81,19 +81,19 @@ You can see the logs of the server with ```docker logs -f nomp```, or jump into 
 #### Working
 |   | Algorithm | Comment|
 | ------------- | ------------- | ------------- |
+| ✓ | __C11__ | tested shares and payments with Dixicoin |
 | ✓ | __Groestl__ | tested only shares with AuroraCoin, blocks not tested |
+| ✓ | __lyra2rev2__ | shares work, needs tests with payments. currently being tested with Lunex coin |
 | ✓ | __lyra2z__ | Working in testnet *mining* and *payouts* |
+| ✓ | __NeoScrypt__ | working now thanks to @foxer666 pushing update to parent repo |
+| ✓ | __Qubit__ | Shares works, and blocks should now too. |
 | ✓ | __Scrypt__ | tested with AntiLiteCoin, 1CREDIT, ArgusCoin, WAYAWOLFCOIN and many others |
 | ✓ | __SHA256__ | tested with VCOIN, don't use with BTC, no Segwit tested |
 | ✓ | __X11__ | tested with BrainCoin, CannabisCoin, AdzCoin and many others |
-| ✓ | __C11__ | tested shares and payments with Dixicoin |
 | ✓ | __X16r__ | tested with RavenCoin |
-| ✓ | __Qubit__ | Shares works, and blocks should now too. |
-| ✓ | __NeoScrypt__ | working now thanks to @foxer666 pushing update to parent repo |
 | ✓ | __Yescrypt__ | needs tests, though should work |
 | ✓ | __YescryptR16__ | needs tests, though should work |
 | ✓ | __YescryptR32__ | currently being tested with WaviCoin. shares work, payments unconfirmed |
-| ✓ | __lyra2rev2__ | shares work, needs tests with payments. currently being tested with Lunex coin |
 
 #### Need tests
 |   | Algorithm | Comment|
