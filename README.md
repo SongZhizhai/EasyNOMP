@@ -6,6 +6,11 @@ BootNOMP is all the things great about NOMP, now with modern style and design of
 -------
 ## Updates
 _Updates marked with `*` are considered stable releases._
+* v1.1.3*
+   * Launched website! Be sure to check it out!
+   * Redesigned statistics tracking structure, removing redundency.
+   * Added more info to the account statistic page.
+   * Considered stable, though needs to be fully tested!
 * v1.1.2
    * Change charts once again, to ChartJS
    * Redesigned Pool/Worker stats pages
@@ -44,7 +49,7 @@ _Updates marked with `*` are considered stable releases._
 _Stratum Pool can be replaced with [node-merged-pool](https://github.com/UNOMP/node-merged-pool)._<br>
 _Add new algorithms using [Node Multihashing](https://github.com/1301313Y/node-multi-hashing)._
 
-Current version: v1.1.2
+Current version: v1.1.3
 
 -------
 ### Install
