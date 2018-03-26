@@ -1,5 +1,3 @@
-<!doctype html>
-
 <html lang="en">
 
     <head>
@@ -11,7 +9,7 @@
 
         <!-- de title and da favi -->
         <title>NotoHash Mining Pool</title>
-        <link rel="icon" type="image/png" href="/static/favicon.png" />
+        <link rel="icon" type="image/png" href="/static/img/favicon.png" />
 
         <!-- fonts n styles -->
         <link href='//fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
@@ -37,6 +35,7 @@
 
         <!-- the scrieeeepts -->
         <script src="/static/main.js"></script>
+        <script src="/static/stat_tracker.js"></script>
         <!--<link rel="stylesheet" href="/static/style.css">-->
 
         <!-- the cookie consent for the dashboard wallet lookup feature -->
@@ -58,98 +57,25 @@
                 })
             });
         </script>
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-115497024-1"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', 'UA-115497024-1');
+        </script>
+
     </head>
 
     <body>
         <header>
-            <nav id="topNavBar" class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap py-3 px-0">
-                <a class="navbar-brand col-sm-3 col-md-2 mr-0 text-uppercase display-3" href="/" style="font-size: 20px; padding-bottom: 0;"><i class="fa fa-hashtag"></i> NotoHash</a>
+            <nav id="topNavBar" class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap px-0" style="height: 40px;">
+                <a class="navbar-brand col-sm-3 col-md-2 px-0 mr-0 text-uppercase display-3" href="/" style="font-size: 20px; padding-bottom: 0;"><img src="/static/img/noto-hash-banner.png"/></a>
             </nav>
         </header>
-        <!--
-  <div class="container-fluid">
-    <div class="row">
-      <nav id="sideNavBar" class="col-md-3 col-lg-2 d-none d-md-block bg-light sidebar">
         <style>
-          #sideNavBar {
-            position:fixed;
-            z-index: 1000;
-            left: 0;
-            top: 65px;
-            border-right: 1px solid rgba(0, 0, 0, 0.2);
-            height: 100vh;
-          }
-        </style>
-        <div class="sidebar-sticky">
-          <h5 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-              <span>Directory</span>
-              <a class="d-flex align-items-center text-muted" href="#">
-                <i class="fa fa-home"></i>
-              </a>
-            </h5>
-          <ul class="nav flex-column">
-            <li class="nav-item">
-              <a class="nav-link" href="/dashboard">
-                  <i class="fa fa-tachometer"></i> Dashboard
-                </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link active" href="/pools">
-                  <i class="fa fa-database"></i> Pools <span class="sr-only">(current)</span>
-                </a>
-            </li>
-            <li class="nav-item dropdown">
-             <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-bar-chart"></i> Statistics</a>
-             <div class="dropdown-menu">
-               {{ for(var pool in it.stats.pools) { }}
-                <a class="dropdown-item" href="/stats/{{=it.stats.pools[pool].name}}"><img src="/static/icons/{{=it.stats.pools[pool].name}}.png" height="16px"/> {{=it.stats.pools[pool].name.charAt(0).toUpperCase() + it.stats.pools[pool].name.slice(1)}}</a>
-               {{ } }}
-               <div class="dropdown-divider"></div>
-               <a class="dropdown-item" href="/stats">Top Pools</a>
-             </div>
-           </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/payments">
-                  <i class="fa fa-money"></i> Payment History
-                </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/history">
-                  <i class="fa fa-history"></i> Block History
-                </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/getting_started">
-                  <i class="fa fa-rocket"></i> Getting Started
-                </a>
-            </li>
-          </ul>
-
-          <h5 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-              <span>Popular Pools</span>
-              <a class="d-flex align-items-center text-muted" href="#">
-                <i class="fa fa-star"></i>
-              </a>
-            </h5>
-          <ul class="nav flex-column mb-2">
-              {{
-                var top = Object.values(it.stats.pools).sort(function(a, b){return b.workerCount-a.workerCount}).slice(0, 5);
-                for(var pool in top) { }}
-                <li class="nav-item">
-                  <a class="nav-link" href="/stats/{{=top[pool].name}}"><strong>{{=(parseInt(pool) + 1)}}.</strong> <img src="/static/icons/{{=top[pool].name}}.png" height="16px"/> {{=top[pool].name.charAt(0).toUpperCase() + top[pool].name.slice(1)}}</a>
-                </li>
-              {{ } }}
-          </ul>
-        </div>
-      </nav>
-    -->
-        <style>
-            /*!
-* Start Bootstrap - Simple Sidebar (https://startbootstrap.com/template-overviews/simple-sidebar)
-* Copyright 2013-2017 Start Bootstrap
-* Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap-simple-sidebar/blob/master/LICENSE)
-*/
-
             #wrapper {
                 padding-left: 40px;
                 -webkit-transition: all 0.5s ease;
@@ -299,12 +225,7 @@
 
             <!-- Sidebar -->
             <div id="sidebar-wrapper" class="bg-dark toggled">
-                <ul class="sidebar-nav">
-                    <li class="sidebar-brand">
-                        <a href="#">
-                            Start Bootstrap
-                        </a>
-                    </li>
+                <ul class="sidebar-nav" style="margin-top: 40px;">
                     <li>
                         <a href="#menu-toggle" id="menu-toggle"><i class="fa fa-bars sidebar-icon"></i> Toggle Menu</a>
                     </li>
@@ -314,23 +235,16 @@
                     <li>
                         <a href="/pools"><i class="fa fa-info-circle sidebar-icon"></i> Pools <span class="sr-only">(current)</span></a>
                     </li>
-                    <li class="dropdown dropright bg-dark text-light">
-                     <a class="dropdown-toggle sidebar-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-bar-chart sidebar-icon"></i> Statistics</a>
-                     <div class="dropdown-menu bg-dark text-light">
+                   <li><!-- Link with dropdown items -->
+                     <a class="sidebar-link" href="#homeSubmenu" data-toggle="collapse" aria-expanded="false"><i class="fa fa-bar-chart sidebar-icon"></i> Statistics</a>
+                     <ul class="collapse list-unstyled" id="homeSubmenu">
                        {{ for(var pool in it.stats.pools) { }}
-                          <a class="dropdown-item bg-dark text-light" href="/stats/{{=it.stats.pools[pool].name}}"><img src="/static/icons/{{=it.stats.pools[pool].name}}.png" height="16px"/> {{=it.stats.pools[pool].name.charAt(0).toUpperCase() + it.stats.pools[pool].name.slice(1)}}</a>
+                          <li><a class="bg-dark text-light pl-3" href="/stats/{{=it.stats.pools[pool].name}}"><img src="/static/icons/{{=it.stats.pools[pool].name}}.png" height="16px"/> {{=it.stats.pools[pool].name.charAt(0).toUpperCase() + it.stats.pools[pool].name.slice(1)}}</a></li>
                        {{ } }}
-                       <div class="dropdown-divider-dark"></div>
-                       <a class="dropdown-item bg-dark text-light" href="/stats">Top Pools</a>
-                     </div>
+                     </ul>
                    </li>
                    <li>
-                     <a href="/payments">
-                         <i class="fa fa-money sidebar-icon"></i> Payment History
-                       </a>
-                   </li>
-                   <li>
-                     <a href="/history">
+                     <a href="/blocks">
                          <i class="fa fa-history sidebar-icon"></i> Block History
                        </a>
                    </li>
@@ -346,7 +260,7 @@
             <!-- /#sidebar-wrapper -->
 
             <!-- Page Content -->
-            <div id="page-content-wrapper px-0" style="padding-top: 43px;">
+            <div id="page-content-wrapper px-0">
                 <div class="container-fluid px-0 pt-4">
                     <main role="main" id="mainContent">
                         {{=it.page}}
@@ -358,7 +272,7 @@
         <!-- Don't be a dick... Keep this if you use the project -->
         <footer>
             <div class="footer_container">
-                <span>Powered by <a href="https://github.com/1301313Y/node-open-mining-portal">NOMP</a></span>
+                <span>Powered by <a href="https://github.com/1301313Y/node-open-mining-portal">BootNOMP</a></span>
 
                 <div id="communityFooter">
                     <iframe src="//ghbtns.com/github-btn.html?user=1301313Y&repo=node-open-mining-portal&type=watch&count=true"

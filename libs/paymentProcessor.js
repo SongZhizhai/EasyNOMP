@@ -259,10 +259,77 @@ function SetupForPool(poolOptions, setupFinished) {
               blockHash: details[0],
               txHash: details[1],
               height: details[2],
+              duplicate: false,
               serialized: r
             };
           });
-
+          // find duplicate blocks by height
+           // this can happen when two or more solutions are submitted at the same block height
+           var duplicateFound = false;
+           for (var i = 0; i < rounds.length; i++) {
+               if (checkForDuplicateBlockHeight(rounds, rounds[i].height) === true) {
+                   rounds[i].duplicate = true;
+                   duplicateFound = true;
+               }
+           }
+           // handle duplicates if needed
+            if (duplicateFound) {
+                var dups = rounds.filter(function(round){ return round.duplicate; });
+                logger.warning('Duplicate pending blocks found: ' + JSON.stringify(dups));
+                // attempt to find the invalid duplicates
+                var rpcDupCheck = dups.map(function(r){
+                    return ['getblock', [r.blockHash]];
+                });
+                startRPCTimer();
+                daemon.batchCmd(rpcDupCheck, function(error, blocks){
+                    endRPCTimer();
+                    if (error || !blocks) {
+                        logger.error('Error with duplicate block check rpc call getblock %s', JSON.stringify(error));
+                        return;
+                    }
+                    // look for the invalid duplicate block
+                    var validBlocks = {}; // hashtable for unique look up
+                    var invalidBlocks = []; // array for redis work
+                    blocks.forEach(function(block, i) {
+                        if (block && block.result) {
+                            // invalid duplicate submit blocks have negative confirmations
+                            if (block.result.confirmations < 0) {
+                                logger.warning('Remove invalid duplicate block %s > %s', block.result.height, block.result.hash);
+                                // move from blocksPending to blocksDuplicate...
+                                invalidBlocks.push(['smove', coin + ':blocksPending', coin + ':blocksDuplicate', dups[i].serialized]);
+                            } else {
+                                // block must be valid, make sure it is unique
+                                if (validBlocks.hasOwnProperty(dups[i].blockHash)) {
+                                    // not unique duplicate block
+                                    logger.warning('Remove non-unique duplicate block %s > %s', block.result.height, block.result.hash);
+                                    // move from blocksPending to blocksDuplicate...
+                                    invalidBlocks.push(['smove', coin + ':blocksPending', coin + ':blocksDuplicate', dups[i].serialized]);
+                                } else {
+                                    // keep unique valid block
+                                    validBlocks[dups[i].blockHash] = dups[i].serialized;
+                                    logger.debug('Keep valid duplicate block %s > %s', block.result.height, block.result.hash);
+                                }
+                            }
+                        }
+                    });
+                    // filter out all duplicates to prevent double payments
+                    rounds = rounds.filter(function(round){ return !round.duplicate; });
+                    // if we detected the invalid duplicates, move them
+                    if (invalidBlocks.length > 0) {
+                        // move invalid duplicate blocks in redis
+                        startRedisTimer();
+                        redisClient.multi(invalidBlocks).exec(function(error, kicked){
+                            endRedisTimer();
+                            if (error) {
+                                logger.error('Error could not move invalid duplicate blocks in redis %s', JSON.stringify(error));
+                            }
+                        });
+                    } else {
+                        // notify pool owner that we are unable to find the invalid duplicate blocks, manual intervention required...
+                        logger.error('Unable to detect invalid duplicate blocks, duplicate block payments on hold.');
+                    }
+                });
+            }
           logger.debug("Prepared info basic info about payments");
           logger.silly("workers = %s", JSON.stringify(workers));
           logger.silly("rounds = %s", JSON.stringify(rounds));
@@ -304,7 +371,10 @@ function SetupForPool(poolOptions, setupFinished) {
             }
 
             var round = rounds[i];
-
+            // update confirmations for round
+            if (tx && tx.result) {
+                round.confirmations = parseInt((tx.result.confirmations || 0));
+            }
             if (tx.error && tx.error.code === -5) {
               logger.warn('Daemon reports invalid transaction: %s', round.txHash);
               logger.debug('Filtering out round %s as kicked cause of invalid tx', round.height);
@@ -620,7 +690,6 @@ function SetupForPool(poolOptions, setupFinished) {
                 balances: balanceAmounts,
                 work: shareAmounts
               };
-              logger.debug("[TESTING PAYMENT]" + JSON.stringify(paymentsData));
               paymentsUpdate.push(['zadd', poolOptions.coin.name + ':payments', Date.now(), JSON.stringify(paymentsData)]);
               callback(null, workers, rounds, paymentsUpdate);
             }
@@ -657,6 +726,9 @@ function SetupForPool(poolOptions, setupFinished) {
         var roundsToDelete = [];
         var orphanMergeCommands = [];
 
+        var confirmsUpdate = [];
+        var confirmsToDelete = [];
+
         var moveSharesToCurrent = function(r) {
           var workerShares = r.workerShares;
           Object.keys(workerShares).forEach(function(worker) {
@@ -672,12 +744,16 @@ function SetupForPool(poolOptions, setupFinished) {
             case 'kicked':
               movePendingCommands.push(['smove', coin + ':blocksPending', coin + ':blocksKicked', r.serialized]);
             case 'orphan':
+              confirmsToDelete.push(['hdel', coin + ':blocksPendingConfirms', r.blockHash]);
               movePendingCommands.push(['smove', coin + ':blocksPending', coin + ':blocksOrphaned', r.serialized]);
               if (r.canDeleteShares) {
                 moveSharesToCurrent(r);
                 roundsToDelete.push(coin + ':shares:round' + r.height);
               }
               return;
+              case 'immature':
+                confirmsUpdate.push(['hset', coin + ':blocksPendingConfirms', r.blockHash, (r.confirmations || 0)]);
+                return;
             case 'generate':
               movePendingCommands.push(['smove', coin + ':blocksPending', coin + ':blocksConfirmed', r.serialized]);
               roundsToDelete.push(coin + ':shares:round' + r.height);
@@ -723,6 +799,18 @@ function SetupForPool(poolOptions, setupFinished) {
           finalRedisCommands = finalRedisCommands.concat(paymentsUpdate);
         }
 
+        if (confirmsUpdate.length > 0) {
+          logger.silly("confirmsUpdate goes in redis");
+          logger.silly("confirmsUpdate = %s", confirmsUpdate);
+          finalRedisCommands = finalRedisCommands.concat(confirmsUpdate);
+        }
+
+        if (confirmsToDelete.length > 0) {
+          logger.silly("confirmsToDelete goes in redis");
+          logger.silly("confirmsToDelete = %s", confirmsToDelete);
+          finalRedisCommands = finalRedisCommands.concat(confirmsToDelete);
+        }
+
         if (!totalPaid.eq(new BigNumber(0))) {
           logger.silly("totalPaid goes in redis");
           logger.silly("totalPaid = %s", totalPaid);
@@ -763,6 +851,14 @@ function SetupForPool(poolOptions, setupFinished) {
     });
   };
 
+  function checkForDuplicateBlockHeight(rounds, height) {
+       var count = 0;
+       for (var i = 0; i < rounds.length; i++) {
+           if (rounds[i].height == height)
+               count++;
+       }
+       return count > 1;
+   }
 
   var getProperAddress = function(address) {
     if (address.length === 40) {

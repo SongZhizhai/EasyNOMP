@@ -88,6 +88,8 @@
 <script>
   //use doT to get the name of the pool (a.k.a. name of coin)
   var poolName = "{{=it.stats.coin}}";
+  //Used for tracking stats used in graphs and tables
+  document.querySelector('main').appendChild(document.createElement('script')).src = '/static/stat_tracker.js';
   //Used for EMA calculations and other misc. fucntions
   document.querySelector('main').appendChild(document.createElement('script')).src = '/static/methods.js';
   //Then connect the graph handler

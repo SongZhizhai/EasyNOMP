@@ -87,6 +87,7 @@
     .header-blue {
       background: linear-gradient(135deg, #43d091, #00BCD4);
       background-color: #184e8e;
+      padding-bottom: 40px;
     }
 
     .header-blue .action-button, .header-blue .action-button:not(.disabled):active {
@@ -157,9 +158,9 @@
     }
 
 
-    @media(min-width:768px) {
-      .header-blue {
-        padding-bottom: 40px;
+    @media(max-width:768px) {
+      .header-button {
+        margin-bottom: 10px;
       }
     }
 
@@ -187,7 +188,14 @@
               <div class="col-12 col-lg-12 col-xl-7 offset-xl-1">
                 <h1 class="display-4" style="margin:0 15px 5px 0;">Welcome To NotoHash!</h1>
                 <p>A multi-coin mining pool made by miners, for miners. No matter if you are new to mining, or experienced. Our goal is to make a fast reliable cryptocurrency mining pool, that is easy for everyone to use!</p>
-                <a class="btn btn-light btn-lg action-button" href="/getting_started">Get Started Now!</a></div>
+                <div class="row">
+                  <div class="col-lg-4 col-md-8">
+                    <a class="btn btn-light btn-lg action-button header-button" href="/getting_started">Get Started Now!</a>
+                  </div>
+                  <div class="col-lg-4 col-md-8">
+                    <a class="btn btn-light btn-lg action-button" href="/learn_more">Want To Learn More?</a>
+                  </div>
+                </div>
               </div>
           </div>
       </div>

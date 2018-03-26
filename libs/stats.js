@@ -26,10 +26,10 @@ module.exports = function(portalConfig, poolConfigs) {
   this.statsString = '';
 
 
-  logger.debug("Setting up statsRedis");
+  logger.debug("Initializing Stats Redis...");
   setupStatsRedis();
 
-  logger.debug("Setting up statHistory");
+  logger.debug("Initializing Stats History...");
   gatherStatHistory();
 
   Object.keys(poolConfigs).forEach(function(coin) {
@@ -54,7 +54,7 @@ module.exports = function(portalConfig, poolConfigs) {
   function setupStatsRedis() {
     redisStats = redis.createClient(portalConfig.redis.port, portalConfig.redis.host);
     redisStats.on('error', function(err) {
-      logger.error('Redis for stats had an error = %s', JSON.stringify(err));
+      logger.error('Stats Redis Encountered An Error! Message: %s', JSON.stringify(err));
     });
   }
 
@@ -63,7 +63,7 @@ module.exports = function(portalConfig, poolConfigs) {
     var retentionTime = (((Date.now() / 1000) - portalConfig.website.stats.historicalRetention) | 0).toString();
     redisStats.zrangebyscore(['statHistory', retentionTime, '+inf'], function(err, replies) {
       if (err) {
-        logger.error('Error when trying to grab historical stats, err = %s', JSON.stringify(err));
+        logger.error('Error When Trying To Grab Historical Stat Data! Message: %s', JSON.stringify(err));
         return;
       }
       for (var i = 0; i < replies.length; i++) {
@@ -234,7 +234,7 @@ module.exports = function(portalConfig, poolConfigs) {
       });
     }, function(err) {
       if (err) {
-        callback("There was an error getting balances");
+        callback("There Was An Error Getting Balances!");
         return;
       }
 
@@ -270,7 +270,11 @@ module.exports = function(portalConfig, poolConfigs) {
         ['scard', ':blocksConfirmed'],
         ['scard', ':blocksOrphaned'],
         ['smembers', ':blocksConfirmed'],
-        ['zrange', ':payments', -100, -1]
+        ['zrange', ':payments', -100, -1],
+        ['hgetall', ':shares:roundCurrent'],
+        ['smembers', ':blocksConfirmed'],
+        ['hgetall', ':blocksPendingConfirms'],
+        ['smembers', ':blocksConfirmed']
       ];
 
       var commandsPerCoin = redisCommandTemplates.length;
@@ -319,7 +323,17 @@ module.exports = function(portalConfig, poolConfigs) {
                 confirmedData: replies[i + 6] && replies[i + 6].length > 0 ? replies[i + 6].sort(function(a, b){ return parseInt(b.split(':')[2] - a.split(':')[2])}) : replies[i + 6],
                 orphaned: replies[i + 5]
               },
-              payments: []
+              /* show all pending blocks */
+              pending: {
+                blocks: replies[i + 9].sort(sortBlocks),
+                confirms: (replies[i + 10] || {})
+              },
+              /* show last 50 found blocks */
+							confirmed: {
+								blocks: replies[i + 11].sort(sortBlocks).slice(0,50)
+							},
+              payments: [],
+              currentRoundShares: (replies[i + 8] || {})
             };
             for(var j = replies[i + 7].length; j > 0; j--){
                  var jsonObj;
@@ -362,24 +376,33 @@ module.exports = function(portalConfig, poolConfigs) {
           var parts = ins.split(':');
           var workerShares = parseFloat(parts[0]);
           var worker = parts[1];
+          var diff = Math.round(parts[0] * 8192);
           if (workerShares > 0) {
             coinStats.shares += workerShares;
-            if (worker in coinStats.workers)
+            if (worker in coinStats.workers) {
               coinStats.workers[worker].shares += workerShares;
-            else
+              coinStats.workers[worker].diff = diff;
+            } else
               coinStats.workers[worker] = {
                 shares: workerShares,
+                diff: diff,
                 invalidshares: 0,
+                currRoundShares: 0,
+                currRoundTime: 0,
                 hashrateString: null,
                 luckDays: null,
                 luckHours: null
               };
           } else {
-            if (worker in coinStats.workers)
+            if (worker in coinStats.workers) {
               coinStats.workers[worker].invalidshares -= workerShares; // workerShares is negative number!
-            else
+              coinStats.workers[worker].diff = diff;
+            } else
               coinStats.workers[worker] = {
                 shares: 0,
+                diff: diff,
+                currRoundShares: 0,
+                currRoundTime: 0,
                 invalidshares: -workerShares,
                 hashrateString: null,
                 luckDays: null,
@@ -409,6 +432,15 @@ module.exports = function(portalConfig, poolConfigs) {
         }
         portalStats.algos[algo].hashrate += coinStats.hashrate;
         portalStats.algos[algo].workers += Object.keys(coinStats.workers).length;
+
+        var _shareTotal = parseFloat(0);
+        for (var worker in coinStats.currentRoundShares) {
+            var miner = worker.split(".")[0];
+            if (worker in coinStats.workers) {
+                coinStats.workers[worker].currRoundShares += parseFloat(coinStats.currentRoundShares[worker]);
+            }
+            _shareTotal += parseFloat(coinStats.currentRoundShares[worker]);
+        }
 
         for (var worker in coinStats.workers) {
           coinStats.workers[worker].hashrateString = _this.getReadableHashRateString(shareMultiplier * coinStats.workers[worker].shares / portalConfig.website.stats.hashrateWindow);
@@ -461,6 +493,14 @@ module.exports = function(portalConfig, poolConfigs) {
 
   };
 
+  function sortBlocks(a, b) {
+     var as = parseInt(a.split(":")[2]);
+     var bs = parseInt(b.split(":")[2]);
+     if (as > bs) return -1;
+     if (as < bs) return 1;
+     return 0;
+ }
+
   this.getPoolStats = function(coin, cback) {
     if (coin.length > 0) {
       _this.stats.coin = coin;
@@ -471,13 +511,18 @@ module.exports = function(portalConfig, poolConfigs) {
   };
 
   this.getReadableHashRateString = function(hashrate) {
-    var i = -1;
-    var byteUnits = [' KH', ' MH', ' GH', ' TH', ' PH'];
-    do {
-      hashrate = hashrate / 1000;
-      i++;
-    } while (hashrate > 1000);
-    return hashrate.toFixed(2) + byteUnits[i];
+    if(hashrate <= 0){
+      return '0 H/s';
+    } else {
+      hashrate = (hashrate * 1000000);
+      if(hashrate < 1000000){
+        hashrate = hashrate * 100000;
+      }
+      var byteUnits = [' H/s', ' KH/s', ' MH/s', ' GH/s', ' TH/s', ' PH/s'];
+      var i = Math.floor((Math.log(hashrate/1000) / Math.log(1000)) - 1);
+      hashrate = (hashrate/1000) / Math.pow(1000, i + 1);
+      return hashrate.toFixed(2) + byteUnits[i];
+    }
   };
 
 };

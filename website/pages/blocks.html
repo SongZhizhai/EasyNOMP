@@ -36,14 +36,14 @@
     width: 100%;
   }
 </style>
-<div>
+<div style="margin-top: 36px;" >
   {{ var sortedPools = Object.keys(it.stats.pools); }}
   {{ sortedPools.sort(function(a, b) { return a.workerCount - b.workerCount; }); }}
   <div class="col-md-5 table-responsive">
     <table class="table table-bordered">
       <thead>
         <tr>
-          <th><i class="fa fa-history"></i> Payment History For</th>
+          <th><i class="fa fa-history"></i> Block History For</th>
           <th>
             <select class="form-control" id="coinSelect">
               <option class="btn btn-primary dropdown-toggle" value="{{=sortedPools[0]}}" type="button" id="coinDropDown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -59,10 +59,18 @@
           </th>
         </tr>
         <tr>
-          <th colspan="2">{{=sortedPools[0].charAt(0).toUpperCase() + sortedPools[0].slice(1)}} Payment History</th>
+          <th colspan="2">{{=sortedPools[0].charAt(0).toUpperCase() + sortedPools[0].slice(1)}} History</th>
         </tr>
       </thead>
       <tbody>
+        <tr>
+          <th><i class="fa fa-hourglass-2"></i> Pending Blocks:</th>
+          <td id="tdHistoryPending">{{=it.stats.pools[sortedPools[0]].blocks.pending}}</td>
+        </tr>
+        <tr>
+          <th><i class="fa fa-check"></i> Confirmed Blocks:</th>
+          <td id="tdHistoryConfirmed">{{=it.stats.pools[sortedPools[0]].blocks.confirmed}}</td>
+        </tr>
         <tr>
           <th><i class="fa fa-money"></i> Paid:</th>
           <td id="tdHistoryPaid">{{=it.stats.pools[sortedPools[0]].poolStats.totalPaid}} {{=it.stats.pools[sortedPools[0]].symbol}}</td>
@@ -70,7 +78,7 @@
       </tbody>
     </table>
   </div>
-  <h4 class="display-4 ml-3 mt-0 mb-3" style="font-size: 24px;">Last 50 Payouts</h4>
+  <h4 class="display-4 ml-3 mt-0 mb-3" style="font-size: 24px;">Last 50 Blocks</h4>
   <fieldset>
   <form action="" class="form-group" method="post">
   <div class="col-md-12 table-responsive">
@@ -78,11 +86,12 @@
       <thead>
         <tr>
           <th>Height</th>
+          <th>Time</th>
+          <th>Info</th>
           <th>Shares</th>
           <th>Miners</th>
           <th>Paid</th>
-          <th>Confirmations</th>
-          <th>Time</th>
+          <th>Status</th>
         </tr>
       </thead>
       <tbody id="blockTableBody">
@@ -119,25 +128,25 @@
         if("{{=pool}}" === value){
           if(updateText){
             $('#tdHistoryPaid').text("{{=it.stats.pools[pool].poolStats.totalPaid}} {{=it.stats.pools[pool].symbol}}");
+            $('#tdHistoryPending').text("{{=it.stats.pools[pool].blocks.pending}}");
+            $('#tdHistoryConfirmed').text("{{=it.stats.pools[pool].blocks.confirmed}}");
           }
           if(dataTable.row) {
             dataTable.clear().draw();
           }
-          "{{ for(var p in it.stats.pools[pool].payments) { }}";
+          "{{ for(p in it.stats.pools[pool].payments) { }}";
           "{{ var payment = it.stats.pools[pool].payments[p]; }}";
           var url = String("{{=it.stats.pools[pool].explorerGetTX}}");
-
-          $.getJSON(url.replace('{0}', '{{=payment.txid}}'), function(data) {
-            dataTable.row.add([
-              "{{=Math.max.apply(null, payment.blocks)}}",
-              parseInt("{{=payment.shares}}"),
-              "{{=payment.miners}}",
-              "{{=payment.paid}}",
-              data.confirmations || 0,
-              new Date(parseInt("{{=payment.time}}")).toLocaleTimeString("en-us", options)
-            ]).draw(false);
-            dataTable.columns.adjust().draw();
-          });
+          dataTable.row.add([
+            "{{=Math.max.apply(null, payment.blocks)}}",
+            new Date(parseInt("{{=payment.time}}")).toLocaleTimeString("en-us", options),
+            '<a href="{{=it.stats.pools[pool].explorerGetBlock.replace("block/", "tx/") + payment.txid}}">View Transaction</a>',
+            parseInt("{{=payment.shares}}"),
+            "{{=payment.miners}}",
+            "{{=parseFloat(payment.paid).toFixed(8)}}",
+            '<span class="badge badge-success">Paid</span>',
+          ]).draw(false);
+          dataTable.columns.adjust().draw();
           "{{ } }}";
         }
       "{{ } }}";

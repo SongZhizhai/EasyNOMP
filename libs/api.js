@@ -20,14 +20,12 @@ module.exports = function(portalConfig, poolConfigs) {
   this.handleApiRequest = function(req, res, next) {
     switch (req.params.method) {
       case 'stats':
-        res.writeHead(200, {
-          'Content-Type': 'application/json'
-        });
+        res.header('Content-Type', 'application/json');
         res.end(portalStats.statsString);
         return;
       case 'getblocksstats':
          portalStats.getBlocks(function(data){
-             res.header('Content-Type', 'application/json');
+            res.header('Content-Type', 'application/json');
              res.end(JSON.stringify(data));
          });
          break;
@@ -124,29 +122,31 @@ module.exports = function(portalConfig, poolConfigs) {
         }
         return;
       case 'pool_stats':
-        res.writeHead(200, {
-          'Content-Type': 'application/json'
-        });
+        res.header('Content-Type', 'application/json');
         res.end(JSON.stringify(portalStats.statPoolHistory));
         return;
       case 'live_stats':
         res.writeHead(200, {
-          'Content-Type': 'text/event-stream',
-          'Cache-Control': 'no-cache',
-          'Connection': 'keep-alive'
-        });
-        res.write('\n');
-        var uid = Math.random().toString();
-        _this.liveStatConnections[uid] = res;
-        req.on("close", function() {
-          delete _this.liveStatConnections[uid];
-        });
-
-        return;
+             'Content-Type': 'text/event-stream',
+             'Cache-Control': 'no-cache',
+             'Connection': 'keep-alive'
+         });
+         res.write('\n');
+         var uid = Math.random().toString();
+         _this.liveStatConnections[uid] = res;
+         res.flush();
+         req.on("close", function() {
+             delete _this.liveStatConnections[uid];
+         });
       default:
         next();
     }
   };
+
+  Object.filter = (obj, predicate) =>
+    Object.keys(obj)
+          .filter( key => predicate(obj[key]) )
+          .reduce( (res, key) => (res[key] = obj[key], res), {} );
 
   this.handleAdminApiRequest = function(req, res, next) {
     switch (req.params.method) {

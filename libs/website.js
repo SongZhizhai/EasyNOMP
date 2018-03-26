@@ -35,19 +35,15 @@ module.exports = function () {
     var pageFiles = {
         'index.html': 'index',
         'home.html': '',
-    	   'pools.html': 'pools',
+    	  'pools.html': 'pools',
         'getting_started.html': 'getting_started',
         'stats.html': 'stats',
-        'tbs.html': 'tbs',
         'dashboard.html': 'dashboard',
         'api.html': 'api',
         'learn_more.html': 'learn_more',
-        'history.html': 'history',
-        'admin.html': 'admin',
         'miner_stats.html': 'miner_stats',
         'pool_stats.html': 'pool_stats',
-        'mining_key.html': 'mining_key',
-        'payments.html': 'payments'
+        'blocks.html': 'blocks'
     };
 
     var pageTemplates = {};
