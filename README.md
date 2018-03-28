@@ -1,3 +1,6 @@
+## Attention! 
+This project will soon be replaced by my upcoming project Open Source Mining Portal (OSMP); which will take the great features NOMP offers, while expanding upon them and giving everything a better look! I have no current ETA, though once I have a proof of work, I will release the repository under MIT! Stay tuned if you would like to help out development by contributing!
+
 ## Helping give NOMP new life! With some style.
 #### If you want to help contribute, please look at the original [project](https://github.com/foxer666/node-open-mining-portal) first!
 
