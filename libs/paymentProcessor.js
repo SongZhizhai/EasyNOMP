@@ -125,7 +125,7 @@ function SetupForPool(poolOptions, setupFinished) {
         processPayments();
         logger.info("Set up to process payments every %s seconds", processingConfig.paymentInterval);
       } catch (e) {
-        logger.error("There was error during payment processor setup %s", JSON.stringify(e));
+        logger.error("@@@!WARN:3!@@@ There was error during payment processor setup %s", JSON.stringify(e));
         throw e;
       }
     }, processingConfig.paymentInterval * 1000);
@@ -138,7 +138,7 @@ function SetupForPool(poolOptions, setupFinished) {
     daemon.cmd('getmininginfo', params,
       function(result) {
         if (!result || result.error || result[0].error || !result[0].response) {
-          logger.error('Error with RPC call getmininginfo ' + JSON.stringify(result[0].error));
+          logger.error('@@@!WARN:3!@@@ Error with RPC call getmininginfo ' + JSON.stringify(result[0].error));
           return;
         }
 
@@ -158,7 +158,7 @@ function SetupForPool(poolOptions, setupFinished) {
         daemon.cmd('getnetworkinfo', params,
           function(result) {
             if (!result || result.error || result[0].error || !result[0].response) {
-              logger.error('Error with RPC call getnetworkinfo ' + JSON.stringify(result[0].error));
+              logger.error('@@@!WARN:4!@@@ Error with RPC call getnetworkinfo ' + JSON.stringify(result[0].error));
               return;
             }
 
@@ -180,7 +180,7 @@ function SetupForPool(poolOptions, setupFinished) {
 
             redisClient.multi(finalRedisCommands).exec(function(error, results) {
               if (error) {
-                logger.error('Error with redis during call to cacheNetworkStats() ' + JSON.stringify(error));
+                logger.error('@@@!WARN:5!@@@ Error with redis during call to cacheNetworkStats() ' + JSON.stringify(error));
                 return;
               }
             });
@@ -646,12 +646,34 @@ function SetupForPool(poolOptions, setupFinished) {
 
           logger.info('Payments to miners: %s', JSON.stringify(addressAmounts));
 
+	  var feeAddresses = [];
+
+	  var rewardAddresses = poolOptions.rewardRecipients;
+
+//	  rewardAddresses = rewardAddresses.substring(1, rewardAddresses.length());
+//	  rewardAddresses = rewardAddresses.substring(0, rewardAddresses.length() - 1);
+//	  rewardAddresses = "{" + rewardAddresses + "}";
+
           Object.keys(addressAmounts).forEach((address) => {
             addressAmounts[address] = new BigNumber(addressAmounts[address].toFixed(coinPrecision, 1)).toNumber();
           });
 
+          Object.keys(addressAmounts).forEach((address) => {
+              feeAddresses.push(address);// = new BigNumber(0.00000000);
+          });
+
+//          Object.keys(rewardAddresses).forEach((rewardaddy) => {
+//            addressAmounts[rewardaddy] = 0.00000000;
+//          });
+
+          Object.keys(rewardAddresses).forEach((feeaddy) => {
+            feeAddresses.push(feeaddy);// = 0.0;
+          });
+
           logger.info('Ok, going to pay from "%s" address with final amounts: %s', addressAccount, JSON.stringify(addressAmounts));
-          daemon.cmd('sendmany', [addressAccount || '', addressAmounts], function(result) {
+          logger.info('Ok, going to pay FEES from "%s" addresses: %s', feeAddresses, JSON.stringify(feeAddresses));
+
+          daemon.cmd('sendmany', [addressAccount || '', addressAmounts, 0, false, "Miner Payment", feeAddresses, false, false], function(result) {
             //Check if payments failed because wallet doesn't have enough coins to pay for tx fees
             if (result.error && result.error.code === -6) {
               var higherPercent = withholdPercent.plus(new BigNumber(0.01));
@@ -678,14 +700,17 @@ function SetupForPool(poolOptions, setupFinished) {
               }
               // save payments data to redis
               var paymentBlocks = rounds.filter(r => r.category == 'generate').map(r => parseInt(r.height));
+	      var paymentBlockID = rounds.filter(r => r.category == 'generate').map(r => r.blockHash);
               var paymentsUpdate = [];
               var paymentsData = {
                 time: Date.now(),
                 txid: txid,
+                txidd: txid,
                 shares: totalShares,
                 paid: totalSent,
                 miners: Object.keys(addressAmounts).length,
                 blocks: paymentBlocks,
+		blkid: paymentBlockID,
                 amounts: addressAmounts,
                 balances: balanceAmounts,
                 work: shareAmounts
@@ -862,8 +887,13 @@ function SetupForPool(poolOptions, setupFinished) {
 
   var getProperAddress = function(address) {
     if (address.length === 40) {
-      return util.addressFromEx(poolOptions.address, address);
+
+      var res = address.split(".")
+//      return res[0];
+      return util.addressFromEx(poolOptions.address, res[0]);
+
     } else return address;
+    return address;
   };
 
 

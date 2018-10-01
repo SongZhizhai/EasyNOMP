@@ -51,7 +51,7 @@
         "redis": "^2.7.1",
         "request": "^2.83.0",
         "sma": "^0.1.0",
-        "stratum-pool": "git://github.com/1301313Y/node-stratum-pool.git",
+        "stratum-pool": "git://github.com/foxer666/node-stratum-pool.git",
         "winston": "3.0.0-rc2",
         "winston-daily-rotate-file": "^3.0.0"
     },

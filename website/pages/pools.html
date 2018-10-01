@@ -12,29 +12,43 @@
 	<table class="table table-bordered table-striped">
 	  <thead>
 	    <tr>
-					<th>Port</port>
+					<th>Coin</port>
 	      	<th>Symbol</th>
-	      	<th>Coin</th>
-	     		<th>Algorithm</th>
+	      	<th>Algorithm</th>
+	     		<th>Ports</th>
 	      	<th>Workers</th>
 		  		<th>Hash Rate</th>
         	<th>Fee</th>
+		<th>Donations:</th>
 	    </tr>
 	  </thead>
 	  <tbody>
 			{{ for(var pool in it.stats.pools) { }}
-		   		<th scope="row">{{=Object.keys(it.poolsConfigs[pool].ports)[0]}}</th>
-		      <th><a href="/stats/{{=it.stats.pools[pool].name}}">{{=it.stats.pools[pool].symbol}}</a></th>
-		 			<td>{{=it.stats.pools[pool].name.charAt(0).toUpperCase() + it.stats.pools[pool].name.slice(1)}}</td>
-					<td>{{=it.stats.pools[pool].algorithm}}</td>
-					<td>{{=it.stats.pools[pool].workerCount}}</td>
+		   		
+				<th>
+				<a class="bg-light text-dark pl-3" href="/stats/{{=it.stats.pools[pool].name}}">
+				<img src="/static/icons/{{=it.stats.pools[pool].name}}.png" alt="icon" style="height: 25px;"/> {{=it.stats.pools[pool].name.charAt(0).toUpperCase() + it.stats.pools[pool].name.slice(1)}} </a>
+				</th>
+				<th><a href="/stats/{{=it.stats.pools[pool].name}}">{{=it.stats.pools[pool].symbol}}</a></th>
+                                <td>{{=it.stats.pools[pool].algorithm}}</td>
+
+				<td scope="row">
+				{{ for(var pool2 in it.stats.pools) { }}
+				{{ if(pool2 !== pool) continue; }}
+				{{=Object.keys(it.poolsConfigs[pool2].ports)}}
+				{{ break; }}
+				{{ } }}
+				</td>
+				
+		 			<td>{{=it.stats.pools[pool].workerCount}}</td>
 					<td>{{=it.stats.pools[pool].hashrateString}}</td>
-            		{{ var total = 0.0; }}
-            		{{ var rewardRecipients = it.stats.pools[pool].rewardRecipients || {}; }}
-            		{{ for (var r in rewardRecipients) { }}
-            			{{ total += rewardRecipients[r]; }}
-            		{{ } }}
+            				{{ var total = 0.0; }}
+		            		{{ var rewardRecipients = it.stats.pools[pool].rewardRecipients || {}; }}
+            				{{ for (var r in rewardRecipients) { }}
+            				{{ total += rewardRecipients[r]; }}
+            			{{ } }}
             		<td>{{=total}}%</td>
+			<td>{{=it.poolsConfigs[pool].donateaddress}}
 		    </tr>
 			{{ } }}
 	  </tbody>

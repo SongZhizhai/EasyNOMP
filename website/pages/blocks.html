@@ -1,4 +1,5 @@
 <style>
+
   #bottomNotes {
     display: block;
     padding-left: 18px;
@@ -32,66 +33,87 @@
 
   .poolMinerTable {}
 
-  table {
+table {
     width: 100%;
   }
+
+/*    kthx css    */
+
+.vmiddle { vertical-align: middle; }
+.vhmiddle { vertical-align: middle; text-align: -webkit-center; }
+
+.tableHeaderStyle { vertical-align: middle; text-align: -webkit-center; font-size: 14px; color: black; font-size: 16px; color: black; padding: 0 0 0 0; margin: 0 0 0 0; }
+.tableRowStyle { vertical-align: middle; text-align: -webkit-center; font-size: 14px; color: black; padding: 0 0 0 0; margin: 0 0 0 0; height:25px; line-height:0px; }
+
+/*    kthx css   */
+
 </style>
+
+<div style="color:red;">
+<center><H2>We are currently working on our block explorer. Check pool stats page to see when we find blocks if this page not working.<br />Payouts confirmed working. Sorry for the inconvenience~!</h2></center>
+</div>
+
 <div style="margin-top: 36px;" >
   {{ var sortedPools = Object.keys(it.stats.pools); }}
-  {{ sortedPools.sort(function(a, b) { return a.workerCount - b.workerCount; }); }}
+  {{ sortedPools.sort(); }}
   <div class="col-md-5 table-responsive">
-    <table class="table table-bordered">
+    <table class="table table-bordered" style="width: 550px;">
       <thead>
         <tr>
-          <th><i class="fa fa-history"></i> Block History For</th>
-          <th>
-            <select class="form-control" id="coinSelect">
-              <option class="btn btn-primary dropdown-toggle" value="{{=sortedPools[0]}}" type="button" id="coinDropDown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                {{=sortedPools[0].charAt(0).toUpperCase() + sortedPools[0].slice(1)}}
+          <th class="vmiddle" style="width: 200px;"><i class="fa fa-history"></i> Block History For</th>
+          <th class="vmiddle">
+            <select class="form-control" id="coinSelect" style="width:100%;">
+              <option class="btn btn-primary dropdown-toggle" value="all" id="coinDropDown" data-toggle="dropdown" aria-haspopup="true">
+		All Coins
               </option>
               <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                {{ for(var i = 1; i < sortedPools.length; i++) { }}
-                  <option class="dropdown-item" value="{{=sortedPools[i]}}" type="button">{{=sortedPools[i].charAt(0).toUpperCase() + sortedPools[i].slice(1)}}</button>
+		{{ for(var i = 0; i < sortedPools.length; i++) { }}
+                  <option class="dropdown-item" value="{{=sortedPools[i]}}">{{=sortedPools[i].charAt(0).toUpperCase() + sortedPools[i].slice(1)}}</option>
                 {{ } }}
               </div>
-            </div>
+            
           </select>
           </th>
         </tr>
-        <tr>
-          <th colspan="2">{{=sortedPools[0].charAt(0).toUpperCase() + sortedPools[0].slice(1)}} History</th>
-        </tr>
+<!--        <tr>
+          <th class="vmiddle" colspan="2">{{=sortedPools[0].charAt(0).toUpperCase() + sortedPools[0].slice(1)}} History</th>
+        </tr>-->
       </thead>
       <tbody>
         <tr>
-          <th><i class="fa fa-hourglass-2"></i> Pending Blocks:</th>
-          <td id="tdHistoryPending">{{=it.stats.pools[sortedPools[0]].blocks.pending}}</td>
+          <th class="vmiddle"><i class="fa fa-hourglass-2"></i> Pending Blocks:</th>
+          <td id="tdHistoryPending" class="vhmiddle tdHistoryPending"></td>
         </tr>
         <tr>
-          <th><i class="fa fa-check"></i> Confirmed Blocks:</th>
-          <td id="tdHistoryConfirmed">{{=it.stats.pools[sortedPools[0]].blocks.confirmed}}</td>
+          <th class="vmiddle"><i class="fa fa-check"></i> Confirmed Blocks:</th>
+          <td id="tdHistoryConfirmed" class="vhmiddle tdHistoryConfirmed"></td>
         </tr>
         <tr>
-          <th><i class="fa fa-money"></i> Paid:</th>
-          <td id="tdHistoryPaid">{{=it.stats.pools[sortedPools[0]].poolStats.totalPaid}} {{=it.stats.pools[sortedPools[0]].symbol}}</td>
+          <th class="vmiddle"><i class="fa fa-money"></i> Paid:</th>
+          <td id="tdHistoryPaid" class="vhmiddle tdHistoryPaid"></td>
         </tr>
       </tbody>
     </table>
   </div>
+
+  <div>&nbsp;<br /><br /></div>
+
   <h4 class="display-4 ml-3 mt-0 mb-3" style="font-size: 24px;">Last 50 Blocks</h4>
   <fieldset>
-  <form action="" class="form-group" method="post">
+
+  <form action="#" class="form-group" method="post">
   <div class="col-md-12 table-responsive">
-    <table id="blockTable" class="table table-bordered table-hover" cellspacing="0">
+    <table id="blockTable" class="table table-bordered table-hover">
       <thead>
         <tr>
-          <th>Height</th>
-          <th>Time</th>
-          <th>Info</th>
-          <th>Shares</th>
-          <th>Miners</th>
-          <th>Paid</th>
-          <th>Status</th>
+	      <th class="vhmiddle tableHeaderStyle">Coin</th>
+          <th class="vhmiddle tableHeaderStyle">Height</th>
+          <th class="vhmiddle tableHeaderStyle">Time</th>
+          <th class="vhmiddle tableHeaderStyle">Transaction</th>
+          <th class="vhmiddle tableHeaderStyle">Shares</th>
+          <th class="vhmiddle tableHeaderStyle">Miners</th>
+          <th class="vhmiddle tableHeaderStyle">Paid</th>
+          <th class="vhmiddle tableHeaderStyle">Status</th>
         </tr>
       </thead>
       <tbody id="blockTableBody">
@@ -105,11 +127,20 @@
   <script>
 
     var dataTable = $("#blockTable").DataTable({
-        "order": [[ 0, "desc" ]]
+        "order": [[ 3, "desc" ]],
+    	"columnDefs": [
+    	      { "width": "150px", "targets": 0 },
+              { "width": "150px", "targets": 1 },
+              { "width": "125px", "targets": 2 },
+              { "width": "125px", "targets": 4 },
+              { "width": "100px", "targets": 5 },
+              { "width": "125px", "targets": 6 },
+              { "width": "100px", "targets": 7 }
+    	]
     });
 
     $("#coinSelect").ready(function() {
-      updateTable("{{=Object.keys(it.stats.pools)[0]}}", true);
+      updateTable(this.value, true);
     });
 
     $("#coinSelect").change(function() {
@@ -117,38 +148,83 @@
     });
 
     function updateTable(value, updateText){
+    
       var options = {
-        weekday: "long", year: "numeric", month: "short",
+        hour12: false, year: "numeric", month: "numeric",
         day: "numeric", hour: "2-digit", minute: "2-digit"
       };
+      
       "{{ var sortedPools = Object.keys(it.stats.pools); }}";
+      
       "{{ sortedPools.sort(function(a, b) { return a.workerCount - b.workerCount; }); }}";
+      
+      "{{ var totalPaidOut = 0.00000000; }}";
+      
       "{{ for(i in sortedPools) { }}";
-        "{{ var pool = sortedPools[i]; }}";
-        if("{{=pool}}" === value){
+      
+          "{{ var pool = sortedPools[i]; }}";
+        
           if(updateText){
-            $('#tdHistoryPaid').text("{{=it.stats.pools[pool].poolStats.totalPaid}} {{=it.stats.pools[pool].symbol}}");
-            $('#tdHistoryPending').text("{{=it.stats.pools[pool].blocks.pending}}");
-            $('#tdHistoryConfirmed').text("{{=it.stats.pools[pool].blocks.confirmed}}");
+          
+                if("all" !== value) {
+                
+                        $('#tdHistoryPending').text("{{=it.stats.pools[pool].blocks.pending}}");
+                        $('#tdHistoryConfirmed').text("{{=it.stats.pools[pool].blocks.confirmed}}");
+                        
+                        $('#tdHistoryPaid').text("{{=it.stats.pools[pool].poolStats.totalPaid}}");
+    		       
+    		     } 
+    		     else {
+                		
+                        {{ var totPending = 0; }}  
+                        {{ var totConfirmed = 0; }} 
+                        {{ for(pool22 in it.stats.pools) { }}
+                        {{ totPending = totPending + it.stats.pools[pool22].blocks.pending; }}
+                        {{ totConfirmed = totConfirmed + it.stats.pools[pool22].blocks.confirmed; }}
+                        {{ } }}
+                		
+                        $('#tdHistoryPending').text("{{=totPending}}");
+                        $('#tdHistoryConfirmed').text("{{=totConfirmed}}");
+                        
+                        "{{ totalPaidOut = totalPaidOut + it.stats.pools[pool].poolStats.totalPaid; }}";
+                        
+                        $('#tdHistoryPaid').text("{{=totalPaidOut}}");
+                }  
+            
+          
+          
+          
+              if(dataTable.row && ("all" !== value)) {
+                dataTable.clear().draw();
+              }
+    
+//              alert("{{=pool}}");
+                
+              "{{ for(p in it.stats.pools[pool].payments) { }}";
+                  
+                  "{{ var payment = it.stats.pools[pool].payments[p]; }}";
+                  
+//                    alert("{{=payment.blkid}}");
+    
+                  dataTable.row.add([
+        
+        	        '<div class="vhmiddle"><span class="tableRowStyle"><img src="/static/icons/{{=it.stats.pools[pool].name}}.png" style="height: 24px;" /> <a class="bg-light text-dark" href="/stats/{{=it.stats.pools[pool].name}}">{{=it.stats.pools[pool].name.charAt(0).toUpperCase() + it.stats.pools[pool].name.slice(1)}}</a></span></div>',
+        
+        	        '<div class="vhmiddle"><span class="tableRowStyle"><a class="bg-light text-dark" href="{{=it.stats.pools[pool].explorerGetBlock + payment.blkid}}" target="_blank"><img src="/static/img/pow.png" style="height: 28px;" alt="icon" />{{=Math.max.apply(null, payment.blocks)}}</a>&nbsp;&nbsp;<a class="bg-light text-dark" href="{{=it.stats.pools[pool].explorerGetBlockJSON + payment.blkid}}" target="_blank"><img src="/static/img/JSON.png" style="height: 25px;" /></a><span></div>',
+        
+                    '<div class="vhmiddle"><span class="tableRowStyle">' + new Date(parseInt("{{=payment.time}}")).toLocaleTimeString([], options).replace(",", " -").toUpperCase() + '</span></div>',
+                    '<div class="vhmiddle"><span class="tableRowStyle"><a class="bg-light text-dark" href="{{=it.stats.pools[pool].explorerGetTX + payment.txid}}" target="_blank">{{=payment.txid}}</a></span></div>',
+                    '<div class="vhmiddle"><span class="tableRowStyle">' + parseInt('{{=payment.shares}}') + '</span></div>',
+                    '<div class="vhmiddle"><span class="tableRowStyle">{{=payment.miners}}</span></div>',
+                    '<div class="vhmiddle"><span class="tableRowStyle">{{=parseFloat(payment.paid).toFixed(8)}}</span></div>',
+                    '<div class="vhmiddle"><span class="tableRowStyle"><span class="badge badge-success">Paid</span></span></div>',
+                  ]).draw(true);
+    
+              "{{ } }}";
+          
           }
-          if(dataTable.row) {
-            dataTable.clear().draw();
-          }
-          "{{ for(p in it.stats.pools[pool].payments) { }}";
-          "{{ var payment = it.stats.pools[pool].payments[p]; }}";
-          var url = String("{{=it.stats.pools[pool].explorerGetTX}}");
-          dataTable.row.add([
-            "{{=Math.max.apply(null, payment.blocks)}}",
-            new Date(parseInt("{{=payment.time}}")).toLocaleTimeString("en-us", options),
-            '<a href="{{=it.stats.pools[pool].explorerGetBlock.replace("block/", "tx/") + payment.txid}}">View Transaction</a>',
-            parseInt("{{=payment.shares}}"),
-            "{{=payment.miners}}",
-            "{{=parseFloat(payment.paid).toFixed(8)}}",
-            '<span class="badge badge-success">Paid</span>',
-          ]).draw(false);
-          dataTable.columns.adjust().draw();
-          "{{ } }}";
-        }
+        
       "{{ } }}";
     }
   </script>
+<!--

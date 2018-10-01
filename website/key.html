@@ -107,8 +107,8 @@
         <div class="heading warning">NO NOT LOSE THIS PRIVATE KEY. Any coins mined using this public key can
             only be controlled with this private key.</div>
 
-        <div class="heading">Private key: <br><input type="text" width="550px" readonly id="privateKeyHex"></div>
-        <div class="heading">Key for mining (hashed public key): <br><input type="text" width="550px" readonly id="miningKey"></div>
+        <div class="heading">Private key: <br /><input type="text" width="550px" readonly id="privateKeyHex"></div>
+        <div class="heading">Key for mining (hashed public key): <br /><input type="text" width="550px" readonly id="miningKey"></div>
 
         <p>
             An address for any type of coin can be derived from this mining key - and each of those coin address
@@ -138,7 +138,6 @@
     <div class="roundedWrapper">
         <div class="heading">Coin formatted keys</div>
         <select id="coinSelect">
-            <option value="">Select a coin</option>
             {{ for(var coin in it.coins) { }}
             <option value="{{=it.coins[coin]}}">{{=coin}}</option>
             {{ } }}
@@ -244,7 +243,7 @@ $id('print').addEventListener('click', function () {
     var printFrame = $id('printFrame');
     var printFrameDoc = printFrame.contentDocument || printFrame.contentWindow.document;
     printFrameDoc.body.innerHTML = '';
-    printFrameDoc.write('Private key hex data:<br> ' + wallet.getPrivateKeyHex() + '<script> function printPage(){ print() } <\/script>');
+    printFrameDoc.write('Private key hex data:<br /> ' + wallet.getPrivateKeyHex() + '<script> function printPage(){ print() } <\/script>');
     printFrame.contentWindow.focus();
     printFrame.contentWindow.printPage();
 }, false);

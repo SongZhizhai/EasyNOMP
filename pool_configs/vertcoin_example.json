@@ -1,10 +1,17 @@
 {
+
     "enabled": false,
+    
     "coin": "vertcoin.json",
+    
     "address": "pool_address",
+    
     "rewardRecipients": {
         "pool_reward_fee_address": 1
     },
+
+    "reward": "POW",
+    
     "paymentProcessing": {
         "enabled": true,
         "paymentInterval": 600,
