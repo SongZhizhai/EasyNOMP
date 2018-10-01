@@ -1,0 +1,302 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+        
+        <meta name="description" content="A reliable, low fee, easy to use mining pool for cryptocurrency! No matter your experience with mining cryptocurrency, we make it easy! Get started mining today!" />
+        <meta name="keywords" content="GPU,CPU,Hash,Hashrate,Cryptocurrency,Crypto,Mining,Pool,Bitcoin,Raven,Ravencoin,Wavi,Wavicoin,Dixicoin,Dixi,QBic,QBicCoin,Easy,Simple,How,To" />
+        <meta name="author" content="mys5droid" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+        <!-- de title and da favi -->
+        <title>EasyX Community Mining Pool</title>
+        <link rel="icon" type="image/png" href="/static/img/favicon.png" />
+
+        <!-- fonts n styles -->
+        <link href='//fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous" />
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/normalize/3.0.1/normalize.min.css" />
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.4.2/pure-min.css" />
+
+        <!-- bootstrap stoof -->
+        <script src="//code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+        <script src="//cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+        
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js" />
+        <link rel="stylesheet" href="//cdn.datatables.net/1.10.16/css/dataTables.bootstrap4.min.css" />
+        
+        <script src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+        <script src="//cdn.datatables.net/1.10.16/js/dataTables.bootstrap4.min.js"></script>
+
+        <!-- Charts n such -->
+        <script src="//cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.min.js"></script>
+        <script src="/static/raphael-2.1.4.min.js"></script>
+        <script src="/static/justgage.js"></script>
+
+        <!-- the scrieeeepts -->
+        <script src="/static/main.js"></script>
+        <script src="/static/stat_tracker.js"></script>
+        <!--<link rel="stylesheet" href="/static/style.css">-->
+
+        <!-- the cookie consent for the dashboard wallet lookup feature -->
+        <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.3/cookieconsent.min.css" />
+        
+        <script src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.3/cookieconsent.min.js"></script>
+        <script>
+            window.addEventListener("load", function() {
+                window.cookieconsent.initialise({
+                    "palette": {
+                        "popup": {
+                            "background": "#237afc"
+                        },
+                        "button": {
+                            "background": "#fff",
+                            "text": "#237afc"
+                        }
+                    },
+                    "theme": "classic"
+                })
+            });
+        </script>
+    </head>
+
+    <body>
+        <header>
+            <nav id="topNavBar" class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap px-0" style="height: 40px;">
+                <span style="font-size: 18px; color: white;">&nbsp;&nbsp;<b>EasyX Community Pool</b></span><span style="font-size: 16px; color: white;"><i>Join our Discord: <a href="https://discord.gg/vzcbVNW" target="_blank">https://discord.gg/vzcbVNW</a>&nbsp;&nbsp;&nbsp;&nbsp;</i></span>
+            </nav>
+        </header>
+        <style>
+            
+            #wrapper {
+                padding-left: 40px;
+                -webkit-transition: all 0.5s ease;
+                -moz-transition: all 0.5s ease;
+                -o-transition: all 0.5s ease;
+                transition: all 0.5s ease;
+            }
+
+            #wrapper.toggled {
+                padding-left: 250px;
+            }
+
+            #sidebar-wrapper {
+              overflow-x: hidden;
+                z-index: 1000;
+                position: fixed;
+                left: 250px;
+                width: 40px;
+                height: 100%;
+                margin-left: -250px;
+                overflow-y: auto;
+                -webkit-transition: all 0.5s ease;
+                -moz-transition: all 0.5s ease;
+                -o-transition: all 0.5s ease;
+                transition: all 0.5s ease;
+            }
+
+            #wrapper.toggled #sidebar-wrapper {
+                width: 250px;
+            }
+
+            #page-content-wrapper {
+                width: 100%;
+                position: absolute;
+                padding: 15px;
+            }
+
+            #wrapper.toggled #page-content-wrapper {
+                position: absolute;
+                margin-right: -250px;
+            }
+
+
+            /* Sidebar Styles */
+
+            .sidebar-nav {
+                position: absolute;
+                top: 0;
+                width: 250px;
+                margin: 0;
+                padding: 0;
+                list-style: none;
+            }
+
+            .sidebar-nav li {
+                line-height: 40px;
+            }
+
+            .sidebar-nav li a {
+                display: block;
+                text-decoration: none;
+                color: #f0f0f0;
+            }
+
+            .sidebar-nav li a:hover {
+                text-decoration: none;
+                color: #fff;
+                background: rgba(255, 255, 255, 0.2);
+            }
+
+            .sidebar-nav li a:active,
+            .sidebar-nav li a:focus {
+                text-decoration: none;
+            }
+
+            .sidebar-nav>.sidebar-brand {
+                height: 65px;
+                font-size: 18px;
+                line-height: 60px;
+            }
+
+            .sidebar-nav>.sidebar-brand a {
+                color: #999999;
+            }
+
+            .sidebar-nav>.sidebar-brand a:hover {
+                color: #fff;
+                background: none;
+            }
+
+            .sidebar-icon {
+              vertical-align: middle;
+              align-content: center;
+              text-align: center;
+              font-size: 25px;
+              padding-left: 7.5px;
+              padding-right: 7.5px;
+            }
+
+            @media(min-width:768px) {
+                #wrapper {
+                    padding-left: 40px;
+                }
+                #wrapper.toggled {
+                    padding-left: 250px;
+                }
+                #sidebar-wrapper {
+                    width: 40px;
+                }
+                #wrapper.toggled #sidebar-wrapper {
+                    width: 250px;
+                }
+                #page-content-wrapper {
+                    padding: 20px;
+                    position: relative;
+                }
+                #wrapper.toggled #page-content-wrapper {
+                    position: relative;
+                    margin-right: 0;
+                }
+            }
+            footer{
+                text-align: center;
+                color: #b3b3b3;
+                text-decoration: none;
+                font-size: 0.8em;
+                padding: 15px;
+                line-height: 24px;
+            }
+
+            footer a{
+                color: #1AC4BA;
+                text-decoration: none;
+            }
+
+            footer iframe{
+                vertical-align: middle;
+            }
+
+            .footer_container {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+        </style>
+        <div id="wrapper">
+
+            <!-- Sidebar -->
+            <div id="sidebar-wrapper" class="bg-dark toggled">
+                <ul class="sidebar-nav" style="margin-top: 40px;">
+                    <li>
+                        <a href="#menu-toggle" id="menu-toggle"><i class="fa fa-bars sidebar-icon"></i> Toggle Menu</a>
+                    </li>
+                    <li>
+                        <a href="/dashboard"><i class="fa fa-home sidebar-icon"></i> Dashboard</a>
+                    </li>
+                    <li>
+                        <a href="/pools"><i class="fa fa-info-circle sidebar-icon"></i> Pools <span class="sr-only">(current)</span></a>
+                    </li>
+                   <li><!-- Link with dropdown items -->
+                     <a class="sidebar-link" href="#homeSubmenu" data-toggle="collapse" aria-expanded="false"><i class="fa fa-bar-chart sidebar-icon"></i> Statistics</a>
+                     <ul class="collapse list-unstyled" id="homeSubmenu">
+                       {{ for(var pool in it.stats.pools) { }}
+                       <li>
+			     <a class="bg-dark text-light pl-3" href="/stats/{{=it.stats.pools[pool].name}}">&nbsp;&nbsp;<img src="/static/icons/{{=it.stats.pools[pool].name}}.png" style="height: 24px;" alt="icon" /> {{=it.stats.pools[pool].name.charAt(0).toUpperCase() + it.stats.pools[pool].name.slice(1)}}</a>
+			</li>
+                       {{ } }}
+                     </ul>
+                   </li>
+                   <li>
+                     <a href="/blocks">
+                         <i class="fa fa-history sidebar-icon"></i> Block History
+                       </a>
+                   </li>
+                   <li>
+                     <a href="/getting_started">
+                         <i class="fa fa-rocket sidebar-icon"></i> Getting Started
+                       </a>
+                   </li>
+
+                </ul>
+            </div>
+            <!--sidebar-wrapper-->
+
+            <!-- Page Content -->
+            <div class="page-content-wrapper px-0">
+                <div class="container-fluid px-0 pt-4">
+                    <main id="mainContent">
+                    {{=it.page}}
+                    </main>
+                </div>
+            </div>
+            <!--page-content-wrapper-->
+        </div>
+        <!--Don't be a dick... Keep this if you use the project-->
+        <footer>
+            <div class="footer_container">
+
+		<div><span>BTC Donations: 1PvSxjrpzNXCuBHCupAGuuzeUe5DE7kB7H</span><br />
+                <span>LTC Donations: LU6x6qjdMz4btBEhUU1AukJfUNmrwuaJJD</span><br />
+                <span>ETH/ERC20 Donations: 0x67a5A070012aBa9dFB50e571A40b3263C258d7D5</span><br />
+                <span>XMR Donations: 88LqrMZhweMGP61EUrHbkqRcxcYuL7fNRG3UrBYW8eGaN19KCjAuM3fTcr5BniFsf2g8Dmi7YVchBBmbHjWdCPkm1axmMUD</span></div>
+		<br />
+		<br />
+                <span>Powered by <a href="https://github.com/1301313Y/node-open-mining-portal" >BootNOMP</a></span>
+
+                <div id="communityFooter">
+                    <!--<iframe src="//ghbtns.com/github-btn.html?user=1301313Y&repo=node-open-mining-portal&type=watch&count=true"
+                            allowtransparency="true" frameborder="0" scrolling="0" width="80" height="20"></iframe>-->
+                </div>
+            </div>
+        </footer>
+        <!--Menu Toggle Script-->
+        <script>
+        $("#menu-toggle").click(function(e) {
+            e.preventDefault();
+            $("#wrapper").toggleClass("toggled");
+        });
+        $(".sidebar-link").click(function(e) {
+            e.preventDefault();
+            if(!$("#wrapper").hasClass("toggled")){
+              $("#wrapper").toggleClass("toggled");
+            }
+        });
+        </script>
+    </body>
+
+</html>

@@ -1,0 +1,12 @@
+{
+    "name": "SecureTag",
+    "symbol": "stg",
+    "algorithm": "neoscrypt",
+
+//    "peerMagic": "9170caca",
+
+    "explorerGetBlockJSON": "http://explorer.securetag.io:3001/api/getblock?hash=",
+    "explorerGetBlock": "http://explorer.securetag.io:3001/block/",
+    "explorerGetTX": "http://explorer.securetag.io:3001/tx/"
+
+}
