@@ -17,17 +17,19 @@ Order is priority
 
 ( ) Add option to make an manual payments rather than automatic (for pools with big network diff) [ LeshaCat: Will put control in Admin Panel that uses RPC call ]
 
-( ) New frontend [ LeshaCat: Does not do Graphics. Only functionality and minor visual improvements. ]
+( ) New frontend 
 
-( ) Move modules in one project [ LeshaCat: You take this one too ]
+( ) Move modules in one project 
 
 (?) Write different log level at one time [ LeshaCat: Clarification please...? ]
 
-( ) Documentation [ LeshaCat: Can do this too... ]
+( ) Docker Image / Documentation [ LeshaCat ]
 
-( ) MySQL/MariaDB/MongoDB options (one or all) as replacement for Redis ? [ LeshaCat: Can't do this either :( ]
+( ) Documentation [ LeshaCat ]
 
+( ) MySQL/MariaDB/MongoDB options (one or all) as replacement for Redis ?
 
+( ) Auto-Detect daemon.conf settings (if in default location) [ LeshaCat ]
 
 
 ===================================================================================================================================
