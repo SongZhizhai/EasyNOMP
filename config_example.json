@@ -4,12 +4,17 @@
     
     "poollogo": "",
     
+    "discordtwitterfacebook": "Join our #mining channel on Discord: <a href='https://discord.gg/vzcbVNW' target='_blank'>https://discord.gg/vzcbVNW</a>",
+    
     "pagetitle": "My Cool Pool - 0% Fees Promo - Run by professionals",
     "pageauthor": "My Name Is...",
     "pagedesc": "A reliable, low fee, easy to use mining pool for cryptocurrency! No matter your experience with mining cryptocurrency, we make it easy! Get started mining today!",
     "pagekeywds": "GPU,CPU,Hash,Hashrate,Cryptocurrency,Crypto,Mining,Pool,Bitcoin,Raven,Ravencoin,Wavi,Wavicoin,Dixicoin,Dixi,QBic,QBicCoin,Easy,Simple,How,To",
-    
-    "discordtwitterfacebook": "Join our #mining channel on Discord: <a href='https://discord.gg/vzcbVNW' target='_blank'>https://discord.gg/vzcbVNW</a>",
+
+    "btcdonations": "1PvSxjrpzNXCuBHCupAGuuzeUe5DE7kB7H",
+    "ltcdonations": "LU6x6qjdMz4btBEhUU1AukJfUNmrwuaJJD",
+    "ethdonations": "0x67a5A070012aBa9dFB50e571A40b3263C258d7D5",
+    "xmrdonations": "88LqrMZhweMGP61EUrHbkqRcxcYuL7fNRG3UrBYW8eGaN19KCjAuM3fTcr5BniFsf2g8Dmi7YVchBBmbHjWdCPkm1axmMUD",
 
     "logger" : {
         "level" : "debug",
