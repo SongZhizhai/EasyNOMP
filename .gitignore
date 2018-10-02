@@ -1,4 +1,6 @@
 *~
+*.bak
+.git/
 node_modules/
 .idea/
 config.json
