@@ -133,6 +133,10 @@ table {
 
   <script>
 
+    "{{ var totalPending = parseInt('0'); }}";
+    "{{ var totalConfirmed = parseInt('0'); }}";
+    "{{ var totalPaidOut = parseInt('0'); }}";
+
     var dataTable = $("#blockTable").DataTable({
         "order": [[ 3, "asc" ]],
     	"columnDefs": [
@@ -170,7 +174,7 @@ table {
       
       
       if(updateText && (dataTable.row)) {
-        dataTable.clear().draw();
+        dataTable.clear().draw(true);
       }
       
       
@@ -180,15 +184,11 @@ table {
         
           if(updateText){
           
-                 if ("all" !== value) {               
-                
-                    if("{{=pool}}" === value) {
+                 if (("all" !== value) && ("{{=pool}}" === value)) {  
                     
                             $('#tdHistoryPending').text("{{=it.stats.pools[pool].blocks.pending}}");
                             $('#tdHistoryConfirmed').text("{{=it.stats.pools[pool].blocks.confirmed}}");                            
                             $('#tdHistoryPaid').text("{{=it.stats.pools[pool].poolStats.totalPaid}}");
-        		       
-        		     } 
         		     
     		     }
     		     else {
@@ -197,9 +197,11 @@ table {
                     "{{ var tmpConfirmed = parseInt('{{=it.stats.pools[pool].blocks.confirmed}}'); }}";
                     "{{ var tmpPaid = parseInt('{{=it.stats.pools[pool].poolStats.totalPaid}}'); }}";
 
-                   
+//                    alert('{{=pool}}');
 
-//                    alert('{{=tmpPending}}'); alert('{{=tmpConfirmed}}'); alert('{{=tmpPaid}}'); 
+//                    alert('{{=tmpPending}}'); 
+//                    alert('{{=tmpConfirmed}}'); 
+//                    alert('{{=tmpPaid}}'); 
 
                     // Count totals :)
                     "{{ var totalPending = parseInt(totalPending) + parseInt(tmpPending); }}";
@@ -208,7 +210,9 @@ table {
                     /* Future convert to BTC just total for now */
                     "{{ var totalPaidOut = parseInt(totalPaidOut) + parseInt(tmpPaid); }}";
                     
-//                    alert('{{=totalPending}}'); alert('{{=totalConfirmed}}'); alert('{{=totalPaidOut}}');
+//                    alert('{{=totalPending}}'); 
+//                    alert('{{=totalConfirmed}}'); 
+//                    alert('{{=totalPaidOut}}');
     		     
     		     }
     		     
@@ -223,20 +227,25 @@ table {
                   "{{ var payment = it.stats.pools[pool].payments[p]; }}";
                   
 //                    alert("{{=payment.blkid}}");
+
+                  // IF STATEMENT HERE
+                  if (("{{=pool}}" === value) || ("all" === value)) {
     
-                  dataTable.row.add([
-        
-        	        '<div class="vhmiddle"><span class="tableRowStyle"><img src="/static/icons/{{=it.stats.pools[pool].name}}.png" style="height: 24px;" /> <a class="bg-light text-dark" href="/stats/{{=it.stats.pools[pool].name}}">{{=it.stats.pools[pool].name.charAt(0).toUpperCase() + it.stats.pools[pool].name.slice(1)}}</a></span></div>',
-        
-        	        '<div class="vhmiddle"><span class="tableRowStyle"><a class="bg-light text-dark" href="{{=it.stats.pools[pool].explorerGetBlock + payment.blkid}}" target="_blank"><img src="/static/img/pow.png" style="height: 28px;" alt="icon" />{{=Math.max.apply(null, payment.blocks)}}</a>&nbsp;&nbsp;<a class="bg-light text-dark" href="{{=it.stats.pools[pool].explorerGetBlockJSON + payment.blkid}}" target="_blank"><img src="/static/img/JSON.png" style="height: 25px;" /></a><span></div>',
-        
-                    '<div class="vhmiddle"><span class="tableRowStyle">' + new Date(parseInt("{{=payment.time}}")).toLocaleTimeString([], options).replace(",", " -").toUpperCase() + '</span></div>',
-                    '<div class="vhmiddle"><span class="tableRowStyle"><a class="bg-light text-dark" href="{{=it.stats.pools[pool].explorerGetTX + payment.txid}}" target="_blank">{{=payment.txid}}</a></span></div>',
-                    '<div class="vhmiddle"><span class="tableRowStyle">' + parseInt('{{=payment.shares}}') + '</span></div>',
-                    '<div class="vhmiddle"><span class="tableRowStyle">{{=payment.miners}}</span></div>',
-                    '<div class="vhmiddle"><span class="tableRowStyle">{{=parseFloat(payment.paid).toFixed(8)}}</span></div>',
-                    '<div class="vhmiddle"><span class="tableRowStyle"><span class="badge badge-success">Paid</span></span></div>',
-                  ]).draw(true);
+                      dataTable.row.add([
+            
+            	        '<div class="vhmiddle"><span class="tableRowStyle"><img src="/static/icons/{{=it.stats.pools[pool].name}}.png" style="height: 24px;" /> <a class="bg-light text-dark" href="/stats/{{=it.stats.pools[pool].name}}">{{=it.stats.pools[pool].name.charAt(0).toUpperCase() + it.stats.pools[pool].name.slice(1)}}</a></span></div>',
+            
+            	        '<div class="vhmiddle"><span class="tableRowStyle"><a class="bg-light text-dark" href="{{=it.stats.pools[pool].explorerGetBlock + payment.blkid}}" target="_blank"><img src="/static/img/pow.png" style="height: 28px;" alt="icon" />{{=Math.max.apply(null, payment.blocks)}}</a>&nbsp;&nbsp;<a class="bg-light text-dark" href="{{=it.stats.pools[pool].explorerGetBlockJSON + payment.blkid}}" target="_blank"><img src="/static/img/JSON.png" style="height: 25px;" /></a><span></div>',
+            
+                        '<div class="vhmiddle"><span class="tableRowStyle">' + new Date(parseInt("{{=payment.time}}")).toLocaleTimeString([], options).replace(",", " -").toUpperCase() + '</span></div>',
+                        '<div class="vhmiddle"><span class="tableRowStyle"><a class="bg-light text-dark" href="{{=it.stats.pools[pool].explorerGetTX + payment.txid}}" target="_blank">{{=payment.txid}}</a></span></div>',
+                        '<div class="vhmiddle"><span class="tableRowStyle">' + parseInt('{{=payment.shares}}') + '</span></div>',
+                        '<div class="vhmiddle"><span class="tableRowStyle">{{=payment.miners}}</span></div>',
+                        '<div class="vhmiddle"><span class="tableRowStyle">{{=parseFloat(payment.paid).toFixed(8)}}</span></div>',
+                        '<div class="vhmiddle"><span class="tableRowStyle"><span class="badge badge-success">Paid</span></span></div>',
+                      ]).draw(true);
+                  
+                  }
     
               "{{ } }}";
           
