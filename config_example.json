@@ -1,7 +1,7 @@
 {
     "logger" : {
         "level" : "debug",
-        "file" : "logs/nomp_debug.log"
+        "file" : "/home/MYUSER/logs/nomp_debug.log"
     },
 
     "cliHost": "127.0.0.1",
@@ -36,15 +36,15 @@
         "enabled": true,
         "host": "0.0.0.0",
         "port": 80,
-        "stratumHost": "cryppit.com",
+        "stratumHost": "MY_SERVER_IP_OR_DOMAIN_NAME_:_PORT",
         "stats": {
-            "updateInterval": 60,
+            "updateInterval": 15,
             "historicalRetention": 43200,
             "hashrateWindow": 300
         },
         "adminCenter": {
-            "enabled": true,
-            "password": "password"
+            "enabled": false,
+            "password": "NOT_WORKING_YET_:P_LESHACAT_CAN_DO_ADMIN_PANEL_FUNCTIONALITY_TOO"
         }
     },
 

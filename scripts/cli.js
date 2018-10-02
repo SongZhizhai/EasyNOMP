@@ -1,6 +1,6 @@
 var net = require('net');
 
-var defaultPort = 17000;
+var defaultPort = 17117;
 var defaultHost = '127.0.0.1';
 
 var args = process.argv.slice(2);
