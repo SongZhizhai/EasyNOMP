@@ -138,7 +138,7 @@ table {
     "{{ var totalPaidOut = parseInt('0'); }}";
 
     var dataTable = $("#blockTable").DataTable({
-        "order": [[ 3, "asc" ]],
+        "order": [[ 2, "desc" ]],
     	"columnDefs": [
     	      { "width": "150px", "targets": 0 },
               { "width": "150px", "targets": 1 },
@@ -237,7 +237,7 @@ table {
             
             	        '<div class="vhmiddle"><span class="tableRowStyle"><a class="bg-light text-dark" href="{{=it.stats.pools[pool].explorerGetBlock + payment.blkid}}" target="_blank"><img src="/static/img/pow.png" style="height: 28px;" alt="icon" />{{=Math.max.apply(null, payment.blocks)}}</a>&nbsp;&nbsp;<a class="bg-light text-dark" href="{{=it.stats.pools[pool].explorerGetBlockJSON + payment.blkid}}" target="_blank"><img src="/static/img/JSON.png" style="height: 25px;" /></a><span></div>',
             
-                        '<div class="vhmiddle"><span class="tableRowStyle">' + new Date(parseInt("{{=payment.time}}")).toLocaleTimeString([], options).replace(",", " -").toUpperCase() + '</span></div>',
+                        '<div class="vhmiddle"><span class="tableRowStyle">' + new Date(parseInt("{{=payment.time}}")).toISOString().replace(/([^T]+)T([^\.]+).*/g, '$1 $2').toUpperCase() + '</span></div>',
                         '<div class="vhmiddle"><span class="tableRowStyle"><a class="bg-light text-dark" href="{{=it.stats.pools[pool].explorerGetTX + payment.txid}}" target="_blank">{{=payment.txid}}</a></span></div>',
                         '<div class="vhmiddle"><span class="tableRowStyle">' + parseInt('{{=payment.shares}}') + '</span></div>',
                         '<div class="vhmiddle"><span class="tableRowStyle">{{=payment.miners}}</span></div>',
