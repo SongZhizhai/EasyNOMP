@@ -1,9 +1,9 @@
 {
-    "name": "mogwaicoin",
-    "symbol": "mog",
+    "name": "Mogwaicoin",
+    "symbol": "MOG",
     "algorithm": "neoscrypt",
 
-    "peerMagic": "9170caca",
+//    "peerMagic": "9170caca",
 
     "explorerGetBlockJSON": "http://explorer.mogwaicoin.org/api/getrawtransaction?txid=",
     "explorerGetBlock": "http://explorer.mogwaicoin.org/block/",
