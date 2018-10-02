@@ -1,4 +1,7 @@
 {
+    
+    "poolname": "",
+
     "logger" : {
         "level" : "debug",
         "file" : "/home/MYUSER/logs/nomp_debug.log"
@@ -36,7 +39,7 @@
         "enabled": true,
         "host": "0.0.0.0",
         "port": 80,
-        "stratumHost": "MY_SERVER_IP_OR_DOMAIN_NAME_:_PORT",
+        "stratumHost": "MY_SERVER_IP_OR_DOMAIN_NAME",
         "stats": {
             "updateInterval": 15,
             "historicalRetention": 43200,
