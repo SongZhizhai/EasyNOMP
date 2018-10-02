@@ -134,7 +134,7 @@ table {
   <script>
 
     var dataTable = $("#blockTable").DataTable({
-        "order": [[ 3, "desc" ]],
+        "order": [[ 3, "asc" ]],
     	"columnDefs": [
     	      { "width": "150px", "targets": 0 },
               { "width": "150px", "targets": 1 },
@@ -173,16 +173,10 @@ table {
         dataTable.clear().draw();
       }
       
-/*      "{{ var totalPending = parseInt(0); }}";
-      "{{ var totalConfirmed = parseInt(0); }}";
-      "{{ var totalPaidOut = parseInt(0); }}";*/
-      
       
       "{{ for(i in sortedPools) { }}";
       
           "{{ var pool = sortedPools[i]; }}";
-          
-          //alert('{{=pool}}');
         
           if(updateText){
           
@@ -211,16 +205,14 @@ table {
                     "{{ var totalPending = parseInt(totalPending) + parseInt(tmpPending); }}";
                     "{{ var totalConfirmed = parseInt(totalConfirmed) + parseInt(tmpConfirmed); }}";
                     
-                    /* future convert to BTC just total for now */
+                    /* Future convert to BTC just total for now */
                     "{{ var totalPaidOut = parseInt(totalPaidOut) + parseInt(tmpPaid); }}";
                     
 //                    alert('{{=totalPending}}'); alert('{{=totalConfirmed}}'); alert('{{=totalPaidOut}}');
     		     
     		     }
     		     
-            
-//          alert("{{=totalPaidOut}}");
-          
+                     
           
               
     

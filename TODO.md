@@ -35,7 +35,7 @@ Order is priority
 
 If you are OK with it I can knock a bit off this list, and you could handle graphics/modules/init.js and code I can't figure out
 
-Also I don't care to learn Redis, so adding new statistics you will need to do.
+Also I don't care to learn Redis, so adding new statistics or database options you will need to do.
 
 I have many other ideas but not going to list here.
 
