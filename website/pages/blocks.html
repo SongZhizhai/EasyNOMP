@@ -143,11 +143,15 @@ table {
     	      { "width": "150px", "targets": 0 },
               { "width": "150px", "targets": 1 },
               { "width": "125px", "targets": 2 },
+//              { "width": "125px", "targets": 3 }, //commented so transaction hash cell takes all left over space             
               { "width": "125px", "targets": 4 },
               { "width": "100px", "targets": 5 },
               { "width": "125px", "targets": 6 },
               { "width": "100px", "targets": 7 }
-    	]
+    	],
+    	"pageLength": 50,
+    	"pagingType": "full_numbers",
+    	"lengthMenu": [ 25, 50, 100, 150, 300, 500 ]
     });
 
     $("#coinSelect").ready(function() {

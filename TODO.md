@@ -13,6 +13,8 @@ Todo list (Ordered by priority)
     
 (?T?) Fix neoscrypt (Almost ready) [ LeshaCat: Is this not working? I am mining it lol ] 
 
+(!) Pools page (pools.html) needs sortable datatable [ Leshacat ]
+
 (!) Rewrite payments module + tests [ LeshaCat: Was looking at this module... (not rewrite, just add features, still pondering) ]
 
 ( ) Add option to make an manual payments rather than automatic (for pools with big network diff) [ LeshaCat: Will put control in Admin Panel that uses RPC call ]
