@@ -7,7 +7,8 @@
     "donateaddress": "REPLACE_THIS_WITH_DONATION_WALLET_ADDRESS",
 
     "rewardRecipients": {
-        "REPLACE_THIS_WITH_FEE_WALLET_ADDRESS": 0.00
+        "REPLACE_THIS_WITH_FEE_WALLET_ADDRESS1": 0.00,
+        "REPLACE_THIS_WITH_FEE_WALLET_ADDRESS2": 0.00
     },
 
     "reward": "POW",
@@ -45,24 +46,24 @@
                 "variancePercent": 30
             }
         },
-	"20002": {
-            "diff": 300,
-            "varDiff": {
-                "minDiff": 300,
-                "maxDiff": 600,
-                "targetTime": 15,
-                "retargetTime": 60,
-                "variancePercent": 30
-            }
-        },
-	"20003": {
-            "diff": 600,
-            "varDiff": {
-                "minDiff": 600,
-                "maxDiff": 1200,
-                "targetTime": 15,
-                "retargetTime": 60,
-                "variancePercent": 30
+    	"20002": {
+                "diff": 300,
+                "varDiff": {
+                    "minDiff": 300,
+                    "maxDiff": 600,
+                    "targetTime": 15,
+                    "retargetTime": 60,
+                    "variancePercent": 30
+                }
+            },
+    	"20003": {
+                "diff": 600,
+                "varDiff": {
+                    "minDiff": 600,
+                    "maxDiff": 1200,
+                    "targetTime": 15,
+                    "retargetTime": 60,
+                    "variancePercent": 30
             }
         }
     },
