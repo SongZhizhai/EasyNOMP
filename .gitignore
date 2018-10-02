@@ -2,6 +2,7 @@
 node_modules/
 .idea/
 config.json
-pool_configs/*.json
 logs/
-.gitkeep
+pool_configs/*.json
+!pool_configs/*_example.json
+!.gitkeep
