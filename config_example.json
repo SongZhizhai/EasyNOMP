@@ -1,6 +1,11 @@
 {
     
-    "poolname": "",
+    "poolname": "My Cool Pool",
+    
+    "pagetitle": "My Cool Pool - 0% Fees Promo - Run by professionals",
+    "pageauthor": "My Name Is....",
+    "pagedesc": "A reliable, low fee, easy to use mining pool for cryptocurrency! No matter your experience with mining cryptocurrency, we make it easy! Get started mining today!",
+    "pagekeywds": "GPU,CPU,Hash,Hashrate,Cryptocurrency,Crypto,Mining,Pool,Bitcoin,Raven,Ravencoin,Wavi,Wavicoin,Dixicoin,Dixi,QBic,QBicCoin,Easy,Simple,How,To",
 
     "logger" : {
         "level" : "debug",
