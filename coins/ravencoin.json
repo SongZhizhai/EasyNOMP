@@ -4,6 +4,6 @@
     "algorithm": "x16r",
     "explorerGetBlockJSON": "http://www.threeeyed.info/api/getblock?hash=",
     "explorerGetBlock": "http://threeeyed.info/block/",
-    "explorerGetTX": "http://www.threeeyed.info/api/getrawtransaction?txid={0}&decrypt=1",
+    "explorerGetTX": "http://www.threeeyed.info/api/getrawtransaction?decrypt=1&txid=",
     "blockTime": 60
 }
