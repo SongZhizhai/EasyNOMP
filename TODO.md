@@ -12,7 +12,7 @@ Todo list (Ordered by priority)
     
 (?) Fix neoscrypt (Almost ready) [ LeshaCat: Is this not working? I am mining it lol ] 
 
-(!) Rewrite payments module + tests [ LeshaCat: Currently looking at this module... (not rewrite, just add features) ]
+(!) Rewrite payments module + tests [ LeshaCat: Was looking at this module... (not rewrite, just add features, still pondering) ]
 
 ( ) Add option to make an manual payments rather than automatic (for pools with big network diff) [ LeshaCat: Will put control in Admin Panel that uses RPC call ]
 
@@ -30,15 +30,14 @@ Todo list (Ordered by priority)
 
 ( ) Auto-Detect daemon.conf settings (if in default location) [ LeshaCat ]
 
-
 ===================================================================================================================================
+Mark your name beside tasks you wish to work on, or are currently working on :)
 
-
-If you are OK with it I can knock a bit off this list, and you could handle graphics/modules/init.js and code I can't figure out
+If you are OK with it I can knock a bit off this list, and you could handle graphics/stats/modules/redis/init.js and code I can't figure out
 
 Also I don't care to learn Redis, so adding new statistics or database options you will need to do.
 
 I have many other ideas but not going to list here.
 
-LeshaCat Current focus: Block Explorer.
+LeshaCat CURRENT Main focus: Block Explorer.
 
