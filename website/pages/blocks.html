@@ -54,8 +54,15 @@ table {
 </div>
 
 <div style="margin-top: 36px;" >
+
   {{ var sortedPools = Object.keys(it.stats.pools); }}
-  {{ sortedPools.sort(); }}
+
+
+
+  {{ sortedPools.sort(function(a, b) { return a.workerCount - b.workerCount; }); }}
+
+
+
   <div class="col-md-5 table-responsive">
     <table class="table table-bordered" style="width: 550px;">
       <thead>
@@ -140,7 +147,7 @@ table {
     });
 
     $("#coinSelect").ready(function() {
-      updateTable(this.value, true);
+      updateTable("all", true);
     });
 
     $("#coinSelect").change(function() {
@@ -156,49 +163,68 @@ table {
       
       "{{ var sortedPools = Object.keys(it.stats.pools); }}";
       
+      
+      
+      
       "{{ sortedPools.sort(function(a, b) { return a.workerCount - b.workerCount; }); }}";
       
-      "{{ var totalPaidOut = 0.00000000; }}";
+      
+      if(updateText && (dataTable.row)) {
+        dataTable.clear().draw();
+      }
+      
+/*      "{{ var totalPending = parseInt(0); }}";
+      "{{ var totalConfirmed = parseInt(0); }}";
+      "{{ var totalPaidOut = parseInt(0); }}";*/
+      
       
       "{{ for(i in sortedPools) { }}";
       
           "{{ var pool = sortedPools[i]; }}";
+          
+          //alert('{{=pool}}');
         
           if(updateText){
           
-                if("all" !== value) {
+                 if ("all" !== value) {               
                 
-                        $('#tdHistoryPending').text("{{=it.stats.pools[pool].blocks.pending}}");
-                        $('#tdHistoryConfirmed').text("{{=it.stats.pools[pool].blocks.confirmed}}");
-                        
-                        $('#tdHistoryPaid').text("{{=it.stats.pools[pool].poolStats.totalPaid}}");
-    		       
-    		     } 
+                    if("{{=pool}}" === value) {
+                    
+                            $('#tdHistoryPending').text("{{=it.stats.pools[pool].blocks.pending}}");
+                            $('#tdHistoryConfirmed').text("{{=it.stats.pools[pool].blocks.confirmed}}");                            
+                            $('#tdHistoryPaid').text("{{=it.stats.pools[pool].poolStats.totalPaid}}");
+        		       
+        		     } 
+        		     
+    		     }
     		     else {
-                		
-                        {{ var totPending = 0; }}  
-                        {{ var totConfirmed = 0; }} 
-                        {{ for(pool22 in it.stats.pools) { }}
-                        {{ totPending = totPending + it.stats.pools[pool22].blocks.pending; }}
-                        {{ totConfirmed = totConfirmed + it.stats.pools[pool22].blocks.confirmed; }}
-                        {{ } }}
-                		
-                        $('#tdHistoryPending').text("{{=totPending}}");
-                        $('#tdHistoryConfirmed').text("{{=totConfirmed}}");
-                        
-                        "{{ totalPaidOut = totalPaidOut + it.stats.pools[pool].poolStats.totalPaid; }}";
-                        
-                        $('#tdHistoryPaid').text("{{=totalPaidOut}}");
-                }  
+
+                    "{{ var tmpPending = parseInt('{{=it.stats.pools[pool].blocks.pending}}'); }}";
+                    "{{ var tmpConfirmed = parseInt('{{=it.stats.pools[pool].blocks.confirmed}}'); }}";
+                    "{{ var tmpPaid = parseInt('{{=it.stats.pools[pool].poolStats.totalPaid}}'); }}";
+
+                   
+
+//                    alert('{{=tmpPending}}'); alert('{{=tmpConfirmed}}'); alert('{{=tmpPaid}}'); 
+
+                    // Count totals :)
+                    "{{ var totalPending = parseInt(totalPending) + parseInt(tmpPending); }}";
+                    "{{ var totalConfirmed = parseInt(totalConfirmed) + parseInt(tmpConfirmed); }}";
+                    
+                    /* future convert to BTC just total for now */
+                    "{{ var totalPaidOut = parseInt(totalPaidOut) + parseInt(tmpPaid); }}";
+                    
+//                    alert('{{=totalPending}}'); alert('{{=totalConfirmed}}'); alert('{{=totalPaidOut}}');
+    		     
+    		     }
+    		     
             
+//          alert("{{=totalPaidOut}}");
           
           
-          
-              if(dataTable.row && ("all" !== value)) {
-                dataTable.clear().draw();
-              }
+              
     
-//              alert("{{=pool}}");
+
                 
               "{{ for(p in it.stats.pools[pool].payments) { }}";
                   
@@ -225,6 +251,16 @@ table {
           }
         
       "{{ } }}";
+
+      if ("all" === value) {
+            
+            var tmpOutVar = parseInt("{{=totalPaidOut}}").toFixed(8);            
+            
+       		$('#tdHistoryPending').text("{{=totalPending}}");
+            $('#tdHistoryConfirmed').text("{{=totalConfirmed}}");                        
+            $('#tdHistoryPaid').text(tmpOutVar);
+      }      
+      
     }
   </script>
 <!--
