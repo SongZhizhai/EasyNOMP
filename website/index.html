@@ -67,7 +67,13 @@
     <body>
         <header>
             <nav id="topNavBar" class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap px-0" style="height: 40px;">
-                <span style="font-size: 18px; color: white;">&nbsp;&nbsp;<b>{{=it.portalConfig.poolname}}</b></span><span style="font-size: 16px; color: white;"><i>Join our #mining channel on Discord: <a href="https://discord.gg/vzcbVNW" target="_blank">https://discord.gg/vzcbVNW</a>&nbsp;&nbsp;&nbsp;&nbsp;</i></span>
+                {{ if (it.portalConfig.poollogo !== "") { }}
+                        <img src='{{=it.portalConfig.poollogo}}' />
+                    {{ } else { }}
+                    <span style="font-size: 18px; color: white;">&nbsp;&nbsp;<b>{{=it.portalConfig.poolname}}</b></span>
+                    {{ } }}
+                    
+                    <span style="font-size: 16px; color: white;"><i>{{=it.portalConfig.discordtwitterfacebook}}</i></span>
             </nav>
         </header>
         <style>
