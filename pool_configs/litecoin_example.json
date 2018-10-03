@@ -2,12 +2,16 @@
     "enabled": false,
     "coin": "litecoin.json",
 
-    "address": "pool_address",
+    "address": "REPLACE_THIS_WITH_POOL_WALLET_ADDRESS",
+
+    "donateaddress": "LU6x6qjdMz4btBEhUU1AukJfUNmrwuaJJD",
 
     "rewardRecipients": {
-        "pool_reward_fee_address1": 1.5,
-        "pool_reward_fee_address2": 0.1
+        "REPLACE_THIS_WITH_FEE_WALLET_ADDRESS1": 0.00,
+        "REPLACE_THIS_WITH_FEE_WALLET_ADDRESS2": 0.00
     },
+
+    "reward": "POW",
 
     "paymentProcessing": {
         "enabled": true,
@@ -16,8 +20,8 @@
         "daemon": {
             "host": "127.0.0.1",
             "port": 19332,
-            "user": "testuser",
-            "password": "testpass"
+            "user": "REPLACE_THIS_WITH_RPC_USER",
+            "password": "REPLACE_THIS_WITH_RPC_PASSWD"
         }
     },
 

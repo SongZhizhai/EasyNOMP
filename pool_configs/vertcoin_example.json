@@ -1,21 +1,30 @@
 {
     "enabled": false,
     "coin": "vertcoin.json",
-    "address": "pool_address",
+
+    "address": "REPLACE_THIS_WITH_POOL_WALLET_ADDRESS",
+
+    "donateaddress": "REPLACE_THIS_WITH_DONATION_WALLET_ADDRESS",
+
     "rewardRecipients": {
-        "pool_reward_fee_address": 1
+        "REPLACE_THIS_WITH_FEE_WALLET_ADDRESS1": 0.00,
+        "REPLACE_THIS_WITH_FEE_WALLET_ADDRESS2": 0.00
     },
+
+    "reward": "POW",
+    
     "paymentProcessing": {
         "enabled": true,
-        "paymentInterval": 600,
-        "minimumPayment": 0.01,
+        "paymentInterval": 1800,
+        "minimumPayment": 0.5,
         "daemon": {
             "host": "127.0.0.1",
             "port": 5888,
-            "user": "testuser",
-            "password": "testpass"
+            "user": "REPLACE_THIS_WITH_RPC_USER",
+            "password": "REPLACE_THIS_WITH_RPC_PASSWD"
         }
     },
+    
     "ports": {
         "3008": {
             "diff": 8
@@ -34,20 +43,23 @@
             "diff": 256
         }
     },
+    
     "daemons": [
         {
             "host": "127.0.0.1",
             "port": 5888,
-            "user": "testuser",
-            "password": "testpass"
+            "user": "REPLACE_THIS_WITH_RPC_USER",
+            "password": "REPLACE_THIS_WITH_RPC_PASSWD"
         }
     ],
+    
     "p2p": {
         "enabled": false,
         "host": "127.0.0.1",
         "port": 5889,
         "disableTransactions": true
     },
+    
     "mposMode": {
         "enabled": false,
         "host": "127.0.0.1",
@@ -58,6 +70,7 @@
         "checkPassword": true,
         "autoCreateWorker": false
     },
+    
     "mongoMode": {
         "enabled": false,
         "host": "127.0.0.1",
@@ -66,4 +79,5 @@
         "database": "vtc",
         "authMechanism": "DEFAULT"
     }
+    
 }

@@ -18,8 +18,8 @@ $(function(){
       var coin = wallet[0];
       var address = wallet[1];
       dataTable.row.add([
-        "<a href=\"/workers/" + address + "\"><img src=\"./static/icons/" + coin + ".png\" height=\"24px\"/> " + address + "</a>",
-        "<button id=\"" + address + "\" type=\"button\" class=\"btn btn-danger\" style=\"padding-top: 0; height: 23px;\"><i class=\"fa fa-trash-o\"></i> Delete&nbsp;</button></td>"
+        "<a href=\"/workers/" + address + "\"><img src=\"./static/icons/" + coin + ".png\" height=\"25px\"/> " + address + "</a>",
+        "<button id=\"" + address + "\" type=\"button\" class=\"btn btn-danger\" style=\"padding-top: 0; height: 18px;\"><i class=\"fa fa-trash-o\"></i> Delete&nbsp;</button></td>"
       ]).draw(false);
       $('#' + address).click(function(event) {
         if(confirm("Are you sure you want to delete address: " + address)){

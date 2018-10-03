@@ -13,7 +13,7 @@
 
 <div class="container-fluid p-4">
 	<div class="row">
-  	<div class="col-md-12 pl-0 pr-0">
+	<div class="col-md-12 pl-0 pr-0">
       <table class="table table-bordered table-responsive-lg">
         <thead>
           <tr>
@@ -26,61 +26,78 @@
             {{ for(var pool in it.stats.pools) { }}
               {{ if(pool !== it.stats.coin) continue; }}
               <tr>
-                <td>Coin: </td>
-                <td><img src="/static/icons/{{=String(it.stats.coin)}}.png" height="24px"/></td>
-                <td>Port:</td>
+                <td style="text-align:center;">Coin: </td>
+                <td style="text-align:center;"><img src="/static/icons/{{=String(it.stats.coin)}}.png" alt="icon" style="height: 24px;" /> {{=(String(it.stats.coin).charAt(0).toUpperCase() + String(it.stats.coin).slice(1))}}</td>
+                <td style="text-align:center;">Workers:</td>
+		<td id="poolWorkers" style="text-align:center;">{{=it.stats.pools[pool].workerCount}}</td>
+                <td style="text-align:center;">Hashrate:</td>
+                <td id="poolHashRate" style="text-align:center;">{{=it.stats.pools[pool].hashrateString}}</td>
+                <td style="text-align:center;">Pending Blocks:</td>
+                <td id="pendingBlocks" style="text-align:center;">{{=it.stats.pools[pool].blocks.pending}}</td>
+
+                <td style="text-align:center;">Hashrate:</td>
+                <td style="text-align:center;">{{=it.stats.pools[pool].poolStats.networkSolsString}}</td>
+
+                <td style="text-align:center;">Height:</td>
+                <td style="text-align:center;">{{=it.stats.pools[pool].poolStats.networkBlocks}}</td>
+
+              <tr>
+              <tr>
+                <td style="text-align:center;">Ports:</td>
                 {{ for(var pool in it.poolsConfigs) { }}
                   {{ if(pool !== it.stats.coin) continue; }}
-                  <td>{{=Object.keys(it.poolsConfigs[pool].ports)}}</td>
+                  <td colspan="3" style="text-align:center;">{{=Object.keys(it.poolsConfigs[pool].ports)}}</td>
                   {{ break; }}
                 {{ } }}
-                <td>Hashrate:</td>
-                <td id="poolHashRate">{{=it.stats.pools[pool].hashrateString}}</td>
-                <td>Pending:</td>
-                <td id="pendingBlocks">{{=it.stats.pools[pool].blocks.pending}}</td>
-                <td>Connections:</td>
-                <td>{{=it.stats.pools[pool].poolStats.networkConnections}}</td>
-                <td>Difficulty:</td>
-                <td>{{=Number(Math.round(it.stats.pools[pool].poolStats.networkDiff + 'e' + 4) + 'e-' + 4)}}</td>
-              <tr>
-              <tr>
-                <td>Name: </td>
-                <td>{{=(String(it.stats.coin).charAt(0).toUpperCase() + String(it.stats.coin).slice(1))}}</td>
-                <td>Workers:</td>
-                <td id="poolWorkers">{{=it.stats.pools[pool].workerCount}}</td>
-                <td>Valid Shares:</td>
-                <td id="validShares">{{=it.stats.pools[pool].poolStats.validShares}}</td>
-                <td>Confirmed:</td>
-                <td id="confirmedBlocks">{{=it.stats.pools[pool].blocks.confirmed}}</td>
-                <td>Hashrate:</td>
-                <td>{{=it.stats.pools[pool].poolStats.networkSolsString}}</td>
-                <td>Height:</td>
-                <td>{{=it.stats.pools[pool].poolStats.networkBlocks}}</td>
+                <td style="text-align:center;">Valid Shares:</td>
+                <td id="validShares" style="text-align:center;">{{=it.stats.pools[pool].poolStats.validShares}}</td>
+                <td style="text-align:center;">Confirmed Blocks:</td>
+                <td id="confirmedBlocks" style="text-align:center;">{{=it.stats.pools[pool].blocks.confirmed}}</td>
+                <td style="text-align:center;">Difficulty:</td>
+                <td style="text-align:center;">{{=Number(Math.round(it.stats.pools[pool].poolStats.networkDiff + 'e' + 4) + 'e-' + 4)}}</td>
+
+                <td style="text-align:center;">Connections:</td>
+                <td style="text-align:center;">{{=it.stats.pools[pool].poolStats.networkConnections}}</td>
               </tr>
+		
+		<tr>
+		<td colspan="12" style="text-align:center;">{{=it.stats.pools[pool].name.charAt(0).toUpperCase() + it.stats.pools[pool].name.slice(1)}} Donations: {{=it.poolsConfigs[pool].donateaddress}}</td>
+		</tr>
+
               {{ break; }}
             {{ } }}
         </tbody>
       </table>
-  	</div>
   </div>
+  </div>
+
+  <div class="row">&nbsp;<br /></div>
+
   <div class="row justify-content-center">
-  	<div class="col-md-12 chartWrapper">
+  <div class="col-md-12 chartWrapper">
       <div class="chartLabel">Hashrate History</div>
       <div class="chartHolder"><canvas id="poolHashChart" height="50"></canvas></div>
-  	</div>
   </div>
+  </div>
+
+  <div class="row">&nbsp;<br /></div>
+
+  <div class="row justify-content-center">
+    <div class="col-md-12 chartWrapper">
+      <div class="chartLabel">Pending Block History</div>
+      <div class="chartHolder"><canvas id="blockChart" height="50"></div>
+    </div>
+  </div>
+
+  <div class="row">&nbsp;<br /></div>
+
   <div class="row justify-content-center">
     <div class="col-md-12 chartWrapper">
       <div class="chartLabel">Worker History</div>
       <div class="chartHolder"><canvas id="poolWorkerChart" height="50"></canvas></div>
     </div>
   </div>
-	<div class="row justify-content-center">
-    	<div class="col-md-12 chartWrapper">
-        	<div class="chartLabel">Pending Block History</div>
-        	<div class="chartHolder"><canvas id="blockChart" height="50"></div>
-    	</div>
-	</div>
+
 </div>
 
 
