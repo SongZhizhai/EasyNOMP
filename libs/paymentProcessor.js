@@ -30,7 +30,7 @@ module.exports = function() {
 
   async.filter(enabledPools, function(coin, callback) {
     SetupForPool(poolConfigs[coin], function(setupResults) {
-      logger.debug("Processing processor initialized. Setup results %s", setupResults);
+      logger.debug("Payment processor initialized. Setup results %s", setupResults);
       callback(null, setupResults);
     });
   }, function(err, coins) {
@@ -681,7 +681,8 @@ function SetupForPool(poolOptions, setupFinished) {
 
 
           /* CHANGED TO INSTANTSEND (NEEDS CONFIG OPTION) */
-          daemon.cmd('sendmany', [addressAccount || '', addressAmounts, 0, false, "Miner Payment", feeAddresses, false, false], function(result) {
+          // Send Many needs custom for each coin... Or general one like below that SHOULD work with all forks. (, false, "Miner Payment", feeAddresses, true, false)
+          daemon.cmd('sendmany', [addressAccount || '', addressAmounts, 0], function(result) {
             //Check if payments failed because wallet doesn't have enough coins to pay for tx fees
             if (result.error && result.error.code === -6) {
               var higherPercent = withholdPercent.plus(new BigNumber(0.01));

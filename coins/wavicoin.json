@@ -1,5 +1,5 @@
 {
-    "name": "Wavicoin",
+    "name": "wavicoin",
     "symbol": "WAVI",
     "algorithm": "yescryptR32",
     "explorerGetBlockJSON": "http://www.dixi.live/api/getblock?hash=",

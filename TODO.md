@@ -5,15 +5,12 @@ Todo list (Ordered by priority)
 ( ) Auto-Detect if walletd is out of date and warn admin
 
 (!) Block Explorer
-    - (T) Block DataTable
     - (!) Immature blocks / Confirmation count
 
 (!) More statistics 
     - (!) BTC Value of block at time of mining
     - (!) Average blocks per day, week, month for each coin
     - (!) Average time to find block
-    
-(?T?) Fix neoscrypt (Almost ready) [ LeshaCat: Is this not working? I am mining it lol ] 
 
 (!) Pools page (pools.html) needs sortable datatable [ Leshacat ]
 

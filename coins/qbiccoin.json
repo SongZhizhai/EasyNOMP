@@ -1,5 +1,5 @@
 {
-    "name": "Qbiccoin",
+    "name": "qbiccoin",
     "symbol": "QBIC",
     "algorithm": "neoscrypt",
     "explorerGetBlockJSON": "http://explorer.qbic.io:3001/api/getblock?hash=",

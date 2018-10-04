@@ -1,5 +1,5 @@
 {
-    "name": "Dixicoin",
+    "name": "dixicoin",
     "symbol": "DXC",
     "algorithm": "c11",
     "explorerGetBlockJSON": "http://www.dixi.live/api/getblock?hash=",

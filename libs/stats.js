@@ -270,11 +270,12 @@ module.exports = function(portalConfig, poolConfigs) {
         ['scard', ':blocksConfirmed'],
         ['scard', ':blocksOrphaned'],
         ['smembers', ':blocksConfirmed'],
-        ['zrange', ':payments', -100, -1],
+        ['zrange', ':payments', -500, -1],
         ['hgetall', ':shares:roundCurrent'],
         ['smembers', ':blocksConfirmed'],
         ['hgetall', ':blocksPendingConfirms'],
-        ['smembers', ':blocksConfirmed']
+        ['smembers', ':blocksConfirmed'],
+        ['zrange', ':blocksPendingConfirms', -100, -1]
       ];
 
       var commandsPerCoin = redisCommandTemplates.length;
@@ -329,12 +330,15 @@ module.exports = function(portalConfig, poolConfigs) {
                 confirms: (replies[i + 10] || {})
               },
               /* show last 50 found blocks */
-							confirmed: {
-								blocks: replies[i + 11].sort(sortBlocks).slice(0,50)
-							},
+			  confirmed: {
+			  	blocks: replies[i + 11].sort(sortBlocks).slice(0,50)
+			  },
               payments: [],
               currentRoundShares: (replies[i + 8] || {})
             };
+            
+            
+            /* PUSH CONFIRMED PAYMENTS TO ARRAY */
             for(var j = replies[i + 7].length; j > 0; j--){
                  var jsonObj;
                  try {
@@ -346,6 +350,22 @@ module.exports = function(portalConfig, poolConfigs) {
                      coinStats.payments.push(jsonObj);
                  }
              }
+            
+          //PUSH IMMATURE PAYMENTS TO ARRAY
+            for(var j = replies[i + 12].length; j > 0; j--){
+                 var jsonObj;
+                 try {
+                     jsonObj = JSON.parse(replies[i + 12][j-1]);
+                 } catch(e) {
+                     jsonObj = null;
+                 }
+                 if (jsonObj !== null) {
+                     coinStats.blocksPending.push(jsonObj);
+                 }
+             }
+             
+             
+             
             allCoinStats[coinStats.name] = (coinStats);
           }
           callback();

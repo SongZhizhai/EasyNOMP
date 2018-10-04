@@ -1,5 +1,5 @@
 {
-    "name": "QuDex",
+    "name": "qudex",
     "symbol": "QDP",
     "algorithm": "qubit",
     "explorerGetBlockJSON": "http://www.qudexpay.com:3001/api/getblock?hash=",

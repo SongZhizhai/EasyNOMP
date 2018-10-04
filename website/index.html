@@ -71,7 +71,7 @@
                         <img src='{{=it.portalConfig.poollogo}}' />
                     {{ } else { }}
                     <span style="font-size: 18px; color: white;">&nbsp;&nbsp;<b>{{=it.portalConfig.poolname}}</b></span>
-                    {{ } }}
+                {{ } }}
                     
                     <span style="font-size: 16px; color: white;"><i>{{=it.portalConfig.discordtwitterfacebook}}&nbsp;&nbsp;&nbsp;&nbsp;</i></span>
             </nav>
@@ -268,13 +268,13 @@
             <div class="page-content-wrapper px-0">
                 <div class="container-fluid px-0 pt-4">
                 
+                {{ if (it.portalConfig.poolwarningmsg !== "") { }}
                 
-                <!-- LEAVE THIS HERE, COMMENT OUT, AND PUT CONDITIONAL MESSAGE DISPLAY LINKED TO CONFIG OPTION -->
-                <div style="color:red; text-align: center;">
-                	<h2>RVN back online! Block explorer almost complete... 0% fee promo in effect for limited time!</h2>
-                </div>
-                <!-- LEAVE THIS HERE, COMMENT OUT, AND PUT CONDITIONAL MESSAGE DISPLAY LINKED TO CONFIG OPTION -->
+                    <div style="color:red; text-align: center;">
+                    	<h2>{{=it.portalConfig.poolwarningmsg}}</h2>
+                    </div>
                 
+                {{ } }}
                 
                     <main id="mainContent">
                     {{=it.page}}
