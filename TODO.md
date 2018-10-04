@@ -2,6 +2,8 @@ Todo list (Ordered by priority)
 ===============================
 [ ?=question ] [ !=important ] [ I=inprogress ] [T=testing] [ X=completed]
 
+( ) Auto-Detect if walletd is out of date and warn admin
+
 (!) Block Explorer
     - (T) Block DataTable
     - (!) Immature blocks / Confirmation count
@@ -22,18 +24,14 @@ Todo list (Ordered by priority)
 ( ) New frontend [ Are you changing the design? ]
 
 ( ) Move modules in one project 
-
 (?) Write different log level at one time [ What do you mean...? ]
 
 ( ) Docker Image / Documentation [ LeshaCat ]
-
 ( ) Documentation [ LeshaCat ]
-
 ( ) MySQL/MariaDB/MongoDB options (one or all) as replacement for Redis ?
-
 ( ) Auto-Detect daemon.conf settings (if in default location) [ LeshaCat ]
 
-===================================================================================================================================
+============================================================================================================================
 
 Mark your name beside tasks you wish to work on, or are currently working on :)
 

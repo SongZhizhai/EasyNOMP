@@ -325,7 +325,7 @@ var startCliListener = function () {
         switch (command) {
             case 'blocknotify':
                 Object.keys(cluster.workers).forEach(function (id) {
-                    cluster.workers[id].send({type: 'blocknotify', coin: params[0], hash: params[1]});
+                    cluster.workers[id].send({type: 'blocknotify', coin: params[0].toLowerCase(), hash: params[1]});
                 });
                 reply('Pool workers notified');
                 break;
@@ -334,9 +334,9 @@ var startCliListener = function () {
                 break;
             case 'reloadpool':
                 Object.keys(cluster.workers).forEach(function (id) {
-                    cluster.workers[id].send({type: 'reloadpool', coin: params[0]});
+                    cluster.workers[id].send({type: 'reloadpool', coin: params[0].toLowerCase()});
                 });
-                reply('reloaded pool ' + params[0]);
+                reply('reloaded pool ' + params[0].toLowerCase());
                 break;
             default:
                 reply('unrecognized command "' + command + '"');
