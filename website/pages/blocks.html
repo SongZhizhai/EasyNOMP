@@ -64,7 +64,7 @@ table {
 
 
   <div class="col-md-5 table-responsive">
-    <table class="table table-bordered" style="width: 550px;">
+    <table class="table table-bordered" style="width:100%">
       <thead>
         <tr>
           <th class="vmiddle" style="width: 200px;"><i class="fa fa-history"></i> Block History For</th>
@@ -190,9 +190,11 @@ table {
           
                  if (("all" !== value) && ("{{=pool}}" === value)) {  
                     
+			"{{ var tmpPaid = parseFloat('{{=it.stats.pools[pool].poolStats.totalPaid}}').toFixed(8); }}";
+			
                             $('#tdHistoryPending').text("{{=it.stats.pools[pool].blocks.pending}}");
                             $('#tdHistoryConfirmed').text("{{=it.stats.pools[pool].blocks.confirmed}}");                            
-                            $('#tdHistoryPaid').text("{{=it.stats.pools[pool].poolStats.totalPaid}}");
+                            $('#tdHistoryPaid').text("{{=tmpPaid}}");
         		     
     		     }
     		     else {
