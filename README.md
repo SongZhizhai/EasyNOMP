@@ -45,19 +45,19 @@ _Updates marked with `*` are considered stable releases._
 
 -------
 ### Node Open Mining Portal consists from 3 main modules:
-* [NOMP](https://github.com/1301313Y/node-open-mining-portal)
-* [Stratum Pool](https://github.com/1301313Y/node-stratum-pool)
-* [Node Multihashing](https://github.com/1301313Y/node-multi-hashing)
+* [BootNOMP](https://github.com/leshacat/BootNOMP.git)
+* [Stratum Pool](https://github.com/leshacat/node-stratum-pool)
+* [Node Multihashing](https://github.com/leshacat/node-multi-hashing)
 
 _Stratum Pool can be replaced with [node-merged-pool](https://github.com/UNOMP/node-merged-pool)._<br>
-_Add new algorithms using [Node Multihashing](https://github.com/1301313Y/node-multi-hashing)._
+_Add new algorithms using [Node Multihashing](https://github.com/leshacat/node-multi-hashing)._
 
 Current version: v1.1.3
 
 -------
 ### Install
 ```
-git clone https://github.com/foxer666/node-open-mining-portal.git pool
+git clone https://github.com/leshacat/BootNOMP.git pool
 cd pool
 npm install
 node init.js
@@ -154,6 +154,7 @@ You can see the logs of the server with ```docker logs -f nomp```, or jump into 
 * [icecube45](//github.com/icecube45) - helping out with the repo wiki
 * [Fcases](//github.com/Fcases) - ordered me a pizza <3
 * [yoshuki43](//github.com/yoshuki43) - his K-Nomp project has really help the development!
+* [leshacat](//github.com/leshacat) - fixed lots of configuration options & block explorer
 * Those that contributed to [node-stratum-pool](//github.com/zone117x/node-stratum-pool#credits)
 
 -------
