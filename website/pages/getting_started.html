@@ -97,7 +97,7 @@
         <tr>
           <td colspan="2" style="text-align: center;">
             <div class="input-group class="my-2"">
-              <input id="generatedConfigOutput" type="text" class="form-control" value="Donate: ccminer -a neoscrypt -o stratum+tcp://mn0.pizone.tk:22000 -u MNs3x26ZGstazVXPTNmPbm6PVRd39Ke8gK -p c=MOG" aria-describedby="basic-addon2" readonly>
+              <input id="generatedConfigOutput" type="text" class="form-control" style="text-align:center;" value="Donate: ccminer -a neoscrypt -o stratum+tcp://{{=it.portalConfig.website.stratumHost}}:22000 -u MNs3x26ZGstazVXPTNmPbm6PVRd39Ke8gK -p c=MOG" aria-describedby="basic-addon2" readonly>
               <div class="input-group-append">
                 <span class="input-group-text" id="copyButton"><button class="btn btn-info w-100" type="button" data-toggle="popover" data-content="Copied To Clipboard!"><i class="fa fa-clipboard"></i></button></span>
               </div>
@@ -137,7 +137,7 @@
   });
 
   var generate =  function(info) {
-    var raw = "{0} -{5} {1} -o stratum+tcp://mn0.pizone.tk:{2} -u {3} -p c={4}";
+    var raw = "{0} -{5} {1} -o stratum+tcp://{{=it.portalConfig.website.stratumHost}}:{2} -u {3} -p c={4}";
     var miner = $('#minerSelectBox').val();
     var coin = $('#coinSelectBox').val().replace('_cpu', '');
     console.log(coin);
