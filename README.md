@@ -63,6 +63,7 @@ Copy & paste the command
 ```
 cd BootNOMP
 git pull
+npm update -g
 npm --depth 9999 update
 node init.js
 ```
