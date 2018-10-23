@@ -30,7 +30,7 @@ If you need support, you can join EasyX Community Discord https://discord.gg/vzc
 -------
 ### Requirements
 * Node Version Manager (wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash)
-* Node 8.1.4 or higher
+* Node 8.1.4 or higher (nvm install v8.1.4)
 * Redis Server (sudo apt install -y redis-server)
 * Process Manager 2 (npm install -g PM2@latest)
 * Coin daemon(s)
