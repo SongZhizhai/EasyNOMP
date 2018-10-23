@@ -26,6 +26,12 @@ _Add new algorithms using [Node Multihashing](https://github.com/leshacat/node-m
 While the master branch is considered stable, leshacat/BootNOMP is currently under loads of development - check out the development branch (git checkout development)
 
 If you need support, you can join EasyX Community Discord https://discord.gg/vzcbVNW channel #easyx-pool and ask @Shawn for help!
+```
+-------
+### Requirements
+* Node 8.1.4 or higher
+* Coin daemon(s)
+* Redis Server
 
 -------
 ### Install
@@ -42,12 +48,6 @@ cd BootNOMP
 git pull
 npm --depth 9999 update
 node init.js
-```
--------
-### Requirements
-* Node 8.1.4 or higher
-* Coin daemon(s)
-* Redis Server
 
 -------
 ### Run in Docker
