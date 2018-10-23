@@ -1,4 +1,7 @@
-# BootNOMP README.md
+### LeshaCat fork of [1301313Y/BootNOMP:master](https://github.com/1301313Y/BootNOMP)
+***Current Version: v1.1.4***
+#### [leshacat/BootNOMP:master](https://github.com/leshacat/BootNOMP) pool is live @ [http://miningpool.easyx.info:44420/](http://miningpool.easyx.info:44420/)
+-------
 
 ### Helping give NOMP new life! With some style.
 ***If you want to help contribute, please look at the original [project](https://github.com/foxer666/node-open-mining-portal) first!***
@@ -17,8 +20,6 @@ You can fork this repository by clicking "fork" in the top right.
 
 _Stratum Pool can be replaced with [node-merged-pool](https://github.com/UNOMP/node-merged-pool) - https://github.com/UNOMP/node-merged-pool._<br>
 _Add new algorithms using [Node Multihashing](https://github.com/leshacat/node-multi-hashing) - https://github.com/leshacat/node-multi-hashing._
-
-Current version: v1.1.4
 
 -------
 ### !~ DEVELOPMENT WARNING ~!
