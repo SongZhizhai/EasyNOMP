@@ -1,4 +1,5 @@
-# BootNOMP v1.1.4 - leshacat fork of 1301313Y/BootNOMP:master
+# BootNOMP v1.1.4
+## Leshacat fork of 1301313Y/BootNOMP:master
 
 ### Helping give NOMP new life! With some style.
 ***If you want to help contribute, please look at the original [project](https://github.com/foxer666/node-open-mining-portal) first!***
