@@ -167,10 +167,10 @@ http://www.gnu.org/licenses/gpl-2.0.html
 I drink a lot trust me... I will love you forever!
 
 
-BTC: `148UCoHdsiRQShaYpLBD3ymagMxZ3ypjfp`
+BTC: `1PvSxjrpzNXCuBHCupAGuuzeUe5DE7kB7H`
 
-ETH: `0xdC88283D6DeD303CeAF88221869B6F3e6F1f69Ab`
+LTC: `LU6x6qjdMz4btBEhUU1AukJfUNmrwuaJJD`
 
-DXC: `DE9seweYFGhSnpnELimB9vDNsbWn81ERvD`
+ETH/ERC20: `0x67a5A070012aBa9dFB50e571A40b3263C258d7D5`
 
-WAVI: `WVES2K3J42Ayj9WVQ3erN7u7ze129JSXMN`
+XMR: `88LqrMZhweMGP61EUrHbkqRcxcYuL7fNRG3UrBYW8eGaN19KCjAuM3fTcr5BniFsf2g8Dmi7YVchBBmbHjWdCPkm1axmMUD`
