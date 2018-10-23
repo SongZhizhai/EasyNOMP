@@ -1,5 +1,6 @@
 # BootNOMP v1.1.4
-### Leshacat fork of [1301313Y/BootNOMP:master](https://github.com/1301313Y/BootNOMP)
+### LeshaCat fork of [1301313Y/BootNOMP:master](https://github.com/1301313Y/BootNOMP)
+#### [leshacat/BootNOMP:master](https://github.com/leshacat/BootNOMP) pool is live @ [http://miningpool.easyx.info:44420/](http://miningpool.easyx.info:44420/)
 -------
 
 ### Helping give NOMP new life! With some style.
