@@ -13,6 +13,11 @@ You can fork this repository by clicking "fork" in the top right.
 -------
 ## Updates
 _Updates marked with `*` are considered stable releases._
+* v1.2.1
+   * Forked from 1301313Y by LeshaCat
+   * Added donation addresses in config files
+   * Added meta tag control in config files
+   * Reworked Block Explorer (shows all coins)
 * v1.1.3*
    * Launched website! Be sure to check it out!
    * Redesigned statistics tracking structure, removing redundency.
