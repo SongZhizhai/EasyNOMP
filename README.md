@@ -21,6 +21,7 @@ _Updates marked with `*` are considered stable releases._
    * Added donation addresses in config files
    * Added meta tag control in config files
    * Reworked Block Explorer (shows all coins)
+   * Fix for https://github.com/foxer666/node-stratum-pool/pull/33
    
 * v1.1.3*
    * Launched website! Be sure to check it out!
