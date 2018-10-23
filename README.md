@@ -48,7 +48,7 @@ pm2 init
 git clone https://github.com/leshacat/BootNOMP.git
 cd BootNOMP
 npm install
-pm2 start init.js --name pool --watch
+pm2 start init.js -i max --watch --name pool
 ```
 
 -------
@@ -59,13 +59,27 @@ pm2 startup
 Copy & paste the command
 
 -------
+### Restarting Pool
+```
+pm2 stop pool -i max --watch
+pm2 start pool -i max --watch
+```
+
+-------
+### Watching Logs
+```
+pm2 logs pool
+```
+
+-------
 ### Update
 ```
 cd BootNOMP
 git pull
 npm update -g
 npm --depth 9999 update
-node init.js
+pm2 stop pool -i max --watch
+pm2 start pool -i max --watch
 ```
 
 -------
