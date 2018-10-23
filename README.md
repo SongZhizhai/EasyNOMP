@@ -1,7 +1,7 @@
 # BootNOMP README.md
 
 ### Helping give NOMP new life! With some style.
-#### If you want to help contribute, please look at the original [project](https://github.com/foxer666/node-open-mining-portal) first!
+***If you want to help contribute, please look at the original [project](https://github.com/foxer666/node-open-mining-portal) first!***
 
 BootNOMP is all the things great about NOMP, now with modern style and design of BootStrap 4! Having disliked the previous UI, due to cramping, little to no info displayed while what is displayed is not very helpful to users. I decided to fork a already great project, and add some stylistic touches it severely needs. I would of considered requesting pulls to the main branch, though with such heavy changes to the project, I decided a hard fork would be well suited. But if you would like to contribute, please consider looking at the [original project](https://github.com/foxer666/node-open-mining-portal) first, as these guys are the ones who helped get this NOMP rebirthing process started.
 
