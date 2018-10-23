@@ -1,5 +1,6 @@
 ## v1.1.4 (under development)
 * Forked from 1301313Y by LeshaCat
+* Added Process Manager 2 (pm2@latest)
 * Added coin config files / examples
 * Added donation addresses in config files
 * Added meta tag control in config files
