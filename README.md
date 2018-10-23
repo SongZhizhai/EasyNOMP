@@ -15,7 +15,7 @@ You can fork this repository by clicking "fork" in the top right.
 -------
 ## Updates
 _Updates marked with `*` are considered stable releases._
-* v1.1.4
+* v1.1.4 (under development)
    * Forked from 1301313Y by LeshaCat
    * Added donation addresses in config files
    * Added meta tag control in config files
