@@ -11,12 +11,12 @@ You can fork this repository by clicking "fork" in the top right.
 
 -------
 ### Node Open Mining Portal consists from 3 main modules:
-* [BootNOMP](https://github.com/leshacat/BootNOMP.git) (https://github.com/leshacat/BootNOMP.git)
-* [Stratum Pool](https://github.com/leshacat/node-stratum-pool) (https://github.com/leshacat/node-stratum-pool)
-* [Node Multihashing](https://github.com/leshacat/node-multi-hashing) (https://github.com/leshacat/node-multi-hashing)
+* [BootNOMP](https://github.com/leshacat/BootNOMP.git) - https://github.com/leshacat/BootNOMP.git
+* [Stratum Pool](https://github.com/leshacat/node-stratum-pool) - https://github.com/leshacat/node-stratum-pool
+* [Node Multihashing](https://github.com/leshacat/node-multi-hashing) - https://github.com/leshacat/node-multi-hashing
 
-_Stratum Pool can be replaced with [node-merged-pool](https://github.com/UNOMP/node-merged-pool)._<br>
-_Add new algorithms using [Node Multihashing](https://github.com/leshacat/node-multi-hashing)._
+_Stratum Pool can be replaced with [node-merged-pool](https://github.com/UNOMP/node-merged-pool) - https://github.com/UNOMP/node-merged-pool._<br>
+_Add new algorithms using [Node Multihashing](https://github.com/leshacat/node-multi-hashing) - https://github.com/leshacat/node-multi-hashing._
 
 Current version: v1.1.3
 
