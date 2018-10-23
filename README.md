@@ -17,14 +17,18 @@ You can fork this repository by clicking "fork" in the top right.
 _Updates marked with `*` are considered stable releases._
 * v1.1.4 (under development)
    * Forked from 1301313Y by LeshaCat
+   * Added coin config files / examples
    * Added donation addresses in config files
    * Added meta tag control in config files
    * Reworked Block Explorer (shows all coins)
+   * Fix for https://github.com/foxer666/node-stratum-pool/pull/33
+   
 * v1.1.3*
    * Launched website! Be sure to check it out!
    * Redesigned statistics tracking structure, removing redundency.
    * Added more info to the account statistic page.
    * Considered stable, though needs to be fully tested!
+   
 * v1.1.2
    * Change charts once again, to ChartJS
    * Redesigned Pool/Worker stats pages
@@ -32,25 +36,30 @@ _Updates marked with `*` are considered stable releases._
    * Completed more of Dashboard.
    * Added new NavBar
    * Initial Completetion, Almost Ready For Production. Going live @[NotoHash.club](https://notohash.club) soon.
+   
 * v1.1.1
    * Added payment info to redis.
    * Finished initial version of payment history page.
    * Finished initial version of block history page.
    * Finished new homepage.
    * Almost ready for stable release!
+   
 * v1.1.0
     * Added new homepage design.
     * Added dashboard functionality.
     * Added EMA to graphing.
     * Confirmed C11 functionality with Dixicoin.
+    
 * v1.0.9
     * Added pool statistic pages.
     * Expanded API.
     * Cleaned up main nav bar.
     * Added Ravencoin config file.
+    
 * v1.0.8
     * Fixed C11 algorithm.
     * Starting major UI overhaul using BootStrap 4.
+    
 * v1.0.7*
     * Lyra2z (Zcoin) algo fixed, next step is neoscrypt.
 

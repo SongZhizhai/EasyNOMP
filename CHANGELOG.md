@@ -1,10 +1,16 @@
-## v1.0.0
+## v1.1.4 (under development)
+* Forked from 1301313Y by LeshaCat
+* Added coin config files / examples
+* Added donation addresses in config files
+* Added meta tag control in config files
+* Reworked Block Explorer (shows all coins)
+* Fix for https://github.com/foxer666/node-stratum-pool/pull/33
 
+## v1.0.0
 * Started versioning
 * Fixed payments functionality https://github.com/foxer666/node-stratum-pool/pull/6
 
 ## v1.0.1
-
 * Stratum module update https://github.com/foxer666/node-stratum-pool/pull/7
 
 ## v1.0.2
