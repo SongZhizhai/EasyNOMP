@@ -92,7 +92,7 @@ npm install
 node init.js
 ```
 -------
-### update
+### Update
 ```
 cd BootNOMP
 git pull
