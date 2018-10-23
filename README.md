@@ -1,4 +1,4 @@
-### LeshaCat fork of [1301313Y/BootNOMP:master](https://github.com/1301313Y/BootNOMP)
+### LeshaCat fork of BootNOMP ([1301313Y/BootNOMP:master](https://github.com/1301313Y/BootNOMP))
 ***Current Version: v1.1.4***
 #### [leshacat/BootNOMP:master](https://github.com/leshacat/BootNOMP) pool is live @ [http://miningpool.easyx.info:44420/](http://miningpool.easyx.info:44420/)
 -------
@@ -28,26 +28,59 @@ While the master branch is considered stable, leshacat/BootNOMP is currently und
 If you need support, you can join EasyX Community Discord https://discord.gg/vzcbVNW channel #easyx-pool and ask @Shawn for help!
 
 -------
+### Requirements
+* Node Version Manager (wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash)
+* Node 8.1.4 or higher (nvm install v8.1.4)
+* Redis Server (sudo apt install -y redis-server)
+* Process Manager 2 (npm install -g PM2@latest)
+* Coin daemon(s)
+
+
+-------
 ### Install
 ```
+wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
+nvm install v8.1.4
+nvm use v8.1.4
+npm update -g
+npm install pm2@latest
+pm2 init
 git clone https://github.com/leshacat/BootNOMP.git
 cd BootNOMP
 npm install
-node init.js
+pm2 start init.js -i max --watch --name pool
 ```
+
+-------
+### Starup
+```
+pm2 startup
+```
+Copy & paste the command
+
+-------
+### Restarting Pool
+```
+pm2 stop pool -i max --watch
+pm2 start pool -i max --watch
+```
+
+-------
+### Watching Logs
+```
+pm2 logs pool
+```
+
 -------
 ### Update
 ```
 cd BootNOMP
 git pull
+npm update -g
 npm --depth 9999 update
-node init.js
+pm2 stop pool -i max --watch
+pm2 start pool -i max --watch
 ```
--------
-### Requirements
-* Node 8.1.4 or higher
-* Coin daemon(s)
-* Redis Server
 
 -------
 ### Run in Docker
