@@ -18,7 +18,7 @@ You can fork this repository by clicking "fork" in the top right.
 _Stratum Pool can be replaced with [node-merged-pool](https://github.com/UNOMP/node-merged-pool) - https://github.com/UNOMP/node-merged-pool._<br>
 _Add new algorithms using [Node Multihashing](https://github.com/leshacat/node-multi-hashing) - https://github.com/leshacat/node-multi-hashing._
 
-Current version: v1.1.4
+***Current version: v1.1.4***
 
 -------
 ### !~ DEVELOPMENT WARNING ~!
