@@ -1,9 +1,10 @@
-## !~ DEVELOPMENT WARNING ~!
+### !~ DEVELOPMENT WARNING ~!
 While the master branch is considered stable, leshacat/BootNOMP is currently under loads of development - check out the development branch (git checkout development)
 
 If you need support, you can join EasyX Community Discord https://discord.gg/vzcbVNW channel #easyx-pool and ask @Shawn for help!
 
-## Helping give NOMP new life! With some style.
+-------
+### Helping give NOMP new life! With some style.
 #### If you want to help contribute, please look at the original [project](https://github.com/foxer666/node-open-mining-portal) first!
 
 BootNOMP is all the things great about NOMP, now with modern style and design of BootStrap 4! Having disliked the previous UI, due to cramping, little to no info displayed while what is displayed is not very helpful to users. I decided to fork a already great project, and add some stylistic touches it severely needs. I would of considered requesting pulls to the main branch, though with such heavy changes to the project, I decided a hard fork would be well suited. But if you would like to contribute, please consider looking at the [original project](https://github.com/foxer666/node-open-mining-portal) first, as these guys are the ones who helped get this NOMP rebirthing process started.
@@ -43,6 +44,7 @@ node init.js
 * Coin daemon(s)
 * Redis Server
 
+-------
 ### Run in Docker
 _LeshaCat will redo docker as soon as done with block explorer/etc_
 1) Correct configs appropriately to your environment in docker directory
@@ -112,8 +114,6 @@ You can see the logs of the server with ```docker logs -f nomp```, or jump into 
 | - | __Scrypt-Jane__ | submitblock not working tested with CacheCoin, Yacoin |
 
 -------
-
--------
 ### Credits
 * [a2hill](//github.com/a2hill) - helped with X16r
 * [devnulled](//github.com/devnull-ed) - helped with lyra2z, neoscrypt algo
@@ -134,9 +134,9 @@ You can see the logs of the server with ```docker logs -f nomp```, or jump into 
 Released under the GNU General Public License v2
 http://www.gnu.org/licenses/gpl-2.0.html
 
-
+-------
 ### Buy Me Some Coffee?
-I drink a lot trust me... I will love you forever!
+I drink about 3 pots a day... I will love you forever!
 
 
 BTC: `1PvSxjrpzNXCuBHCupAGuuzeUe5DE7kB7H`
@@ -146,8 +146,6 @@ LTC: `LU6x6qjdMz4btBEhUU1AukJfUNmrwuaJJD`
 ETH/ERC20: `0x67a5A070012aBa9dFB50e571A40b3263C258d7D5`
 
 XMR: `88LqrMZhweMGP61EUrHbkqRcxcYuL7fNRG3UrBYW8eGaN19KCjAuM3fTcr5BniFsf2g8Dmi7YVchBBmbHjWdCPkm1axmMUD`
-
-
 
 -------
 ## Changelog
