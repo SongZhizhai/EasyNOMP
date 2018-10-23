@@ -1,8 +1,5 @@
-## For Support:
+## Attention!
 leshacat/BootNOMP is currently under loads of construction. If you need support, you can join EasyX Community Discord https://discord.gg/vzcbVNW channel #easyx-pool and ask @Shawn for help!
-
-## Attention! 
-This project will soon be replaced by my upcoming project Open Source Mining Portal (OSMP); which will take the great features NOMP offers, while expanding upon them and giving everything a better look! I have no current ETA, though once I have a proof of work, I will release the repository under MIT! Stay tuned if you would like to help out development by contributing!
 
 ## Helping give NOMP new life! With some style.
 #### If you want to help contribute, please look at the original [project](https://github.com/foxer666/node-open-mining-portal) first!
@@ -69,12 +66,12 @@ node init.js
 ```
 -------
 ### Requirements
-* Node 8.x.x or higher
-* Coin daemon
+* Node 8.1.4 or higher
+* Coin daemon(s)
 * Redis Server
 
 ### Run in Docker
-_I Do Not Use Docker, So I Will Not Be Maintaining This Feature_
+_LeshaCat will redo docker as soon as done with block explorer/etc_
 1) Correct configs appropriately to your environment in docker directory
 2) ```cd docker```
 3) ```docker build -t nomp .```
