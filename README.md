@@ -23,11 +23,13 @@ _Updates marked with `*` are considered stable releases._
    * Reworked Block Explorer (shows all coins)
    * Fix for https://github.com/foxer666/node-stratum-pool/pull/33
    
+   
 * v1.1.3*
    * Launched website! Be sure to check it out!
    * Redesigned statistics tracking structure, removing redundency.
    * Added more info to the account statistic page.
    * Considered stable, though needs to be fully tested!
+   
    
 * v1.1.2
    * Change charts once again, to ChartJS
@@ -37,6 +39,7 @@ _Updates marked with `*` are considered stable releases._
    * Added new NavBar
    * Initial Completetion, Almost Ready For Production. Going live @[NotoHash.club](https://notohash.club) soon.
    
+   
 * v1.1.1
    * Added payment info to redis.
    * Finished initial version of payment history page.
@@ -44,11 +47,13 @@ _Updates marked with `*` are considered stable releases._
    * Finished new homepage.
    * Almost ready for stable release!
    
+   
 * v1.1.0
     * Added new homepage design.
     * Added dashboard functionality.
     * Added EMA to graphing.
     * Confirmed C11 functionality with Dixicoin.
+    
     
 * v1.0.9
     * Added pool statistic pages.
@@ -56,12 +61,15 @@ _Updates marked with `*` are considered stable releases._
     * Cleaned up main nav bar.
     * Added Ravencoin config file.
     
+    
 * v1.0.8
     * Fixed C11 algorithm.
     * Starting major UI overhaul using BootStrap 4.
     
+    
 * v1.0.7*
     * Lyra2z (Zcoin) algo fixed, next step is neoscrypt.
+
 
 -------
 ### Node Open Mining Portal consists from 3 main modules:
