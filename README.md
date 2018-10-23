@@ -1,5 +1,4 @@
 # BootNOMP README.md
--------
 
 ### Helping give NOMP new life! With some style.
 #### If you want to help contribute, please look at the original [project](https://github.com/foxer666/node-open-mining-portal) first!
