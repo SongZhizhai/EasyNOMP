@@ -1,3 +1,6 @@
+## For Support:
+BootNOMP is currently under loads of construction. If you need support, you can join EasyX Community Discord https://discord.gg/vzcbVNW channel #easyx-pool and ask @Shawn for help!
+
 ## Attention! 
 This project will soon be replaced by my upcoming project Open Source Mining Portal (OSMP); which will take the great features NOMP offers, while expanding upon them and giving everything a better look! I have no current ETA, though once I have a proof of work, I will release the repository under MIT! Stay tuned if you would like to help out development by contributing!
 
