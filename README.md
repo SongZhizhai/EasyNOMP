@@ -1,4 +1,4 @@
-## Development Warning!
+## !~ DEVELOPMENT WARNING ~!
 leshacat/BootNOMP is currently under loads of development. If you need support, you can join EasyX Community Discord https://discord.gg/vzcbVNW channel #easyx-pool and ask @Shawn for help!
 
 ## Helping give NOMP new life! With some style.
