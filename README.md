@@ -1,5 +1,7 @@
 ## !~ DEVELOPMENT WARNING ~!
-leshacat/BootNOMP is currently under loads of development. If you need support, you can join EasyX Community Discord https://discord.gg/vzcbVNW channel #easyx-pool and ask @Shawn for help!
+While the master branch is considered stable, leshacat/BootNOMP is currently under loads of development - check out the development branch (git checkout development)
+
+If you need support, you can join EasyX Community Discord https://discord.gg/vzcbVNW channel #easyx-pool and ask @Shawn for help!
 
 ## Helping give NOMP new life! With some style.
 #### If you want to help contribute, please look at the original [project](https://github.com/foxer666/node-open-mining-portal) first!
