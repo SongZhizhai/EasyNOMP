@@ -11,6 +11,8 @@ BootNOMP is all the things great about NOMP, now with modern style and design of
 
 You can fork this repository by clicking "fork" in the top right.
 
+***Changelog was moved to the bottom!***
+
 -------
 ### Node Open Mining Portal consists from 3 main modules:
 * [BootNOMP](https://github.com/leshacat/BootNOMP.git)
