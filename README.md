@@ -13,8 +13,8 @@ You can fork this repository by clicking "fork" in the top right.
 
 
 -------
-## Updates
-_Updates marked with `*` are considered stable releases._
+## Changelog
+_Entries marked with `*` are considered stable releases._
 * v1.1.4 (under development)
    * Forked from 1301313Y by LeshaCat
    * Added coin config files / examples
@@ -86,9 +86,17 @@ Current version: v1.1.3
 -------
 ### Install
 ```
-git clone https://github.com/leshacat/BootNOMP.git pool
-cd pool
+git clone https://github.com/leshacat/BootNOMP.git
+cd BootNOMP
 npm install
+node init.js
+```
+-------
+### update
+```
+cd BootNOMP
+git pull
+npm --depth 9999 update
 node init.js
 ```
 -------
