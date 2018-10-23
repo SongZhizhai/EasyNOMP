@@ -39,11 +39,25 @@ If you need support, you can join EasyX Community Discord https://discord.gg/vzc
 -------
 ### Install
 ```
+wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
+nvm install v8.1.4
+nvm use v8.1.4
+npm update -g
+npm install pm2@latest
+pm2 init
 git clone https://github.com/leshacat/BootNOMP.git
 cd BootNOMP
 npm install
-node init.js
+pm2 start init.js --name pool --watch
 ```
+
+-------
+### Starup
+```
+pm2 startup
+```
+Copy & paste the command
+
 -------
 ### Update
 ```
