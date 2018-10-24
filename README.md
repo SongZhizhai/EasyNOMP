@@ -86,7 +86,7 @@ pm2 start pool -i max --watch
 
 -------
 ### Run in Docker
-_LeshaCat will redo docker as soon as done with block explorer/etc_
+***LeshaCat will redo docker as soon as done with block explorer/etc***
 Correct configs appropriately to your environment in docker directory
 
 ```
