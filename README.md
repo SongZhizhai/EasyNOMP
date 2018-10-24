@@ -38,7 +38,7 @@ http://www.gnu.org/licenses/gpl-2.0.html
 * Node 8.1.4 or higher (nvm install v8.1.4)
 * Redis Server (sudo apt install -y redis-server)
 * Process Manager 2 (npm install -g PM2@latest)
-* Coin daemon(s)
+* Coin daemon(s).
 
 
 -------
