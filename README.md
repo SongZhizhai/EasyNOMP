@@ -6,7 +6,7 @@
 
 -------
 ## !~ DEVELOPMENT WARNING ~!
-***While the master branch is considered stable,*** leshacat/BootNOMP is currently under loads of development - check out the development branch (git checkout development)
+_While the master branch is considered stable,_ leshacat/BootNOMP is currently under loads of development - check out the development branch (git checkout development)
 
 If you need support, you can join EasyX Community Discord https://discord.gg/vzcbVNW channel #easyx-pool and ask @Shawn for help!
 
