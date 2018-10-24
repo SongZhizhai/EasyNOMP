@@ -139,7 +139,9 @@ Changelog is in [docs/CHANGELOG.md](https://github.com/leshacat/BootNOMP/blob/de
 ***Those that contributed to [node-stratum-pool](//github.com/zone117x/node-stratum-pool#credits)***
 
 -------
-# Buy Me Some Coffee?
+
+## Buy Me Some Coffee?
+
 I drink about 3 pots a day... I will love you forever!
 
 
@@ -150,3 +152,7 @@ LTC: `LU6x6qjdMz4btBEhUU1AukJfUNmrwuaJJD`
 ETH/ERC20: `0x67a5A070012aBa9dFB50e571A40b3263C258d7D5`
 
 XMR: `88LqrMZhweMGP61EUrHbkqRcxcYuL7fNRG3UrBYW8eGaN19KCjAuM3fTcr5BniFsf2g8Dmi7YVchBBmbHjWdCPkm1axmMUD`
+
+-------
+
+***EOF***
