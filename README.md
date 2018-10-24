@@ -62,7 +62,7 @@ pm2 start init.js -i max --watch --name pool
 ```
 
 -------
-### Starup
+### Startup
 ```
 pm2 startup
 ```
@@ -79,6 +79,8 @@ pm2 start pool --watch
 ### Watching Logs
 ```
 pm2 logs pool
+or
+tail -f ~/.pm2/logs/pool-error.log
 ```
 
 -------
