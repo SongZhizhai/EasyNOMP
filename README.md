@@ -2,7 +2,7 @@
 
 ***Current Version: v1.1.4***<br />
 
-***[leshacat/BootNOMP:master](https://github.com/leshacat/BootNOMP) pool is live @ [http://miningpool.easyx.info:44420/](http://miningpool.easyx.info:44420/)***
+***[leshacat/BootNOMP:development](https://github.com/leshacat/BootNOMP) pool is live @ [http://miningpool.easyx.info:44420/](http://miningpool.easyx.info:44420/)***
 
 ***Support in #easyx-pool channel on discord: https://discord.gg/vzcbVNW***
 
