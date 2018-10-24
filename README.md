@@ -12,8 +12,6 @@ While the master branch is considered stable, leshacat/BootNOMP is currently und
 
 If you need support, you can join EasyX Community Discord https://discord.gg/vzcbVNW channel #easyx-pool and ask @Shawn for help!
 
-***NOTE:*** _Changelog was moved to the bottom!_
-
 -------
 
 ### Helping give NOMP new life, With some style!
