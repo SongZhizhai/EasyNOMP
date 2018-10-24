@@ -27,6 +27,11 @@ While the master branch is considered stable, leshacat/BootNOMP is currently und
 If you need support, you can join EasyX Community Discord https://discord.gg/vzcbVNW channel #easyx-pool and ask @Shawn for help!
 
 -------
+### License
+Released under the GNU General Public License v2
+http://www.gnu.org/licenses/gpl-2.0.html
+
+-------
 ### Requirements
 * Node Version Manager (wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash)
 * Node 8.1.4 or higher (nvm install v8.1.4)
@@ -172,11 +177,6 @@ You can see the logs of the server with ```docker logs -f nomp```, or jump into 
 * [yoshuki43](//github.com/yoshuki43) - his K-Nomp project has really help the development!
 * [leshacat](//github.com/leshacat) - fixed lots of configuration options & block explorer
 * Those that contributed to [node-stratum-pool](//github.com/zone117x/node-stratum-pool#credits)
-
--------
-### License
-Released under the GNU General Public License v2
-http://www.gnu.org/licenses/gpl-2.0.html
 
 -------
 ### Buy Me Some Coffee?
