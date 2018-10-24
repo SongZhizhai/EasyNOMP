@@ -40,6 +40,8 @@ If you need support, you can join EasyX Community Discord https://discord.gg/vzc
 ### Install
 ```
 wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
+source ~/.bashrc
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
 nvm install v8.1.4
 nvm use v8.1.4
 npm update -g
@@ -84,13 +86,15 @@ pm2 start pool -i max --watch
 
 -------
 ### Run in Docker
-_LeshaCat will redo docker as soon as done with block explorer/etc_
-1) Correct configs appropriately to your environment in docker directory
-2) ```cd docker```
-3) ```docker build -t nomp .```
-4) ```docker run -d --name nomp -v $(pwd)/config:/opt/config nomp ```
+***NOTE:*** LeshaCat will redo docker as soon as done with block explorer/etc
 
-You will need to expose some ports to make it accessible from outside. You can achieve this by adding option -p HOST_PORT:CONTAINER_PORT in 4th step
+Correct configs appropriately to your environment in docker directory
+```
+cd docker
+docker build -t nomp .
+docker run -d --name nomp -v $(pwd)/config:/opt/config nomp
+```
+You will need to expose some ports to make it accessible from outside. You can achieve this by adding option -p HOST_PORT:CONTAINER_PORT in the last step
 
 You can see the logs of the server with ```docker logs -f nomp```, or jump into container with ```docker exec -it nomp```.
 
