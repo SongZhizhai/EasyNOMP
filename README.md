@@ -17,8 +17,8 @@ BootNOMP is all the things great about NOMP, now with modern style and design of
 * [Stratum Pool](https://github.com/leshacat/node-stratum-pool) - https://github.com/leshacat/node-stratum-pool
 * [Node Multihashing](https://github.com/leshacat/node-multi-hashing) - https://github.com/leshacat/node-multi-hashing
 
-***NOTE:*** _Stratum Pool can be replaced with [node-merged-pool](https://github.com/UNOMP/node-merged-pool) - https://github.com/UNOMP/node-merged-pool._<br>
-***NOTE:*** _Add new algorithms using [Node Multihashing](https://github.com/leshacat/node-multi-hashing) - https://github.com/leshacat/node-multi-hashing._
+***NOTE:*** Stratum Pool can be replaced with [node-merged-pool](https://github.com/UNOMP/node-merged-pool) - https://github.com/UNOMP/node-merged-pool.
+***NOTE:*** Add new algorithms using [Node Multihashing](https://github.com/leshacat/node-multi-hashing) - https://github.com/leshacat/node-multi-hashing.
 
 -------
 ### !~ DEVELOPMENT WARNING ~!
