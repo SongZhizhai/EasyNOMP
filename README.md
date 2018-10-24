@@ -6,6 +6,8 @@
 
 ***Support in #easyx-pool channel on discord: https://discord.gg/vzcbVNW***
 
+***Visit our website: http://www.easyx.info/***
+
 -------
 ### !~ DEVELOPMENT WARNING ~!
 While the master branch is considered stable, leshacat/BootNOMP is currently under loads of development - check out the development branch (git checkout development)
