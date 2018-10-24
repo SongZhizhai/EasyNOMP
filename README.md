@@ -185,7 +185,7 @@ You can see the logs of the server with ```docker logs -f nomp```, or jump into 
 | [svirusxxx](//github.com/svirusxxx) | sponsored development of MPOS mode |
 | [icecube45](//github.com/icecube45) | helping out with the repo wiki |
 | [yoshuki43](//github.com/yoshuki43) | his K-Nomp project has really help the development! |
-| [leshacat](//github.com/leshacat) | fixed lots of configuration options & block explorer |
+| [leshacat](//github.com/leshacat) | fixed lots of documentation, configuration, and block explorer |
 
 ***Those that contributed to [node-stratum-pool](//github.com/zone117x/node-stratum-pool#credits)***
 
