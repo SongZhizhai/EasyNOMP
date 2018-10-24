@@ -139,7 +139,7 @@ Changelog is in [docs/CHANGELOG.md](https://github.com/leshacat/BootNOMP/blob/de
 ***Those that contributed to [node-stratum-pool](//github.com/zone117x/node-stratum-pool#credits)***
 
 -------
-### Buy Me Some Coffee?
+# Buy Me Some Coffee?
 I drink about 3 pots a day... I will love you forever!
 
 
