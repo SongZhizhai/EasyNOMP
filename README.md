@@ -5,14 +5,14 @@
 ##### Current Version: v1.1.4
 
 -------
-### !~ DEVELOPMENT WARNING ~!
+## !~ DEVELOPMENT WARNING ~!
 While the master branch is considered stable, leshacat/BootNOMP is currently under loads of development - check out the development branch (git checkout development)
 
 If you need support, you can join EasyX Community Discord https://discord.gg/vzcbVNW channel #easyx-pool and ask @Shawn for help!
 
 -------
 
-### Helping give NOMP new life, with some style!
+## Helping give NOMP new life, with some style!
 ***LeshaCat:*** "BootNOMP gives NOMP a sleek looking new design, and fully re-designed and re-coded user interface! I saw the source code and the original dev working on BootNOMP and figured I could lend a hand. I have plans to rework the documentation, Block Explorer, Docker source, and some various configuration options. I decided a soft fork with pull requests to the original and parent projects would be best suited. But if you would like to contribute, please consider looking at the [parent project 1301313Y/BootNOMP](https://github.com/1301313Y/BootNOMP) first, as this guy is the only one I can find who is helping get the NOMP rebirthing process started."
 
 ***1301313Y:*** "BootNOMP is all the things great about NOMP, now with modern style and design of BootStrap 4! Having disliked the previous UI, due to cramping, little to no info displayed while what is displayed is not very helpful to users. I decided to fork a already great project, and add some stylistic touches it severely needs. I would of considered requesting pulls to the main branch, though with such heavy changes to the project, I decided a hard fork would be well suited. But if you would like to contribute, please consider looking at the [original project](https://github.com/foxer666/node-open-mining-portal) first, as these guys are the ones who helped get this NOMP rebirthing process started."
@@ -23,7 +23,7 @@ If you need support, you can join EasyX Community Discord https://discord.gg/vzc
 ***NOTE:*** _You can fork this repository by clicking "fork" in the top right._
 
 -------
-### Node Open Mining Portal consists of 3 main modules:
+## Node Open Mining Portal consists of 3 main modules:
 | Project | Link |
 | ------------- | ------------- |
 | [BootNOMP](https://github.com/leshacat/BootNOMP.git) | https://github.com/leshacat/BootNOMP.git |
@@ -34,12 +34,12 @@ If you need support, you can join EasyX Community Discord https://discord.gg/vzc
 ***NOTE:*** _Add new algorithms using [Node Multihashing](https://github.com/leshacat/node-multi-hashing) - https://github.com/leshacat/node-multi-hashing._
 
 -------
-### License
+## License
 Released under the GNU General Public License v2
 http://www.gnu.org/licenses/gpl-2.0.html
 
 -------
-### Requirements
+## Requirements
 ***NOTE:*** _These requirements will be installed in the install section!_<br />
 * Node Version Manager
 * Node 8.1.4 or higher
@@ -48,22 +48,22 @@ http://www.gnu.org/licenses/gpl-2.0.html
 * Coin daemon(s)
 
 -------
-### Install Pool
+## Install Pool
 
 Install instructions are in [docs/README.md](https://github.com/leshacat/BootNOMP/blob/development/docs/INSTALL.md)
 
 -------
-### Run in Docker
+## Run in Docker
 
 Docker instructions are in [docs/README.md](https://github.com/leshacat/BootNOMP/blob/development/docs/DOCKER.md)
 
 -------
-### Changelog
+## Changelog
 
 Changelog is in [docs/CHANGELOG.md](https://github.com/leshacat/BootNOMP/blob/development/docs/CHANGELOG.md)
 
 -------
-### Hashing algorithms
+## Hashing algorithms
 #### Working
 |   | Algorithm | Comment|
 | ------------- | ------------- | ------------- |
@@ -120,7 +120,7 @@ Changelog is in [docs/CHANGELOG.md](https://github.com/leshacat/BootNOMP/blob/de
 | - | __Scrypt-Jane__ | submitblock not working tested with CacheCoin, Yacoin |
 
 -------
-### Credits
+## Credits
 | User | Comment|
 | ------------- | ------------- |
 | [a2hill](//github.com/a2hill) | helped with X16r |
