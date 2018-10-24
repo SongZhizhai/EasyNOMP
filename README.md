@@ -39,15 +39,15 @@ http://www.gnu.org/licenses/gpl-2.0.html
 -------
 ### Requirements
 ***NOTE:*** _These requirements will be installed in the install section!_<br />
-* Node Version Manager (wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash)
-* Node 8.1.4 or higher (nvm install v8.1.4)
-* Redis Server (sudo apt install -y redis-server)
-* Process Manager 2 (npm install -g PM2@latest)
+* Node Version Manager
+* Node 8.1.4 or higher
+* Redis Server
+* Process Manager 2
 * Coin daemon(s)
 
 
 -------
-### Install
+### Install Pool
 ```
 sudo apt install -y redis-server
 sudo systemctl enable redis-server
@@ -67,11 +67,12 @@ pm2 start init.js -i max --watch --name pool
 ```
 
 -------
-### Startup
+### Watching Pool Logs
 ```
-pm2 startup
+pm2 logs pool
+or
+tail -f ~/.pm2/logs/pool-error.log
 ```
-Copy & paste the command
 
 -------
 ### Restarting Pool
@@ -81,15 +82,14 @@ pm2 start pool --watch
 ```
 
 -------
-### Watching Logs
+### Startup on boot
 ```
-pm2 logs pool
-or
-tail -f ~/.pm2/logs/pool-error.log
+pm2 startup
 ```
+Copy & paste the command
 
 -------
-### Update
+### Update Pool Source (should be done monthly at minimum)
 ```
 cd BootNOMP
 git pull
