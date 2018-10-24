@@ -1,8 +1,8 @@
 ## LeshaCat fork of BootNOMP ([1301313Y/BootNOMP:master](https://github.com/1301313Y/BootNOMP))
 
-#### Current Version: v1.1.4
+##### Current Version: v1.1.4
 
-***[leshacat/BootNOMP:development](https://github.com/leshacat/BootNOMP/tree/development) pool is live @ [http://miningpool.easyx.info:44420/](http://miningpool.easyx.info:44420/)***
+### [leshacat/BootNOMP:development](https://github.com/leshacat/BootNOMP/tree/development) pool is live @ [http://miningpool.easyx.info:44420/](http://miningpool.easyx.info:44420/)
 
 ### Support in #easyx-pool channel on discord: https://discord.gg/vzcbVNW
 
