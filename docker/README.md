@@ -1,7 +1,5 @@
 # Docker Instructions
 
--------
-### Run in Docker
 ***NOTE:*** _LeshaCat will redo docker as soon as done with block explorer/etc_<br />
 
 Correct configs appropriately to your environment in docker directory
