@@ -66,8 +66,8 @@ Copy & paste the command
 -------
 ### Restarting Pool
 ```
-pm2 stop pool -i max --watch
-pm2 start pool -i max --watch
+pm2 stop pool --watch
+pm2 start pool --watch
 ```
 
 -------
@@ -83,8 +83,8 @@ cd BootNOMP
 git pull
 npm update -g
 npm --depth 9999 update
-pm2 stop pool -i max --watch
-pm2 start pool -i max --watch
+pm2 stop pool --watch
+pm2 start pool --watch
 ```
 
 -------
