@@ -23,7 +23,7 @@ If you need support, you can join EasyX Community Discord https://discord.gg/vzc
 ***NOTE:*** _You can fork this repository by clicking "fork" in the top right._
 
 -------
-### Node Open Mining Portal consists from 3 main modules:
+### Node Open Mining Portal consists of 3 main modules:
 | Project | Link |
 | ------------- | ------------- |
 | [BootNOMP](https://github.com/leshacat/BootNOMP.git) | https://github.com/leshacat/BootNOMP.git |

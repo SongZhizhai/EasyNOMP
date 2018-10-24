@@ -366,7 +366,7 @@ function SetupForPool(poolOptions, setupFinished) {
               //because there may masternodes payees and pool address should be last
               //in zcoin its tx.address
               addressAccount = tx.result || tx.address;
-              logger.warn("Could not decrypt address from tx (no tx.result or tx.address field) %s", JSON.stringify(tx));
+              logger.warn("Could not retrieve account for %s from RPC (no tx.result or tx.address field) %s", poolOptions.address, JSON.stringify(tx));
               return;
             }
 
