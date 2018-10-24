@@ -41,6 +41,7 @@ If you need support, you can join EasyX Community Discord https://discord.gg/vzc
 ```
 wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
 source ~/.bashrc
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
 nvm install v8.1.4
 nvm use v8.1.4
 npm update -g
