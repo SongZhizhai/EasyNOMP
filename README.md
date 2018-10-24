@@ -104,7 +104,7 @@ pm2 start pool --watch
 -------
 ### Run in Docker
 
-Docker instructions are in [Docker/README.md](https://github.com/leshacat/BootNOMP/tree/development/docker)
+Docker instructions are in [Docker/README.md](https://github.com/leshacat/BootNOMP/blob/development/docs/DOCKER.md)
 
 -------
 ### Hashing algorithms
