@@ -18,9 +18,11 @@ BootNOMP is all the things great about NOMP, now with modern style and design of
 
 -------
 ### Node Open Mining Portal consists from 3 main modules:
-* [BootNOMP](https://github.com/leshacat/BootNOMP.git) - https://github.com/leshacat/BootNOMP.git
-* [Stratum Pool](https://github.com/leshacat/node-stratum-pool) - https://github.com/leshacat/node-stratum-pool
-* [Node Multihashing](https://github.com/leshacat/node-multi-hashing) - https://github.com/leshacat/node-multi-hashing
+| Repository | Link |
+| ------------- | ------------- |
+| [BootNOMP](https://github.com/leshacat/BootNOMP.git) | https://github.com/leshacat/BootNOMP.git |
+| [Stratum Pool](https://github.com/leshacat/node-stratum-pool) | https://github.com/leshacat/node-stratum-pool |
+| [Node Multihashing](https://github.com/leshacat/node-multi-hashing) | https://github.com/leshacat/node-multi-hashing |
 
 ***NOTE:*** _Stratum Pool can be replaced with [node-merged-pool](https://github.com/UNOMP/node-merged-pool) - https://github.com/UNOMP/node-merged-pool._<br />
 ***NOTE:*** _Add new algorithms using [Node Multihashing](https://github.com/leshacat/node-multi-hashing) - https://github.com/leshacat/node-multi-hashing._
