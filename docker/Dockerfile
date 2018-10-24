@@ -3,7 +3,7 @@ RUN apt-get update
 RUN apt-get install -y sudo git nano curl
 
 WORKDIR /opt/
-RUN git clone https://github.com/foxer666/node-open-mining-portal
+RUN git clone https://github.com/leshacat/BootNOMP.git
 
 WORKDIR /opt/node-open-mining-portal
 RUN npm install
