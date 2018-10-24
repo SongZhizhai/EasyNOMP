@@ -5,7 +5,8 @@
 * Added donation addresses in config files
 * Added meta tag control in config files
 * Reworked Block Explorer (shows all coins)
-* Fix for https://github.com/foxer666/node-stratum-pool/pull/33
+* Fix for https://github.com/foxer666/node-stratum-pool/commit/a07031808059a76a1fc61db9b10099155df1b6bb
+* Fix for https://github.com/foxer666/node-stratum-pool/pull/23/commits/67eace3468a77f7a585303fe8a1a2081eeba4096
 
 ## v1.0.0
 * Started versioning
