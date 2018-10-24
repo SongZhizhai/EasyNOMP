@@ -33,6 +33,7 @@ http://www.gnu.org/licenses/gpl-2.0.html
 
 -------
 ### Requirements
+***NOTE:*** _These requirements will be installed in the install section!_<br />
 * Node Version Manager (wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash)
 * Node 8.1.4 or higher (nvm install v8.1.4)
 * Redis Server (sudo apt install -y redis-server)
