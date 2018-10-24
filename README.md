@@ -19,9 +19,9 @@ If you need support, you can join EasyX Community Discord https://discord.gg/vzc
 ### Helping give NOMP new life, With some style!
 1301313Y: "BootNOMP is all the things great about NOMP, now with modern style and design of BootStrap 4! Having disliked the previous UI, due to cramping, little to no info displayed while what is displayed is not very helpful to users. I decided to fork a already great project, and add some stylistic touches it severely needs. I would of considered requesting pulls to the main branch, though with such heavy changes to the project, I decided a hard fork would be well suited. But if you would like to contribute, please consider looking at the [original project](https://github.com/foxer666/node-open-mining-portal) first, as these guys are the ones who helped get this NOMP rebirthing process started."
 
-***If you want to help contribute, please look at the original [project](https://github.com/foxer666/node-open-mining-portal) first!***
-
 ***NOTE:*** _You can fork this repository by clicking "fork" in the top right._
+
+***If you want to help contribute, please look at the original [project](https://github.com/foxer666/node-open-mining-portal) first!***
 
 -------
 ### Node Open Mining Portal consists from 3 main modules:
