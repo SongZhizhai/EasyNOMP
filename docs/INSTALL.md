@@ -9,11 +9,14 @@ source ~/.bashrc
 nvm install v8.1.4
 nvm use v8.1.4
 npm update -g
+npm audit fix
 npm install pm2@latest
+npm audit fix
 pm2 init
 git clone https://github.com/leshacat/BootNOMP.git
 cd BootNOMP
 npm install
+npm audit fix
 pm2 start init.js -i max --watch --name pool
 ```
 
