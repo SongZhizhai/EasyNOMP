@@ -18,7 +18,7 @@ BootNOMP is all the things great about NOMP, now with modern style and design of
 
 -------
 ### Node Open Mining Portal consists from 3 main modules:
-| Repository | Link |
+| Project | Link |
 | ------------- | ------------- |
 | [BootNOMP](https://github.com/leshacat/BootNOMP.git) | https://github.com/leshacat/BootNOMP.git |
 | [Stratum Pool](https://github.com/leshacat/node-stratum-pool) | https://github.com/leshacat/node-stratum-pool |
