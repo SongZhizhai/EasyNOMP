@@ -47,7 +47,6 @@ http://www.gnu.org/licenses/gpl-2.0.html
 * Process Manager 2
 * Coin daemon(s)
 
-
 -------
 ### Install Pool
 
@@ -57,6 +56,11 @@ Install instructions are in [docs/README.md](https://github.com/leshacat/BootNOM
 ### Run in Docker
 
 Docker instructions are in [docs/README.md](https://github.com/leshacat/BootNOMP/blob/development/docs/DOCKER.md)
+
+-------
+### Changelog
+
+Changelog is in [docs/CHANGELOG.md](https://github.com/leshacat/BootNOMP/blob/development/docs/CHANGELOG.md)
 
 -------
 ### Hashing algorithms
@@ -146,64 +150,3 @@ LTC: `LU6x6qjdMz4btBEhUU1AukJfUNmrwuaJJD`
 ETH/ERC20: `0x67a5A070012aBa9dFB50e571A40b3263C258d7D5`
 
 XMR: `88LqrMZhweMGP61EUrHbkqRcxcYuL7fNRG3UrBYW8eGaN19KCjAuM3fTcr5BniFsf2g8Dmi7YVchBBmbHjWdCPkm1axmMUD`
-
--------
-## Changelog
-_Entries marked with `*` are considered stable releases._
-* v1.1.4 (under development)
-   * Forked from 1301313Y by LeshaCat
-   * Added Process Manager 2 (pm2@latest)
-   * Added coin config files / examples
-   * Added donation addresses in config files
-   * Added meta tag control in config files
-   * Reworked Block Explorer (shows all coins)
-   * Fix for https://github.com/foxer666/node-stratum-pool/commit/a07031808059a76a1fc61db9b10099155df1b6bb
-   * Fix for https://github.com/foxer666/node-stratum-pool/pull/23/commits/67eace3468a77f7a585303fe8a1a2081eeba4096
-   
-   
-* v1.1.3*
-   * Launched website! Be sure to check it out!
-   * Redesigned statistics tracking structure, removing redundency.
-   * Added more info to the account statistic page.
-   * Considered stable, though needs to be fully tested!
-   
-   
-* v1.1.2
-   * Change charts once again, to ChartJS
-   * Redesigned Pool/Worker stats pages
-   * Added Yescrypt R16 & R32 to dependency projects, currently being testing with Wavicoin.
-   * Completed more of Dashboard.
-   * Added new NavBar
-   * Initial Completetion, Almost Ready For Production. Going live @[NotoHash.club](https://notohash.club) soon.
-   
-   
-* v1.1.1
-   * Added payment info to redis.
-   * Finished initial version of payment history page.
-   * Finished initial version of block history page.
-   * Finished new homepage.
-   * Almost ready for stable release!
-   
-   
-* v1.1.0
-    * Added new homepage design.
-    * Added dashboard functionality.
-    * Added EMA to graphing.
-    * Confirmed C11 functionality with Dixicoin.
-    
-    
-* v1.0.9
-    * Added pool statistic pages.
-    * Expanded API.
-    * Cleaned up main nav bar.
-    * Added Ravencoin config file.
-    
-    
-* v1.0.8
-    * Fixed C11 algorithm.
-    * Starting major UI overhaul using BootStrap 4.
-    
-    
-* v1.0.7*
-    * Lyra2z (Zcoin) algo fixed, next step is neoscrypt.
-
