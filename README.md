@@ -23,7 +23,7 @@ BootNOMP is all the things great about NOMP, now with modern style and design of
 ***NOTE:*** _Changelog was moved to the bottom!_
 
 -------
-### Node Open Mining Portal consists from 3 main modules:
+### Node Open Mining Portal consists of 3 main modules:
 | Project | Link |
 | ------------- | ------------- |
 | [BootNOMP](https://github.com/leshacat/BootNOMP.git) | https://github.com/leshacat/BootNOMP.git |
