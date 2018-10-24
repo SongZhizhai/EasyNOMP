@@ -1,11 +1,15 @@
-Docker Instructions
+# Docker Instructions
 
-Hey 1301313Y I am working on this project as well if you dont mind, I will make merge requests shortly.
+-------
+### Run in Docker
+***NOTE:*** _LeshaCat will redo docker as soon as done with block explorer/etc_<br />
 
-I have fixed a loooot of stuff over the past 3-5 days I just need to push it to my fork and submit merges.
+Correct configs appropriately to your environment in docker directory
+```
+cd docker
+docker build -t nomp .
+docker run -d --name nomp -v $(pwd)/config:/opt/config nomp
+```
+You will need to expose some ports to make it accessible from outside. You can achieve this by adding option -p HOST_PORT:CONTAINER_PORT in the last step
 
-I will work on Docker / Docker instructions after I finish my changes to the webpages.
-
-You should probably enable the "Issues" tracker... Sorry for merge request, no other way to contact you.
-
-I will help tackle some of the issues.
+You can see the logs of the server with ```docker logs -f nomp```, or jump into container with ```docker exec -it nomp```.
