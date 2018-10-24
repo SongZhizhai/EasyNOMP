@@ -6,5 +6,6 @@ node_modules/
 config.json
 logs/
 pool_configs/*.json
+dump.rdb
 !pool_configs/*_example.json
 !.gitkeep
