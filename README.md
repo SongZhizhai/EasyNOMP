@@ -8,9 +8,8 @@
 
 BootNOMP is all the things great about NOMP, now with modern style and design of BootStrap 4! Having disliked the previous UI, due to cramping, little to no info displayed while what is displayed is not very helpful to users. I decided to fork a already great project, and add some stylistic touches it severely needs. I would of considered requesting pulls to the main branch, though with such heavy changes to the project, I decided a hard fork would be well suited. But if you would like to contribute, please consider looking at the [original project](https://github.com/foxer666/node-open-mining-portal) first, as these guys are the ones who helped get this NOMP rebirthing process started.
 
-You can fork this repository by clicking "fork" in the top right.
-
-***Changelog was moved to the bottom!***
+***NOTE:*** _You can fork this repository by clicking "fork" in the top right._<br />
+***NOTE:*** _Changelog was moved to the bottom!_
 
 -------
 ### Node Open Mining Portal consists from 3 main modules:
@@ -18,14 +17,19 @@ You can fork this repository by clicking "fork" in the top right.
 * [Stratum Pool](https://github.com/leshacat/node-stratum-pool) - https://github.com/leshacat/node-stratum-pool
 * [Node Multihashing](https://github.com/leshacat/node-multi-hashing) - https://github.com/leshacat/node-multi-hashing
 
-_Stratum Pool can be replaced with [node-merged-pool](https://github.com/UNOMP/node-merged-pool) - https://github.com/UNOMP/node-merged-pool._<br>
-_Add new algorithms using [Node Multihashing](https://github.com/leshacat/node-multi-hashing) - https://github.com/leshacat/node-multi-hashing._
+***NOTE:*** _Stratum Pool can be replaced with [node-merged-pool](https://github.com/UNOMP/node-merged-pool) - https://github.com/UNOMP/node-merged-pool._<br />
+***NOTE:*** _Add new algorithms using [Node Multihashing](https://github.com/leshacat/node-multi-hashing) - https://github.com/leshacat/node-multi-hashing._
 
 -------
 ### !~ DEVELOPMENT WARNING ~!
 While the master branch is considered stable, leshacat/BootNOMP is currently under loads of development - check out the development branch (git checkout development)
 
 If you need support, you can join EasyX Community Discord https://discord.gg/vzcbVNW channel #easyx-pool and ask @Shawn for help!
+
+-------
+### License
+Released under the GNU General Public License v2
+http://www.gnu.org/licenses/gpl-2.0.html
 
 -------
 ### Requirements
@@ -89,7 +93,7 @@ pm2 start pool --watch
 
 -------
 ### Run in Docker
-***NOTE:*** LeshaCat will redo docker as soon as done with block explorer/etc
+***NOTE:*** _LeshaCat will redo docker as soon as done with block explorer/etc_<br />
 
 Correct configs appropriately to your environment in docker directory
 ```
@@ -173,11 +177,6 @@ You can see the logs of the server with ```docker logs -f nomp```, or jump into 
 * [yoshuki43](//github.com/yoshuki43) - his K-Nomp project has really help the development!
 * [leshacat](//github.com/leshacat) - fixed lots of configuration options & block explorer
 * Those that contributed to [node-stratum-pool](//github.com/zone117x/node-stratum-pool#credits)
-
--------
-### License
-Released under the GNU General Public License v2
-http://www.gnu.org/licenses/gpl-2.0.html
 
 -------
 ### Buy Me Some Coffee?
