@@ -48,7 +48,9 @@ Copy & paste the command
 cd BootNOMP
 git pull
 npm update -g
+npm install
 npm --depth 9999 update
+npm audit fix
 pm2 stop pool --watch
 pm2 start pool --watch
 ```
