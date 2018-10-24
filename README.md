@@ -50,70 +50,13 @@ http://www.gnu.org/licenses/gpl-2.0.html
 
 -------
 ### Install Pool
-```
-sudo apt install -y redis-server
-sudo systemctl enable redis-server
-sudo service redis-server start
-wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
-source ~/.bashrc
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
-nvm install v8.1.4
-nvm use v8.1.4
-npm update -g
-npm install pm2@latest
-pm2 init
-git clone https://github.com/leshacat/BootNOMP.git
-cd BootNOMP
-npm install
-pm2 start init.js -i max --watch --name pool
-```
 
--------
-### Watching Pool Logs
-```
-pm2 logs pool
-or
-tail -f ~/.pm2/logs/pool-error.log
-```
-
--------
-### Restarting Pool
-```
-pm2 stop pool --watch
-pm2 start pool --watch
-```
-
--------
-### Startup on boot
-```
-pm2 startup
-```
-Copy & paste the command
-
--------
-### Update Pool Source (should be done monthly at minimum)
-```
-cd BootNOMP
-git pull
-npm update -g
-npm --depth 9999 update
-pm2 stop pool --watch
-pm2 start pool --watch
-```
+Install instructions are in [docs/README.md](https://github.com/leshacat/BootNOMP/blob/development/docs/INSTALL.md)
 
 -------
 ### Run in Docker
-***NOTE:*** _LeshaCat will redo docker as soon as done with block explorer/etc_<br />
 
-Correct configs appropriately to your environment in docker directory
-```
-cd docker
-docker build -t nomp .
-docker run -d --name nomp -v $(pwd)/config:/opt/config nomp
-```
-You will need to expose some ports to make it accessible from outside. You can achieve this by adding option -p HOST_PORT:CONTAINER_PORT in the last step
-
-You can see the logs of the server with ```docker logs -f nomp```, or jump into container with ```docker exec -it nomp```.
+Docker instructions are in [docs/README.md](https://github.com/leshacat/BootNOMP/blob/development/docs/DOCKER.md)
 
 -------
 ### Hashing algorithms
