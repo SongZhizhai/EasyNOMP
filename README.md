@@ -12,15 +12,15 @@ While the master branch is considered stable, leshacat/BootNOMP is currently und
 
 If you need support, you can join EasyX Community Discord https://discord.gg/vzcbVNW channel #easyx-pool and ask @Shawn for help!
 
+***NOTE:*** _Changelog was moved to the bottom!_
+
 -------
 
-### Helping give NOMP new life! With some style.
-***If you want to help contribute, please look at the original [project](https://github.com/foxer666/node-open-mining-portal) first!***
+### Helping give NOMP new life, With some style!
+1301313Y: "BootNOMP is all the things great about NOMP, now with modern style and design of BootStrap 4! Having disliked the previous UI, due to cramping, little to no info displayed while what is displayed is not very helpful to users. I decided to fork a already great project, and add some stylistic touches it severely needs. I would of considered requesting pulls to the main branch, though with such heavy changes to the project, I decided a hard fork would be well suited. But if you would like to contribute, please consider looking at the [original project](https://github.com/foxer666/node-open-mining-portal) first, as these guys are the ones who helped get this NOMP rebirthing process started."
 
-BootNOMP is all the things great about NOMP, now with modern style and design of BootStrap 4! Having disliked the previous UI, due to cramping, little to no info displayed while what is displayed is not very helpful to users. I decided to fork a already great project, and add some stylistic touches it severely needs. I would of considered requesting pulls to the main branch, though with such heavy changes to the project, I decided a hard fork would be well suited. But if you would like to contribute, please consider looking at the [original project](https://github.com/foxer666/node-open-mining-portal) first, as these guys are the ones who helped get this NOMP rebirthing process started.
-
-***NOTE:*** _You can fork this repository by clicking "fork" in the top right._<br />
-***NOTE:*** _Changelog was moved to the bottom!_
+***NOTE:*** If you want to help contribute, please look at the original [project](https://github.com/foxer666/node-open-mining-portal) first!<br />
+***NOTE:*** _You can fork this repository by clicking "fork" in the top right._
 
 -------
 ### Node Open Mining Portal consists of 3 main modules:
