@@ -37,3 +37,5 @@
 
 ## v1.0.7
 * https://github.com/foxer666/node-open-mining-portal/issues/36 hotfix
+
+***EOF***
