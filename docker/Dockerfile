@@ -34,9 +34,11 @@ RUN npm install
 RUN npm update
 RUN npm audit fix
 
-RUN rm -rf pool_configs
 RUN rm config_example.json
+RUN rm -rf coins
+RUN rm -rf pool_configs
 RUN ln -s /opt/config/config.json /opt/BootNOMP/config.json
+RUN ln -s /opt/config/coins /opt/BootNOMP/coins
 RUN ln -s /opt/config/pool_configs /opt/BootNOMP/pool_configs
 
 CMD service redis-server restart; service fail2ban restart; service ntp restart; pm2 start init.js -i max --watch --name pool
