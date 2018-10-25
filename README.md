@@ -152,7 +152,7 @@ Changelog is in [docs/CHANGELOG.md](https://github.com/leshacat/BootNOMP/blob/de
 | [foxer666](//github.com/foxer666) | How could anyone forget the original [foxer666/node-open-mining-portal](https://github.com/foxer666/node-open-mining-portal) dev? |
 | [1301313Y](//github.com/1301313Y) | How could anyone forget the original [1301313Y/BootNOMP](https://github.com/1301313Y/BootNOMP) dev? |
 | [LeshaCat](//github.com/leshacat) | How could anyone forget the original [leshacat/BootNOMP](https://github.com/leshacat/BootNOMP) dev?<br /> - Fixed lots of documentation, configuration, and block explorer |
-|||
+| &nbsp; | &nbsp; |
 | [a2hill](//github.com/a2hill) | helped with X16r |
 | [devnulled](//github.com/devnull-ed) | helped with lyra2z, neoscrypt algo |
 | [Kris Klosterman / krisklosterman](https://github.com/krisklosterman) | Updated code for work with Node.JS >=8 |
