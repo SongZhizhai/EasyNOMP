@@ -6,11 +6,10 @@ Correct configs appropriately to your environment in docker directory
 
 - Inside THIS directory, create a "config" directory 
 - ***mkdir config***
-- ***cd config***
-- ***cp -R ../coins/ ./***
-- ***cp -R ../pool_configs/ ./***
-- ***cp ../config.json ./***
-- Edit config.json, coins/*.json, and pool_configs/*.json
+- ***cp -R ../coins/ config/***
+- ***cp -R ../pool_configs/ config/***
+- ***cp ../config_example.json config/config.json***
+- Edit config/config.json, config/coins/*.json, and config/pool_configs/*.json
 
 ```
 cd docker
