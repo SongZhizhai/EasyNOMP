@@ -9,12 +9,12 @@
 ***( )*** Auto-Detect if walletd is out of date and warn admin
 
 ***(!)*** Block Explorer<br />
-    - ***(!)*** Immature blocks / Confirmation count
+    ***- (!)*** Immature blocks / Confirmation count
 
 ***(!)*** More statistics <br />
-    - ***(!)*** BTC Value of block at time of mining<br />
-    - ***(!)*** Average blocks per day, week, month for each coin<br />
-    - ***(!)*** Average time to find block<br />
+    ***- (!)*** BTC Value of block at time of mining<br />
+    ***- (!)*** Average blocks per day, week, month for each coin<br />
+    ***- (!)*** Average time to find block<br />
 
 ***(!)*** Pools page (pools.html) needs sortable datatable [ Leshacat ]
 
