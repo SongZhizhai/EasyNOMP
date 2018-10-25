@@ -1,6 +1,10 @@
-# Docker Instructions
+## Docker Instructions
+-------
 
 ***NOTE:*** _LeshaCat will redo docker as soon as done with block explorer/etc_<br />
+
+-------
+### Configure Pool
 
 Correct configs appropriately to your environment in docker directory
 
@@ -11,8 +15,8 @@ Correct configs appropriately to your environment in docker directory
 - ***cp ../config_example.json config/config.json***
 - Edit config/config.json, config/coins/*.json, and config/pool_configs/*.json
 
-#### Build Docker
 -------
+### Build Docker
 ```
 cd docker
 docker build -t nomp .
