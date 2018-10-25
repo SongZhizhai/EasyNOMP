@@ -1,14 +1,12 @@
 ## LeshaCat fork of BootNOMP
 ### [leshacat/BootNOMP:development](https://github.com/leshacat/BootNOMP/tree/development) pool is live @ [http://miningpool.easyx.info:44420/](http://miningpool.easyx.info:44420/)
 #### Support in #easyx-pool channel on discord: https://discord.gg/vzcbVNW
-#### Visit our website: http://www.easyx.info/
+#### Visit the EasyX Community website: http://www.easyx.info/
 ##### Current Version: v1.1.4
 
 -------
 ## !~ DEVELOPMENT WARNING ~!
 _While the master branch is considered stable,_ leshacat/BootNOMP is currently under loads of development - check out the development branch (git checkout development)
-
-_If you need support,_ you can join EasyX Community Discord https://discord.gg/vzcbVNW channel #easyx-pool and ask @Shawn for help!
 
 ***NOTE:***  Someone please test Docker, I made a few quick changes. Will come back to it later! ~LeshaCat
 
