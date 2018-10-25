@@ -1,8 +1,16 @@
 # Pool Installation Instructions
 ```
-sudo apt install -y redis-server
+sudo apt-get install build-essential libtool autotools-dev autoconf pkg-config libssl-dev
+sudo apt-get install libboost-all-dev git npm nodejs nodejs-legacy libminiupnpc-dev redis-server
+sudo apt-get install -y software-properties-common
+sudo add-apt-repository ppa:bitcoin/bitcoin
+sudo apt-get update
+sudo apt-get install libdb4.8-dev libdb4.8++-dev
+sudo apt-get -y install fail2ban
+sudo systemctl enable fail2ban
+sudo systemctl start fail2ban
 sudo systemctl enable redis-server
-sudo service redis-server start
+sudo systemctl start redis-server
 wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
 source ~/.bashrc
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
