@@ -1,6 +1,10 @@
-# Docker Instructions
+## Docker Instructions
+-------
 
 ***NOTE:*** _LeshaCat will redo docker as soon as done with block explorer/etc_<br />
+
+-------
+### Configure Pool
 
 Correct configs appropriately to your environment in docker directory
 
