@@ -1,4 +1,7 @@
-# Pool Installation Instructions
+## Pool Installation Instructions
+
+-------
+
 ### Install Requirements
 ```
 sudo apt-get update
