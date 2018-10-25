@@ -6,7 +6,7 @@
 
 -------
 ## !~ DEVELOPMENT WARNING ~!
-_While the master branch is considered stable,_ leshacat/BootNOMP is currently under loads of development - check out the development branch (git checkout development)
+***_While the master branch is considered stable, leshacat/BootNOMP is currently under loads of development - check out the development branch (git checkout development)_***
 
 ***NOTE:***  Someone please test Docker, I made a few quick changes. Will come back to it later! ~LeshaCat
 
@@ -45,6 +45,7 @@ http://www.gnu.org/licenses/gpl-2.0.html
 * Node 8.1.4 or higher
 * Redis Server
 * Process Manager 2
+* ntp
 * Coin daemon(s)
 
 -------

@@ -3,6 +3,15 @@
 ***NOTE:*** _LeshaCat will redo docker as soon as done with block explorer/etc_<br />
 
 Correct configs appropriately to your environment in docker directory
+
+- Inside THIS directory, create a "config" directory 
+- ***mkdir config***
+- ***cd config***
+- ***cp -R ../coins/ ./***
+- ***cp -R ../pool_configs/ ./***
+- ***cp ../config.json ./***
+- Edit config.json, coins/*.json, and pool_configs/*.json
+
 ```
 cd docker
 docker build -t nomp .
