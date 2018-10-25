@@ -1,5 +1,5 @@
-# LeshaCat fork of BootNOMP
-### [leshacat/BootNOMP:development](https://github.com/leshacat/BootNOMP/tree/development) pool is live @ [http://miningpool.easyx.info:44420/](http://miningpool.easyx.info:44420/)
+# [LeshaCat](//github.com/leshacat) fork of [1301313Y/BootNOMP](https://github.com/1301313Y/BootNOMP)
+### [leshacat/BootNOMP](https://github.com/leshacat/BootNOMP/tree/development) pool is live @ [http://miningpool.easyx.info:44420/](http://miningpool.easyx.info:44420/)
 #### Support in #easyx-pool channel on discord: https://discord.gg/vzcbVNW
 #### Visit the EasyX Community website: http://www.easyx.info/
 ##### Current Version: v1.1.4
@@ -132,12 +132,26 @@ Changelog is in [docs/CHANGELOG.md](https://github.com/leshacat/BootNOMP/blob/de
 | - | __Scrypt-Jane__ | submitblock not working tested with CacheCoin, Yacoin |
 
 -------
+## Screenshots
+#### Home<br />
+![Home](https://github.com/leshacat/BootNOMP/blob/master/docs/screenshots/home.png)
+
+#### Pool Stats<br />
+![Pool Stats](https://github.com/leshacat/BOOTNOMP/blob/master/docs/screenshots/poolstats.png)<br /><br />
+
+#### Miner Stats<br />
+![Miner Stats](https://github.com/leshacat/BootNOMP/blob/development/docs/screenshots/minerstats.png)<br /><br />
+
+#### Block Explorer<br />
+![Block Explorer](https://github.com/leshacat/BOOTNOMP/blob/master/docs/screenshots/blockexplorer.png)<br /><br />
+
+-------
 ## Credits
 | User | Comment|
 | ------------- | ------------- |
 | [foxer666](//github.com/foxer666) | How could anyone forget the original [foxer666/node-open-mining-portal](https://github.com/foxer666/node-open-mining-portal) dev? |
 | [1301313Y](//github.com/1301313Y) | How could anyone forget the original [1301313Y/BootNOMP](https://github.com/1301313Y/BootNOMP) dev? |
-| [leshacat](//github.com/leshacat) | How could anyone forget the original [leshacat/BootNOMP](https://github.com/leshacat/BootNOMP) dev?<br /> - Fixed lots of documentation, configuration, and block explorer |
+| [LeshaCat](//github.com/leshacat) | How could anyone forget the original [leshacat/BootNOMP](https://github.com/leshacat/BootNOMP) dev?<br /> - Fixed lots of documentation, configuration, and block explorer |
 | [a2hill](//github.com/a2hill) | helped with X16r |
 | [devnulled](//github.com/devnull-ed) | helped with lyra2z, neoscrypt algo |
 | [Kris Klosterman / krisklosterman](https://github.com/krisklosterman) | Updated code for work with Node.JS >=8 |
@@ -154,7 +168,7 @@ Changelog is in [docs/CHANGELOG.md](https://github.com/leshacat/BootNOMP/blob/de
 
 -------
 
-## Buy Me Some Coffee?
+## Plz Buy Me Some Coffee?
 
 I drink about 3 pots a day... I will love you forever!
 
