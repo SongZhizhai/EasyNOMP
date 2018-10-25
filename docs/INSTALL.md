@@ -1,4 +1,5 @@
 # Pool Installation Instructions
+### Install Requirements
 ```
 sudo apt-get install build-essential libtool autotools-dev autoconf pkg-config libssl-dev
 sudo apt-get install libboost-all-dev git npm nodejs nodejs-legacy libminiupnpc-dev redis-server
@@ -13,17 +14,21 @@ sudo systemctl enable redis-server
 sudo systemctl start redis-server
 wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
 source ~/.bashrc
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
 nvm install v8.1.4
 nvm use v8.1.4
 npm update -g
-npm audit fix
 npm install pm2@latest
-npm audit fix
 pm2 init
+```
+
+-------
+### Install Pool
+```
+
 git clone https://github.com/leshacat/BootNOMP.git
 cd BootNOMP
 npm install
+npm update
 npm audit fix
 pm2 start init.js -i max --watch --name pool
 ```
@@ -44,7 +49,7 @@ pm2 start pool --watch
 ```
 
 -------
-### Startup on boot
+### Startup on Boot
 ```
 pm2 startup
 ```

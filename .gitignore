@@ -4,6 +4,7 @@
 node_modules/
 .idea/
 config.json
+package-lock.json
 logs/
 pool_configs/*.json
 dump.rdb
