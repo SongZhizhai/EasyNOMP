@@ -168,7 +168,7 @@ Changelog is in [docs/CHANGELOG.md](https://github.com/leshacat/BootNOMP/blob/de
 
 -------
 
-## Buy Me Some Coffee?
+## Plz Buy Me Some Coffee?
 
 I drink about 3 pots a day... I will love you forever!
 
