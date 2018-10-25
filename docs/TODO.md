@@ -8,13 +8,13 @@
 
 ***( )*** Auto-Detect if walletd is out of date and warn admin
 
-***(!)*** Block Explorer
+***(!)*** Block Explorer<br />
     - ***(!)*** Immature blocks / Confirmation count
 
-***(!)*** More statistics 
-    - ***(!)*** BTC Value of block at time of mining
-    - ***(!)*** Average blocks per day, week, month for each coin
-    - ***(!)*** Average time to find block
+***(!)*** More statistics <br />
+    - ***(!)*** BTC Value of block at time of mining<br />
+    - ***(!)*** Average blocks per day, week, month for each coin<br />
+    - ***(!)*** Average time to find block<br />
 
 ***(!)*** Pools page (pools.html) needs sortable datatable [ Leshacat ]
 
@@ -24,12 +24,12 @@
 
 ***( )*** New frontend [ Are you changing the design? ]
 
-***( )*** Move modules in one project 
+***( )*** Move modules in one project <br />
 ***(?)*** Write different log level at one time [ What do you mean...? ]
 
-***( )*** Docker Image / Documentation [ LeshaCat ]
-***( )*** Documentation [ LeshaCat ]
-***( )*** MySQL/MariaDB/MongoDB options (one or all) as replacement for Redis ?
+***( )*** Docker Image / Documentation [ LeshaCat ]<br />
+***( )*** Documentation [ LeshaCat ]<br />
+***( )*** MySQL/MariaDB/MongoDB options (one or all) as replacement for Redis ?<br />
 ***( )*** Auto-Detect daemon.conf settings (if in default location) [ LeshaCat ]
 
 ------
