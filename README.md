@@ -45,6 +45,7 @@ http://www.gnu.org/licenses/gpl-2.0.html
 * Node 8.1.4 or higher
 * Redis Server
 * Process Manager 2
+* ntp
 * Coin daemon(s)
 
 -------
