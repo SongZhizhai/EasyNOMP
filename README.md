@@ -24,7 +24,7 @@ Once fixed, I will push the fix to parent project [1301313Y/BootNOMP](https://gi
 -------
 
 ## Helping give NOMP new life, with some style!
-***LeshaCat:*** _"BootNOMP gives NOMP a sleek looking new design, and fully re-designed and re-coded user interface! I saw the original dev working on BootNOMP and the source code and figured I could lend a hand. I have plans to rework the documentation, Block Explorer, Docker source, and some various configuration options. I decided a soft fork with pull requests to the original and parent projects would be best suited. But if you would like to contribute, please consider looking at the parent project [1301313Y/BootNOMP](https://github.com/1301313Y/BootNOMP) first, as this guy is the only one I can find who is helping get the NOMP rebirthing process started."_
+***LeshaCat:*** _"BootNOMP gives NOMP a sleek looking new design, and fully re-designed and re-coded user interface! I saw the original dev working on BootNOMP and the source code and figured I could lend a hand. I have plans to rework the documentation, Block Explorer, Docker source, and some various configuration options. I decided a soft fork with pull requests to the original and parent projects would be best suited. But if you would like to contribute, please consider looking at the parent project [1301313Y/BootNOMP](https://github.com/1301313Y/BootNOMP) and original project [foxer666/node-open-mining-portal](https://github.com/foxer666/node-open-mining-portal) first, as these two guys are the only ones who are helping get the NOMP rebirthing process started."_
 
 ***1301313Y:*** _"BootNOMP is all the things great about NOMP, now with modern style and design of BootStrap 4! Having disliked the previous UI, due to cramping, little to no info displayed while what is displayed is not very helpful to users. I decided to fork a already great project, and add some stylistic touches it severely needs. I would of considered requesting pulls to the main branch, though with such heavy changes to the project, I decided a hard fork would be well suited. But if you would like to contribute, please consider looking at the original project [foxer666/node-open-mining-portal](https://github.com/foxer666/node-open-mining-portal) first, as these guys are the ones who helped get this NOMP rebirthing process started."_
 
@@ -135,6 +135,9 @@ Changelog is in [docs/CHANGELOG.md](https://github.com/leshacat/BootNOMP/blob/de
 ## Credits
 | User | Comment|
 | ------------- | ------------- |
+| [foxer666](//github.com/foxer666) | How could anyone forget the original [foxer666/node-open-mining-portal](https://github.com/foxer666/node-open-mining-portal) dev? |
+| [1301313Y](//github.com/1301313Y) | How could anyone forget the original [1301313Y/BootNOMP](https://github.com/1301313Y/BootNOMP) dev? |
+| [leshacat](//github.com/leshacat) | How could anyone forget the original [leshacat/BootNOMP](https://github.com/leshacat/BootNOMP) dev?<br /> - Fixed lots of documentation, configuration, and block explorer |
 | [a2hill](//github.com/a2hill) | helped with X16r |
 | [devnulled](//github.com/devnull-ed) | helped with lyra2z, neoscrypt algo |
 | [Kris Klosterman / krisklosterman](https://github.com/krisklosterman) | Updated code for work with Node.JS >=8 |
@@ -146,7 +149,6 @@ Changelog is in [docs/CHANGELOG.md](https://github.com/leshacat/BootNOMP/blob/de
 | [svirusxxx](//github.com/svirusxxx) | sponsored development of MPOS mode |
 | [icecube45](//github.com/icecube45) | helping out with the repo wiki |
 | [yoshuki43](//github.com/yoshuki43) | his K-Nomp project has really help the development! |
-| [leshacat](//github.com/leshacat) | fixed lots of documentation, configuration, and block explorer |
 
 ***Those that contributed to [node-stratum-pool](//github.com/zone117x/node-stratum-pool#credits)***
 
