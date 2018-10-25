@@ -9,7 +9,9 @@
 ## !~ PAYMENT BUG WARNING ~!
 ***THERE IS A KNOWN PAYMENT BUG: https://github.com/foxer666/node-open-mining-portal/issues/106*** which is being fixed within 24-48 hours. Please monitor that issue on GitHub. If you have more than 10 miners, this bug affects you. The bug is with the payment processor's batch payments when it pays more than 10-15 miners at the same time, and it fails.
 
-***This crypto is not lost, it is still in your pool wallet.*** Once the fix is made, you can update BootNOMP and restart the pool, and the payments should then go through. 
+***This crypto is not lost, it is still in your pool wallet.*** Once the fix is made, you can update BootNOMP and restart the pool, and the payments should then go through.
+
+Once fixed, I will push the fix to [parent project 1301313Y/BootNOMP](https://github.com/1301313Y/BootNOMP) and [original project](https://github.com/foxer666/node-open-mining-portal)
 
 ***Sorry for the inconvenience!***
 
