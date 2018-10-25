@@ -1,5 +1,7 @@
-Todo list (Ordered by priority)
-===============================
+## Todo list (Ordered by priority)
+
+-------
+
 [ ?=question ] [ !=important ] [ I=inprogress ] [T=testing] [ X=completed]
 
 ( ) Auto-Detect if walletd is out of date and warn admin
@@ -28,7 +30,7 @@ Todo list (Ordered by priority)
 ( ) MySQL/MariaDB/MongoDB options (one or all) as replacement for Redis ?
 ( ) Auto-Detect daemon.conf settings (if in default location) [ LeshaCat ]
 
-============================================================================================================================
+------
 
 Mark your name beside tasks you wish to work on, or are currently working on :)
 
