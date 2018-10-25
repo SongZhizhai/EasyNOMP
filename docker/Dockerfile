@@ -30,6 +30,7 @@ RUN git clone https://github.com/leshacat/BootNOMP.git
 
 WORKDIR /opt/BootNOMP
 
+RUN npm install -g multi-hashing@latest
 RUN npm install
 RUN npm update
 RUN npm audit fix
