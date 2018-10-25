@@ -6,31 +6,31 @@
 
 ***[ ?=question ] [ !=important ] [ I=inprogress ] [ T=testing ] [ X=completed ]***
 
-( ) Auto-Detect if walletd is out of date and warn admin
+***( )*** Auto-Detect if walletd is out of date and warn admin
 
-(!) Block Explorer
-    - (!) Immature blocks / Confirmation count
+***(!)*** Block Explorer
+    - ***(!)*** Immature blocks / Confirmation count
 
-(!) More statistics 
-    - (!) BTC Value of block at time of mining
-    - (!) Average blocks per day, week, month for each coin
-    - (!) Average time to find block
+***(!)*** More statistics 
+    - ***(!)*** BTC Value of block at time of mining
+    - ***(!)*** Average blocks per day, week, month for each coin
+    - ***(!)*** Average time to find block
 
-(!) Pools page (pools.html) needs sortable datatable [ Leshacat ]
+***(!)*** Pools page (pools.html) needs sortable datatable [ Leshacat ]
 
-(!) Rewrite payments module + tests [ LeshaCat: Was looking at this module... (not rewrite, just add features, still pondering) ]
+***(!)*** Rewrite payments module + tests [ LeshaCat: Was looking at this module... (not rewrite, just add features, still pondering) ]
 
-( ) Add option to make an manual payments rather than automatic (for pools with big network diff) [ LeshaCat: Will put control in Admin Panel that uses RPC call ]
+***( )*** Add option to make an manual payments rather than automatic (for pools with big network diff) [ LeshaCat: Will put control in Admin Panel that uses RPC call ]
 
-( ) New frontend [ Are you changing the design? ]
+***( )*** New frontend [ Are you changing the design? ]
 
-( ) Move modules in one project 
-(?) Write different log level at one time [ What do you mean...? ]
+***( )*** Move modules in one project 
+***(?)*** Write different log level at one time [ What do you mean...? ]
 
-( ) Docker Image / Documentation [ LeshaCat ]
-( ) Documentation [ LeshaCat ]
-( ) MySQL/MariaDB/MongoDB options (one or all) as replacement for Redis ?
-( ) Auto-Detect daemon.conf settings (if in default location) [ LeshaCat ]
+***( )*** Docker Image / Documentation [ LeshaCat ]
+***( )*** Documentation [ LeshaCat ]
+***( )*** MySQL/MariaDB/MongoDB options (one or all) as replacement for Redis ?
+***( )*** Auto-Detect daemon.conf settings (if in default location) [ LeshaCat ]
 
 ------
 
