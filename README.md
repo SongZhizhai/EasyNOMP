@@ -132,6 +132,13 @@ Changelog is in [docs/CHANGELOG.md](https://github.com/leshacat/BootNOMP/blob/de
 | - | __Scrypt-Jane__ | submitblock not working tested with CacheCoin, Yacoin |
 
 -------
+## Screenshots
+Home - ![Home](https://raw.githubusercontent.com/leshacat/BOOTNOMP/master/docs/screenshots/home.png)<br />
+Pool Stats - ![Pool Stats](https://raw.githubusercontent.com/leshacat/BOOTNOMP/master/docs/screenshots/poolstats.png)<br />
+Miner Stats - ![Miner Stats](https://raw.githubusercontent.com/leshacat/BOOTNOMP/master/docs/screenshots/minerstats.png)<br />
+Block Explorer - ![Block Explorer](https://raw.githubusercontent.com/leshacat/BOOTNOMP/master/docs/screenshots/blockexplorer.png)<br />
+
+-------
 ## Credits
 | User | Comment|
 | ------------- | ------------- |
