@@ -133,22 +133,17 @@ Changelog is in [docs/CHANGELOG.md](https://github.com/leshacat/BootNOMP/blob/de
 
 -------
 ## Screenshots
-#### Home
-[[https://raw.githubusercontent.com/leshacat/BOOTNOMP/blob/master/docs/screenshots/home.png|alt=Home]]<br /><br />
+#### Home<br />
+![Home](https://github.com/leshacat/BootNOMP/blob/master/docs/screenshots/home.png)
 
+#### Pool Stats<br />
+![Pool Stats](https://github.com/leshacat/BOOTNOMP/blob/master/docs/screenshots/poolstats.png)<br /><br />
 
-#### Pool Stats
-[[https://raw.githubusercontent.com/leshacat/BOOTNOMP/blob/master/docs/screenshots/poolstats.png|alt=Pool Stats]]<br /><br />
+#### Miner Stats<br />
+![Miner Stats](https://github.com/leshacat/BootNOMP/blob/development/docs/screenshots/minerstats.png)<br /><br />
 
-
-#### Miner Stats
-[[https://raw.githubusercontent.com/leshacat/BOOTNOMP/blob/master/docs/screenshots/minerstats.png|alt=Miner Stats]]<br /><br />
-
-
-#### Block Explorer
-[[https://raw.githubusercontent.com/leshacat/BOOTNOMP/blob/master/docs/screenshots/blockexplorer.png|alt=Block Explorer]]<br /><br />
-
-
+#### Block Explorer<br />
+![Block Explorer](https://github.com/leshacat/BOOTNOMP/blob/master/docs/screenshots/blockexplorer.png)<br /><br />
 
 -------
 ## Credits
