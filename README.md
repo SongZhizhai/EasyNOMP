@@ -9,7 +9,9 @@
 ## !~ PAYMENT BUG WARNING ~!
 ***THERE IS A KNOWN PAYMENT BUG: https://github.com/foxer666/node-open-mining-portal/issues/106*** which is being fixed within 24-48 hours. Please monitor that issue on GitHub. If you have more than 10 miners, this bug affects you. The bug is with the payment processor's batch payments when it pays more than 10-15 miners at the same time, and it fails.
 
-***This crypto is not lost, it is still in your pool wallet.*** Once the fix is made, you can update BootNOMP and restart the pool, and the payments should then go through. 
+***This crypto is not lost, it is still in your pool wallet.*** Once the fix is made, you can update BootNOMP and restart the pool, and the payments should then go through.
+
+Once fixed, I will push the fix to parent project [1301313Y/BootNOMP](https://github.com/1301313Y/BootNOMP) and original project [foxer666/node-open-mining-portal](https://github.com/foxer666/node-open-mining-portal)
 
 ***Sorry for the inconvenience!***
 
@@ -22,12 +24,12 @@
 -------
 
 ## Helping give NOMP new life, with some style!
-***LeshaCat:*** _"BootNOMP gives NOMP a sleek looking new design, and fully re-designed and re-coded user interface! I saw the original dev working on BootNOMP and the source code and figured I could lend a hand. I have plans to rework the documentation, Block Explorer, Docker source, and some various configuration options. I decided a soft fork with pull requests to the original and parent projects would be best suited. But if you would like to contribute, please consider looking at the [parent project 1301313Y/BootNOMP](https://github.com/1301313Y/BootNOMP) first, as this guy is the only one I can find who is helping get the NOMP rebirthing process started."_
+***LeshaCat:*** _"BootNOMP gives NOMP a sleek looking new design, and fully re-designed and re-coded user interface! I saw the original dev working on BootNOMP and the source code and figured I could lend a hand. I have plans to rework the documentation, Block Explorer, Docker source, and some various configuration options. I decided a soft fork with pull requests to the original and parent projects would be best suited. But if you would like to contribute, please consider looking at the parent project [1301313Y/BootNOMP](https://github.com/1301313Y/BootNOMP) first, as this guy is the only one I can find who is helping get the NOMP rebirthing process started."_
 
-***1301313Y:*** _"BootNOMP is all the things great about NOMP, now with modern style and design of BootStrap 4! Having disliked the previous UI, due to cramping, little to no info displayed while what is displayed is not very helpful to users. I decided to fork a already great project, and add some stylistic touches it severely needs. I would of considered requesting pulls to the main branch, though with such heavy changes to the project, I decided a hard fork would be well suited. But if you would like to contribute, please consider looking at the [original project](https://github.com/foxer666/node-open-mining-portal) first, as these guys are the ones who helped get this NOMP rebirthing process started."_
+***1301313Y:*** _"BootNOMP is all the things great about NOMP, now with modern style and design of BootStrap 4! Having disliked the previous UI, due to cramping, little to no info displayed while what is displayed is not very helpful to users. I decided to fork a already great project, and add some stylistic touches it severely needs. I would of considered requesting pulls to the main branch, though with such heavy changes to the project, I decided a hard fork would be well suited. But if you would like to contribute, please consider looking at the original project [foxer666/node-open-mining-portal](https://github.com/foxer666/node-open-mining-portal) first, as these guys are the ones who helped get this NOMP rebirthing process started."_
 
-***NOTE:*** If you want to help contribute, please look at the [original project foxer666/node-open-mining-portal](https://github.com/foxer666/node-open-mining-portal) first!<br />
-***NOTE:*** If you want to help contribute, please look at the [parent project 1301313Y/BootNOMP](https://github.com/1301313Y/BootNOMP) first!<br />
+***NOTE:*** If you want to help contribute, please look at the original project [foxer666/node-open-mining-portal](https://github.com/foxer666/node-open-mining-portal) first!<br />
+***NOTE:*** If you want to help contribute, please look at the parent project [1301313Y/BootNOMP](https://github.com/1301313Y/BootNOMP) first!<br />
 
 ***NOTE:*** _You can fork this repository by clicking "fork" in the top right._
 
