@@ -10,6 +10,8 @@ _While the master branch is considered stable,_ leshacat/BootNOMP is currently u
 
 _If you need support,_ you can join EasyX Community Discord https://discord.gg/vzcbVNW channel #easyx-pool and ask @Shawn for help!
 
+***NOTE:***  Someone please test Docker, I made a few quick changes. Will come back to it later! ~LeshaCat
+
 -------
 
 ## Helping give NOMP new life, with some style!

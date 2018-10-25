@@ -1,8 +1,12 @@
 # Changelog
 
 ## v1.1.4 (under development)
-* Forked from 1301313Y by LeshaCat
-* Added Process Manager 2 (pm2@latest)
+* Forked from [1301313Y/BootNOMP](https://github.com/1301313Y/BootNOMP) by [LeshaCat](https://github.com/leshacat)
+* Forked node-stratum-pool from [foxer666/node-stratum-pool](https://github.com/foxer666/node-stratum-pool)
+* Forked node-multi-hashing from [1301313Y/node-multi-hashing](https://github.com/1301313Y/node-multi-hashing)
+* Many fixes inside node-stratum-pool & node-multi-hashing
+* Docker: Added dependencies, ntp & pm2@latest
+* Install Docs: Added dependencies, ntp & pm2@latest
 * Added coin config files / examples
 * Added donation addresses in config files
 * Added meta tag control in config files
