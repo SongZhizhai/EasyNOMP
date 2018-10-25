@@ -2,35 +2,36 @@
 
 -------
 
-***NOTE:*** Ordered by priority, LeshaCat will convert to table :)
+**NOTE:** Ordered by priority
+**NOTE:** Order temporarily messed up... Will look at it later.
 
-***[ ?=question ] [ !=important ] [ I=inprogress ] [ T=testing ] [ X=completed ]***
+**[ ?=question ] [ !=important ] [ I=inprogress ] [ T=testing ] [ X=completed ]**
 
-***( )*** Auto-Detect if walletd is out of date and warn admin
-
-***(!)*** Block Explorer<br />
-    * ***(!)*** Immature blocks / Confirmation count
-
-***(!)*** More statistics <br />
-    * ***(!)*** BTC Value of block at time of mining<br />
-    * ***(!)*** Average blocks per day, week, month for each coin<br />
-    * ***(!)*** Average time to find block<br />
-
-***(!)*** Pools page (pools.html) needs sortable datatable [ Leshacat ]
-
-***(!)*** Rewrite payments module + tests [ LeshaCat: Was looking at this module... (not rewrite, just add features, still pondering) ]
-
-***( )*** Add option to make an manual payments rather than automatic (for pools with big network diff) [ LeshaCat: Will put control in Admin Panel that uses RPC call ]
-
-***( )*** New frontend [ Are you changing the design? ]
-
-***( )*** Move modules in one project <br />
-***(?)*** Write different log level at one time [ What do you mean...? ]
-
-***( )*** Docker Image / Documentation [ LeshaCat ]<br />
-***( )*** Documentation [ LeshaCat ]<br />
-***( )*** MySQL/MariaDB/MongoDB options (one or all) as replacement for Redis ?<br />
-***( )*** Auto-Detect daemon.conf settings (if in default location) [ LeshaCat ]
+|| ToDo Item Description |
+| ------------- | ------------- |
+| **(!)** | Auto-Detect if walletd is out of date and warn admin |
+| **(!IT)** | Block Explorer |
+| **(!IT)** | * Show blocks from all coins |
+| **(!)** | * Immature blocks / Confirmation count |
+|||
+| **(!)** | More statistics |
+| **(!)** | * BTC Value of block at time of mining |
+| **( )** | * Average blocks per day, week, month for each coin |
+| **( )** | * Average time to find block |
+|||
+| **( )** | Pools page (pools.html) needs sortable datatable [ [LeshaCat](https://github.com/leshacat) ] |
+| **(!I)** | Payments Module |
+| **(!)** | * Rewrite payments module + tests [ [LeshaCat:](https://github.com/leshacat) Was looking at this module... (not rewrite, just add features, still pondering) ] |
+| **(!I)** | * Fix batch payments bug from issue https://github.com/foxer666/node-open-mining-portal/issues/106 |
+|||
+| **(!)** | Add option to make an manual payments rather than automatic (for emergency payments & pools with big network diff) [ [LeshaCat:](https://github.com/leshacat) Will put control in Admin Panel that uses RPC call ] |
+| **( )** | New frontend [ Are you changing the design? ] |
+| **( )** | Move modules in one project |
+| **(?)** | Write different log level at one time [ What do you mean...? ] |
+| **(IT)** | Docker Image / Documentation [ [LeshaCat](https://github.com/leshacat) ] |
+| **(IT)** | Documentation [ [LeshaCat](https://github.com/leshacat) ] |
+| **(!)** | MySQL/MariaDB/MongoDB options (one or all) as replacement for Redis ? |
+| **( )** | Auto-Detect daemon.conf settings (if in default location) [ [LeshaCat](https://github.com/leshacat) ] |
 
 ------
 
