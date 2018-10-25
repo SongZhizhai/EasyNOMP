@@ -15,8 +15,8 @@ Correct configs appropriately to your environment in docker directory
 - ***cp ../config_example.json config/config.json***
 - Edit config/config.json, config/coins/*.json, and config/pool_configs/*.json
 
+#### Build Docker
 -------
-### Build Docker
 ```
 cd docker
 docker build -t nomp .
