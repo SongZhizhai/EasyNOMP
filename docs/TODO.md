@@ -1,8 +1,10 @@
-## Todo list (Ordered by priority)
+## Todo list 
 
 -------
 
-[ ?=question ] [ !=important ] [ I=inprogress ] [T=testing] [ X=completed]
+***NOTE:*** Ordered by priority
+
+***[ ?=question ] [ !=important ] [ I=inprogress ] [ T=testing ] [ X=completed ]***
 
 ( ) Auto-Detect if walletd is out of date and warn admin
 
