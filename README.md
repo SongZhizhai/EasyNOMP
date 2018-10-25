@@ -5,6 +5,15 @@
 ##### Current Version: v1.1.4
 
 -------
+
+## !~ PAYMENT BUG WARNING ~!
+THERE IS A KNOWN PAYMENT BUG: https://github.com/foxer666/node-open-mining-portal/issues/106 which is being fixed within 24-48 hours. Please monitor that issue on GitHub. If you have more than 10 miners, this bug affects you. The bug is with the payment processor when it goes to pay more than 10-15 miners at the same time, and it fails.
+
+***This crypto is not lost, it is still in your pool wallet.*** Once the fix is made, you can update BootNOMP and restart the pool, and the payments should then go through. 
+
+***Sorry for the inconvenience!***
+
+-------
 ## !~ DEVELOPMENT WARNING ~!
 ***_While the master branch is considered stable, leshacat/BootNOMP is currently under loads of development - check out the development branch (git checkout development)_***
 
