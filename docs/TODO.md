@@ -2,7 +2,8 @@
 
 -------
 
-**NOTE:** Ordered by priority, LeshaCat will convert to table :)
+**NOTE:** Ordered by priority
+**NOTE:** Order temporarily messed up... Will look at it later.
 
 **[ ?=question ] [ !=important ] [ I=inprogress ] [ T=testing ] [ X=completed ]**
 
