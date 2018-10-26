@@ -1,12 +1,12 @@
 # [EasyNOMP](https://github.com/leshacat/EasyNOMP), a fork of [BootNOMP](https://github.com/1301313Y/BootNOMP) and [NOMP](https://github.com/foxer666/node-open-mining-portal)
 ##### Making it easy to install and configure NOMP!
+##### Current Version: v1.1.4
 
 -------
 
 ### EasyNOMP pool is live @ [http://miningpool.easyx.info:44420/](http://miningpool.easyx.info:44420/)
 #### Support via GH Issue tracker and #easyx-pool channel on discord: https://discord.gg/vzcbVNW
 #### Visit the EasyX Community website: http://www.easyx.info/
-##### Current Version: v1.1.4
 
 -------
 
