@@ -1,5 +1,5 @@
 # [LeshaCat](//github.com/leshacat) fork of [1301313Y/BootNOMP](https://github.com/1301313Y/BootNOMP)
-### [leshacat/BootNOMP](https://github.com/leshacat/BootNOMP/tree/development) pool is live @ [http://miningpool.easyx.info:44420/](http://miningpool.easyx.info:44420/)
+### [leshacat/EasyNOMP](https://github.com/leshacat/EasyNOMP/tree/development) pool is live @ [http://miningpool.easyx.info:44420/](http://miningpool.easyx.info:44420/)
 #### Support in #easyx-pool channel on discord: https://discord.gg/vzcbVNW
 #### Visit the EasyX Community website: http://www.easyx.info/
 ##### Current Version: v1.1.4
@@ -9,7 +9,7 @@
 ## !~ PAYMENT BUG WARNING ~!
 ***THERE IS A KNOWN PAYMENT BUG: https://github.com/foxer666/node-open-mining-portal/issues/106*** which is being fixed within 24-48 hours. Please monitor that issue on GitHub. If you have more than 10 miners, this bug affects you. The bug is with the payment processor's batch payments when it pays more than 10-15 miners at the same time, and it fails.
 
-***This crypto is not lost, it is still in your pool wallet.*** Once the fix is made, you can update BootNOMP and restart the pool, and the payments should then go through.
+***This crypto is not lost, it is still in your pool wallet.*** Once the fix is made, you can update EasyNOMP and restart the pool, and the payments should then go through.
 
 Once fixed, I will push the fix to parent project [1301313Y/BootNOMP](https://github.com/1301313Y/BootNOMP) and original project [foxer666/node-open-mining-portal](https://github.com/foxer666/node-open-mining-portal)
 
@@ -17,14 +17,14 @@ Once fixed, I will push the fix to parent project [1301313Y/BootNOMP](https://gi
 
 -------
 ## !~ DEVELOPMENT WARNING ~!
-***_While the master branch is considered stable, leshacat/BootNOMP is currently under loads of development - check out the development branch (git checkout development)_***
+***_While the master branch is considered stable, leshacat/EasyNOMP is currently under loads of development - check out the development branch (git checkout development)_***
 
 ***NOTE:***  Someone please test Docker, I made a few quick changes. Will come back to it later! ~LeshaCat
 
 -------
 
 ## Helping give NOMP new life, with some style!
-***LeshaCat:*** _"BootNOMP gives NOMP a sleek looking new design, and fully re-designed and re-coded user interface! I saw the original dev working on BootNOMP and the source code and figured I could lend a hand. I have plans to rework the documentation, Block Explorer, Docker source, and some various configuration options. I decided a soft fork with pull requests to the original and parent projects would be best suited. But if you would like to contribute, please consider looking at the parent project [1301313Y/BootNOMP](https://github.com/1301313Y/BootNOMP) and original project [foxer666/node-open-mining-portal](https://github.com/foxer666/node-open-mining-portal) first, as these two guys are the only ones who are helping get the NOMP rebirthing process started."_
+***LeshaCat:*** _"EasyNOMP adds features and patches to BootNOMP. BootNOMP gives NOMP a sleek looking new design, and fully re-designed and re-coded user interface! I saw the original dev working on BootNOMP and the source code and figured I could lend a hand. I have plans to rework the documentation, Block Explorer, Docker source, and some various configuration options. I decided a soft fork with pull requests to the original and parent projects would be best suited. But if you would like to contribute, please consider looking at the parent project [1301313Y/BootNOMP](https://github.com/1301313Y/BootNOMP) and original project [foxer666/node-open-mining-portal](https://github.com/foxer666/node-open-mining-portal) first, as these two guys are the only ones who are helping get the NOMP rebirthing process started."_
 
 ***1301313Y:*** _"BootNOMP is all the things great about NOMP, now with modern style and design of BootStrap 4! Having disliked the previous UI, due to cramping, little to no info displayed while what is displayed is not very helpful to users. I decided to fork a already great project, and add some stylistic touches it severely needs. I would of considered requesting pulls to the main branch, though with such heavy changes to the project, I decided a hard fork would be well suited. But if you would like to contribute, please consider looking at the original project [foxer666/node-open-mining-portal](https://github.com/foxer666/node-open-mining-portal) first, as these guys are the ones who helped get this NOMP rebirthing process started."_
 
@@ -37,7 +37,7 @@ Once fixed, I will push the fix to parent project [1301313Y/BootNOMP](https://gi
 ## Node Open Mining Portal consists of 3 main modules:
 | Project | Link |
 | ------------- | ------------- |
-| [BootNOMP](https://github.com/leshacat/BootNOMP.git) | https://github.com/leshacat/BootNOMP.git |
+| [EasyNOMP](https://github.com/leshacat/EasyNOMP.git) | https://github.com/leshacat/EasyNOMP.git |
 | [Stratum Pool](https://github.com/leshacat/node-stratum-pool) | https://github.com/leshacat/node-stratum-pool |
 | [Node Multihashing](https://github.com/leshacat/node-multi-hashing) | https://github.com/leshacat/node-multi-hashing |
 
@@ -62,17 +62,17 @@ http://www.gnu.org/licenses/gpl-2.0.html
 -------
 ## Install Pool
 
-Install instructions are in [docs/README.md](https://github.com/leshacat/BootNOMP/blob/development/docs/INSTALL.md)
+Install instructions are in [docs/README.md](https://github.com/leshacat/EasyNOMP/blob/development/docs/INSTALL.md)
 
 -------
 ## Run in Docker
 
-Docker instructions are in [docs/README.md](https://github.com/leshacat/BootNOMP/blob/development/docs/DOCKER.md)
+Docker instructions are in [docs/README.md](https://github.com/leshacat/EasyNOMP/blob/development/docs/DOCKER.md)
 
 -------
 ## Changelog
 
-Changelog is in [docs/CHANGELOG.md](https://github.com/leshacat/BootNOMP/blob/development/docs/CHANGELOG.md)
+Changelog is in [docs/CHANGELOG.md](https://github.com/leshacat/EasyNOMP/blob/development/docs/CHANGELOG.md)
 
 -------
 ## Hashing algorithms
@@ -134,13 +134,13 @@ Changelog is in [docs/CHANGELOG.md](https://github.com/leshacat/BootNOMP/blob/de
 -------
 ## Screenshots
 #### Home<br />
-![Home](https://github.com/leshacat/BootNOMP/blob/master/docs/screenshots/home.png)
+![Home](https://github.com/leshacat/EasyNOMP/blob/master/docs/screenshots/home.png)
 
 #### Pool Stats<br />
 ![Pool Stats](https://github.com/leshacat/BOOTNOMP/blob/master/docs/screenshots/poolstats.png)<br /><br />
 
 #### Miner Stats<br />
-![Miner Stats](https://github.com/leshacat/BootNOMP/blob/development/docs/screenshots/minerstats.png)<br /><br />
+![Miner Stats](https://github.com/leshacat/EasyNOMP/blob/development/docs/screenshots/minerstats.png)<br /><br />
 
 #### Block Explorer<br />
 ![Block Explorer](https://github.com/leshacat/BOOTNOMP/blob/master/docs/screenshots/blockexplorer.png)<br /><br />
@@ -151,7 +151,7 @@ Changelog is in [docs/CHANGELOG.md](https://github.com/leshacat/BootNOMP/blob/de
 | ------------- | ------------- |
 | [foxer666](//github.com/foxer666) | How could anyone forget the original [foxer666/node-open-mining-portal](https://github.com/foxer666/node-open-mining-portal) dev? |
 | [1301313Y](//github.com/1301313Y) | How could anyone forget the original [1301313Y/BootNOMP](https://github.com/1301313Y/BootNOMP) dev? |
-| [LeshaCat](//github.com/leshacat) | How could anyone forget the original [leshacat/BootNOMP](https://github.com/leshacat/BootNOMP) dev?<br /> - Fixed lots of documentation, configuration, and block explorer |
+| [LeshaCat](//github.com/leshacat) | How could anyone forget the original [leshacat/EasyNOMP](https://github.com/leshacat/EasyNOMP) dev?<br /> - Fixed lots of documentation, configuration, and block explorer |
 | &nbsp; | &nbsp; |
 | [a2hill](//github.com/a2hill) | helped with X16r |
 | [devnulled](//github.com/devnull-ed) | helped with lyra2z, neoscrypt algo |
