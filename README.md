@@ -7,9 +7,13 @@
 -------
 
 ### !~ PAYMENT BUG WARNING ~!
-##### THERE IS A KNOWN PAYMENT BUG: https://github.com/bitcoin/bitcoin/issues/14578 and https://github.com/foxer666/node-open-mining-portal/issues/106<br />
+#### THERE IS A KNOWN PAYMENT BUG: <br />
 
-Please monitor that issue on GitHub. If you have more than 10 miners, this bug affects you. The bug is with the payment processor's batch payments when it pays an invalid address, or more than 10-15 miners at the same time, and it fails the whole payment batch.
+https://github.com/bitcoin/bitcoin/issues/14578<br />
+https://github.com/foxer666/node-open-mining-portal/issues/106<br />
+https://github.com/foxer666/node-open-mining-portal/issues/145<br />
+
+Please monitor those issues on GitHub. If you have more than 10 miners, this bug affects you. The bug is with the payment processor's batch payments when it pays an invalid address, or more than 10-15 miners at the same time, and it fails the whole payment batch.
 
 ***This crypto is not lost, it is still in your pool wallet.*** Once the fix is made, you can update EasyNOMP and restart the pool, and the payments should then go through.
 
