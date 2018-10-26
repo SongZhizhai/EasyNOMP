@@ -13,7 +13,8 @@
 
 	{{ if (it.portalConfig.pagetitle !== "undefined") { }}                
 	    <title>{{=it.portalConfig.pagetitle}}</title>
-	{{ } else { }}	    
+	{{ } }}
+	{{ else { }}	    
 	    <title>EasyNOMP Mining Pool - https://github.com/leshacat/EasyNOMP</title>	    
 	{{ } }}
 	    
@@ -74,9 +75,10 @@
         <header>
             <nav id="topNavBar" class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap px-0" style="height: 40px;">
 		    
-                {{ if (it.portalConfig.poollogo !== "undefined") { }}
+                {{ if (it.portalConfig.poollogo !== "undefined" && it.portalConfig.poollogo !== "") { }}
                         <img src='{{=it.portalConfig.poollogo}}' />
-                    {{ } else { }}
+                {{ } }}
+		{{ else { }}
                     <span style="font-size: 18px; color: white;">&nbsp;&nbsp;<b>{{=it.portalConfig.poolname}}</b></span>
                 {{ } }}
 		    
