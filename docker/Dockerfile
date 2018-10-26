@@ -26,7 +26,7 @@ RUN pm2 init
 
 
 WORKDIR /opt/
-RUN git clone https://github.com/leshacat/BootNOMP.git
+RUN git clone https://github.com/leshacat/EasyNOMP.git
 
 WORKDIR /opt/BootNOMP
 
