@@ -10,7 +10,13 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
         <!-- de title and da favi -->
-        <title>{{=it.portalConfig.pagetitle}}</title>
+
+	{{ if (it.portalConfig.pagetitle !== "undefined") { }}                
+	    <title>{{=it.portalConfig.pagetitle}}</title>
+	{{ } else { }}	    
+	    <title>EasyNOMP Mining Pool - https://github.com/leshacat/EasyNOMP</title>	    
+	{{ } }}
+	    
         <link rel="icon" type="image/png" href="/static/img/favicon.png" />
 
         <!-- fonts n styles -->
@@ -67,11 +73,13 @@
     <body>
         <header>
             <nav id="topNavBar" class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap px-0" style="height: 40px;">
+		    
                 {{ if (it.portalConfig.poollogo !== "undefined") { }}
                         <img src='{{=it.portalConfig.poollogo}}' />
                     {{ } else { }}
                     <span style="font-size: 18px; color: white;">&nbsp;&nbsp;<b>{{=it.portalConfig.poolname}}</b></span>
                 {{ } }}
+		    
                     <span style="font-size: 10px; color: white;">Powered by <a href="https://github.com/leshacat/EasyNOMP" target="_blank">LeshaCat/EasyNOMP</a></span>
                     <span style="font-size: 16px; color: white;"><i>{{=it.portalConfig.discordtwitterfacebook}}&nbsp;&nbsp;&nbsp;&nbsp;</i></span>
             </nav>
