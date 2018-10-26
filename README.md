@@ -7,7 +7,7 @@
 -------
 
 ### !~ PAYMENT BUG WARNING ~!
-***THERE IS A KNOWN PAYMENT BUG: https://github.com/bitcoin/bitcoin/issues/14578 and https://github.com/foxer666/node-open-mining-portal/issues/106***<br />
+##### THERE IS A KNOWN PAYMENT BUG: https://github.com/bitcoin/bitcoin/issues/14578 and https://github.com/foxer666/node-open-mining-portal/issues/106<br />
 
 Please monitor that issue on GitHub. If you have more than 10 miners, this bug affects you. The bug is with the payment processor's batch payments when it pays an invalid address, or more than 10-15 miners at the same time, and it fails the whole payment batch.
 
