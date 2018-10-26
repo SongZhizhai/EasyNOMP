@@ -15,6 +15,7 @@ sudo systemctl enable fail2ban
 sudo systemctl start fail2ban
 sudo systemctl enable redis-server
 sudo systemctl start redis-server
+redis-cli FLUSHALL
 sudo systemctl enable ntp
 sudo systemctl start ntp
 wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
