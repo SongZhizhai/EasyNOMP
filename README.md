@@ -1,4 +1,4 @@
-## [EasyNOMP](https://github.com/leshacat/EasyNOMP), a fork of [BootNOMP](https://github.com/1301313Y/BootNOMP) & [node-open-mining-portal](https://github.com/foxer666/node-open-mining-portal)
+# [EasyNOMP](https://github.com/leshacat/EasyNOMP), a fork of [BootNOMP](https://github.com/1301313Y/BootNOMP) and [NOMP](https://github.com/foxer666/node-open-mining-portal)
 ### EasyNOMP pool is live @ [http://miningpool.easyx.info:44420/](http://miningpool.easyx.info:44420/)
 #### Support in #easyx-pool channel on discord: https://discord.gg/vzcbVNW
 #### Visit the EasyX Community website: http://www.easyx.info/
