@@ -4,19 +4,31 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
         
-        <meta name="description" content="{{=it.portalConfig.pagedesc}}" />
-        <meta name="keywords" content="{{=it.portalConfig.pagekeywds}}" />
+        
+        <!-- Page Description -->
+			{{ if ((it.portalConfig.pagedesc !== "undefined") & (it.portalConfig.pagedesc !== "")) { }}
+				<meta name="description" content="{{=it.portalConfig.pagedesc}}" />
+			{{ } else { }}
+				<meta name="description" content="An EasyNOMP cryptocurrency mining pool" />    
+			{{ } }}
+			
+        
+        <!-- Page Keywords -->
+			{{ if ((it.portalConfig.pagekeywds !== "undefined") & (it.portalConfig.pagekeywds !== "")) { }}
+				<meta name="keywords" content="{{=it.portalConfig.pagekeywds}}" />
+			{{ } else { }}
+				<meta name="keywords" content="EasyNOMP,NOMP,node-open-mining-portal,pool,mining pool, mining, cryptocurrency, crypto, bitcoin, btc" />
+			{{ } }}
+			
         <meta name="author" content="kthx" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-        <!-- de title and da favi -->
-
-	{{ if ((it.portalConfig.pagetitle !== "undefined") and (it.portalConfig.pagetitle !== "")) { }}                
-	    <title>{{=it.portalConfig.pagetitle}}</title>
-	{{ } }}
-	{{ else { }}	    
-	    <title>EasyNOMP Mining Pool - https://github.com/leshacat/EasyNOMP</title>	    
-	{{ } }}
+			<!-- Page Title -->
+			{{ if ((it.portalConfig.pagetitle !== "undefined") & (it.portalConfig.pagetitle !== "")) { }}
+				<title>{{=it.portalConfig.pagetitle}}</title>
+			{{ } else { }}
+				<title>EasyNOMP Mining Pool - https://github.com/leshacat/EasyNOMP</title>	    
+			{{ } }}
 	    
         <link rel="icon" type="image/png" href="/static/img/favicon.png" />
 
@@ -75,12 +87,11 @@
         <header>
             <nav id="topNavBar" class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap px-0" style="height: 40px;">
 		    
-                {{ if ((it.portalConfig.poollogo !== "undefined") and (it.portalConfig.poollogo !== "")) { }}
-                        <img src='{{=it.portalConfig.poollogo}}' />
-                {{ } }}
-		{{ else { }}
-                    <span style="font-size: 18px; color: white;">&nbsp;&nbsp;<b>{{=it.portalConfig.poolname}}</b></span>
-                {{ } }}
+					{{ if ((it.portalConfig.poollogo !== "undefined") & (it.portalConfig.poollogo !== "")) { }}
+						<img src='{{=it.portalConfig.poollogo}}' />
+					{{ } else { }}
+						<span style="font-size: 18px; color: white;">&nbsp;&nbsp;<b>{{=it.portalConfig.poolname}}</b></span>
+					{{ } }}
 		    
                     <span style="font-size: 10px; color: white;">Powered by <a href="https://github.com/leshacat/EasyNOMP" target="_blank">LeshaCat/EasyNOMP</a></span>
                     <span style="font-size: 16px; color: white;"><i>{{=it.portalConfig.discordtwitterfacebook}}&nbsp;&nbsp;&nbsp;&nbsp;</i></span>
