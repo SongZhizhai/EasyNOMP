@@ -30,7 +30,7 @@ pm2 init
 -------
 ### Install Pool
 ```
-git clone https://github.com/leshacat/BootNOMP.git
+git clone https://github.com/leshacat/EasyNOMP.git
 cd BootNOMP
 npm install
 npm update
