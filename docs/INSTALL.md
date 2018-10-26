@@ -29,7 +29,7 @@ pm2 init
 
 -------
 ### Flush Redis Data
-**If you are migrating from z-nomp, your old statistics and payouts data is incompatable, to wipe it please run:**
+**If you are switching from z-nomp, your old statistics and payouts data is incompatable, to wipe it please run:**
 ```
 redis-cli FLUSHALL
 ```
