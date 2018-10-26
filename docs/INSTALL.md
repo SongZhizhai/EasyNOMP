@@ -15,7 +15,6 @@ sudo systemctl enable fail2ban
 sudo systemctl start fail2ban
 sudo systemctl enable redis-server
 sudo systemctl start redis-server
-redis-cli FLUSHALL
 sudo systemctl enable ntp
 sudo systemctl start ntp
 wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
@@ -27,6 +26,14 @@ npm install -g pm2@latest
 npm install -g npm@latest
 pm2 init
 ```
+
+-------
+### Flush Redis Data
+If you are migrating to or from z-nomp, please run:
+```
+redis-cli FLUSHALL
+```
+**As a side effect, you will loose statistics and payout data.**
 
 -------
 ### Install Pool
