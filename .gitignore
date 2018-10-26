@@ -5,6 +5,7 @@ node_modules/
 .idea/
 config.json
 package-lock.json
+access-token
 logs/
 pool_configs/*.json
 dump.rdb
