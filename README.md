@@ -57,6 +57,9 @@ Once fixed, I will push the fix to parent project [1301313Y/BootNOMP](https://gi
 | ✓ | SEO Optimized / So you don't have to! | [1301313Y](//github.com/1301313Y), [LeshaCat](//github.com/leshacat) |
 | ✓ | Donation Addresses / To make donation collection easier! | [LeshaCat](//github.com/leshacat) |
 
+[Screenshots](https://github.com/leshacat/EasyNOMP#screenshots)
+[Credits](https://github.com/leshacat/EasyNOMP#credits)
+
 -------
 ### Node Open Mining Portal consists of 3 main modules:
 | Project | Link |
