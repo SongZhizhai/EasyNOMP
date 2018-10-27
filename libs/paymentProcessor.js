@@ -591,6 +591,8 @@ function SetupForPool(poolOptions, setupFinished) {
           var shareAmounts = {};
           var balanceAmounts = {};
           logger.silly('totalSent = %s', totalSent);
+          
+          
           for (var w in workers) {
             logger.silly('w = %s', w);
             var worker = workers[w];
@@ -609,7 +611,10 @@ function SetupForPool(poolOptions, setupFinished) {
               logger.silly('totalSent = %s', totalSent.toString(10));
               var address = worker.address = (worker.address || getProperAddress(w));
               logger.silly('address = %s', address);
+              
+              /* THIS IS THE LINE THAT ADDS THE WORKERS PAYMENT TO THE ARRAY ~~kthx */
               worker.sent = addressAmounts[address] = toSend;
+              
               logger.silly('worker.sent = %s', worker.sent.toString(10));
               worker.balanceChange = BigNumber.min(worker.balance, worker.sent).multipliedBy(new BigNumber(-1));
               logger.silly('worker.balanceChange = %s', worker.balanceChange.toString(10));
@@ -637,6 +642,9 @@ function SetupForPool(poolOptions, setupFinished) {
               }
             }
           }
+          
+          
+          
 
           if (Object.keys(addressAmounts).length === 0) {
             logger.info('No workers was chosen for paying out');
