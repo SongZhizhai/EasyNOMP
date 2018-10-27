@@ -691,9 +691,9 @@ function SetupForPool(poolOptions, setupFinished) {
 					2) Decide if instantsend capable
 					3) Decide if feeaddress capable
 					4) Send each "mini-batch" of transactions					
-					
+																									// (, false, "Miner Payment", feeAddresses, true, false)
 			*/
-																																	// (, false, "Miner Payment", feeAddresses, true, false)
+			
           daemon.cmd('sendmany', [addressAccount || '', addressAmounts, 0], function(result) {
             //Check if payments failed because wallet doesn't have enough coins to pay for tx fees
             if (result.error && result.error.code === -6) {
