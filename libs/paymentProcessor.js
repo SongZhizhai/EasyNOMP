@@ -644,8 +644,6 @@ function SetupForPool(poolOptions, setupFinished) {
           }
           
           
-          
-
           if (Object.keys(addressAmounts).length === 0) {
             logger.info('No workers was chosen for paying out');
             callback(null, workers, rounds, []);
@@ -663,27 +661,13 @@ function SetupForPool(poolOptions, setupFinished) {
 //	     rewardAddresses = "{" + rewardAddresses + "}";
 
 
-
-
-
-
-			/* 
-				
-				KTHX-ISSUE-1: 
-			
-					- Need to loop through X transactions at a time and batch them
-					- Need to add in instantsend/feeaddress capability for supported coins				
-																									// (, false, "Miner Payment", feeAddresses, true, false)
-			*/
-
-
-          /* THIS IS PAYMENT AMOUNTS */
+          /* THIS IS PAYMENT AMOUNTS (ORIGINAL CODE) */
           Object.keys(addressAmounts).forEach((address) => {
             addressAmounts[address] = new BigNumber(addressAmounts[address].toFixed(coinPrecision, 1)).toNumber();
           });
 
 
-          /* THIS WILL CHARGE PORTION OF TXFEES TO POOL */
+          /* THIS WILL CHARGE PORTION OF TXFEES TO POOL (KTHX CODE) */
           Object.keys(addressAmounts).forEach((address) => {
               feeAddresses.push(address);// = new BigNumber(0.00000000);
           });
@@ -692,21 +676,23 @@ function SetupForPool(poolOptions, setupFinished) {
 //            addressAmounts[rewardaddy] = 0.00000000;
 //          });
             
-          /* LIST EACH PAYEE AS PAYING FEES (WILL ADD CFG OPTION FOR THIS) */
+          /* LIST EACH PAYEE AS PAYING FEES (WILL ADD CFG OPTION FOR THIS ~ KTHX CODE) */
           Object.keys(rewardAddresses).forEach((feeaddy) => {
             feeAddresses.push(feeaddy);// = 0.0;
           });
-          
           
 
           logger.info('Ok, going to pay from "%s" address with final amounts: %s', addressAccount, JSON.stringify(addressAmounts));
           logger.info('Ok, going to pay FEES from "%s" addresses: %s', feeAddresses, JSON.stringify(feeAddresses));
 
 
-
-			/* CHANGED TO INSTANTSEND (NEEDS CONFIG OPTION) */
-			/*
-					
+			/* 
+				
+				KTHX-ISSUE-1: 
+			
+					- Need to loop through X transactions at a time and batch them
+					- Need to add in instantsend/feeaddress capability for supported coins				
+																									// (, false, "Miner Payment", feeAddresses, true, false)					
 					1) Loop through payments, splitting into X number
 					2) Decide if instantsend capable
 					3) Decide if feeaddress capable
