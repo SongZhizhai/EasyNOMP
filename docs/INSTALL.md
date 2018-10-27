@@ -2,6 +2,18 @@
 
 -------
 
+### Installer Script
+You know we like things easy, so we've created this handy installer script for you!
+Please be aware, this script is not yet tested, and may not even work!
+Simply create a user for the pool to run as, and log in to that user.
+Run this command
+
+```
+git clone https://github.com/leshacat/EasyNOMP.git ; cd EasyNOMP ; ./install.sh ;
+```
+**Done!**
+
+-------
 ### Install Requirements
 ```
 sudo apt-get update
@@ -26,6 +38,14 @@ npm install -g pm2@latest
 npm install -g npm@latest
 pm2 init
 ```
+
+-------
+### Flush Redis Data
+**If you are switching from z-nomp, your old statistics and payouts data is incompatable - to wipe it please run:**
+```
+redis-cli FLUSHALL
+```
+**WARNING: You will loose statistics and payout data.**
 
 -------
 ### Install Pool

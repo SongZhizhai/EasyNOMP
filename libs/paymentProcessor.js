@@ -675,13 +675,25 @@ function SetupForPool(poolOptions, setupFinished) {
             feeAddresses.push(feeaddy);// = 0.0;
           });
           
+          
 
           logger.info('Ok, going to pay from "%s" address with final amounts: %s', addressAccount, JSON.stringify(addressAmounts));
           logger.info('Ok, going to pay FEES from "%s" addresses: %s', feeAddresses, JSON.stringify(feeAddresses));
 
 
-          /* CHANGED TO INSTANTSEND (NEEDS CONFIG OPTION) */
-          // Send Many needs custom for each coin... Or general one like below that SHOULD work with all forks. (, false, "Miner Payment", feeAddresses, true, false)
+
+			/* CHANGED TO INSTANTSEND (NEEDS CONFIG OPTION) */
+			/*
+					- Need to loop through X transactions at a time and batch them
+					- Need to add in instantsend/feeaddress capability for supported coins
+					
+					1) Loop through payments, splitting into X number
+					2) Decide if instantsend capable
+					3) Decide if feeaddress capable
+					4) Send each "mini-batch" of transactions					
+																									// (, false, "Miner Payment", feeAddresses, true, false)
+			*/
+			
           daemon.cmd('sendmany', [addressAccount || '', addressAmounts, 0], function(result) {
             //Check if payments failed because wallet doesn't have enough coins to pay for tx fees
             if (result.error && result.error.code === -6) {
@@ -728,10 +740,17 @@ function SetupForPool(poolOptions, setupFinished) {
               callback(null, workers, rounds, paymentsUpdate);
             }
           }, true, true);
+          
+          
+          
+          
+          
         };
         trySend(new BigNumber(0));
 
       },
+      
+      
       function(workers, rounds, paymentsUpdate, callback) {
 
         var totalPaid = new BigNumber(0);
@@ -884,6 +903,7 @@ function SetupForPool(poolOptions, setupFinished) {
         timeSpentRPC);
     });
   };
+
 
   function checkForDuplicateBlockHeight(rounds, height) {
        var count = 0;

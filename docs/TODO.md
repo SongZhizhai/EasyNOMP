@@ -9,7 +9,11 @@
 
 || ToDo Item Description |
 | ------------- | ------------- |
+| **(!IT)** | Install script |
+| **(!)** | Merge with UNOMP: https://github.com/UNOMP/unified-node-open-mining-portal |
+| **(!)** | Add node-merged-pool: https://github.com/UNOMP/node-merged-pool |
 | **(!)** | Auto-Detect if walletd is out of date and warn admin |
+| **(!)** | Installer script |
 | **(!IT)** | Block Explorer |
 | **(!IT)** | * Show blocks from all coins |
 | **(!)** | * Immature blocks / Confirmation count |
@@ -23,6 +27,7 @@
 | **(!I)** | Payments Module |
 | **(!)** | * Rewrite payments module + tests [ [LeshaCat:](https://github.com/leshacat) Was looking at this module... (not rewrite, just add features, still pondering) ] |
 | **(!I)** | * Fix batch payments bug from issue https://github.com/foxer666/node-open-mining-portal/issues/106 |
+| **(!I)** | * Need to add in instantsend/feeaddress capability for supported coins |
 |||
 | **(!)** | Add option to make an manual payments rather than automatic (for emergency payments & pools with big network diff) [ [LeshaCat:](https://github.com/leshacat) Will put control in Admin Panel that uses RPC call ] |
 | **( )** | New frontend [ Are you changing the design? ] |
