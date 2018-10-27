@@ -2,12 +2,14 @@
 
 -------
 
-### Coming Soon: Installer Script!
+### Installer Script
+You know we like things easy, so we've created this handy installer script for you!
+Please be aware, this script is not yet tested, and may not even work!
+Simply create a user for the pool to run as, and log in to that user.
+Run this command
 
 ```
-git clone https://github.com/leshacat/EasyNOMP.git
-cd EasyNOMP
-./install.sh
+git clone https://github.com/leshacat/EasyNOMP.git ; cd EasyNOMP ; ./install.sh ;
 ```
 **Done!**
 

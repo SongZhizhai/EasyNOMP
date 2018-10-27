@@ -9,6 +9,7 @@
 
 || ToDo Item Description |
 | ------------- | ------------- |
+| **(!IT)** | Install script |
 | **(!)** | Auto-Detect if walletd is out of date and warn admin |
 | **(!)** | Installer script |
 | **(!IT)** | Block Explorer |
