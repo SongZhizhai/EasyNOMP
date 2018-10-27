@@ -2,6 +2,7 @@
 
 # This is the EasyNOMP install script.
 echo "EasyNOMP install script."
+echo "Please do NOT run as root, run as the pool user!"
 echo "Installing... Please wait!"
 
 sudo add-apt-repository -y ppa:bitcoin/bitcoin
