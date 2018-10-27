@@ -51,7 +51,7 @@ Once fixed, I will push the fix to parent project [1301313Y/BootNOMP](https://gi
 | ✓ | Additional Statistics Information | [1301313Y](//github.com/1301313Y) |
 | ✓ | Algorithm Auto-Switching | [LeshaCat](//github.com/leshacat) |
 | ✓ | Clear Documentation / To help you install & configure EasyNOMP | [LeshaCat](//github.com/leshacat) |
-| ✓ | Live support on Discord / Can we help you with something? Join #easyx-pool and ask @Shawn! | [LeshaCat](//github.com/leshacat) |
+| ✓ | Live support on Discord / Join #easyx-pool and ask @Shawn! | [LeshaCat](//github.com/leshacat) |
 | ✓ | Install Script / No dependancy problems! | [LeshaCat](//github.com/leshacat) |
 | ✓ | SEO Optimized / So you don't have to! | [LeshaCat](//github.com/leshacat) |
 | ✓ | Donation Addresses / To make donation collection easier! | [LeshaCat](//github.com/leshacat) |
