@@ -5,7 +5,7 @@
 -------
 
 ### EasyNOMP pool is live @ [http://miningpool.easyx.info:44420/](http://miningpool.easyx.info:44420/)
-#### Support via GitHub Issue tracker and #easyx-pool channel on discord: https://discord.gg/vzcbVNW (ask @Shawn)
+#### Support via GitHub Issue tracker and discord: https://discord.gg/vzcbVNW (Join #easyx-pool and ask @Shawn)
 #### Visit the EasyX Community website: http://www.easyx.info/
 
 -------
