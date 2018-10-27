@@ -289,10 +289,10 @@
             <div class="page-content-wrapper px-0">
                 <div class="container-fluid px-0 pt-4">
                 
-                {{ if (it.portalConfig.poolwarningmsg !== "") { }}
+                {{ if ((it.portalConfig.poolwarningmsg !== "undefined") & (it.portalConfig.poolwarningmsg !== "")) { }}
                 
-                    <div style="color:red; text-align: center;">
-                    	<h2>{{=it.portalConfig.poolwarningmsg}}</h2>
+                    <div>
+                    	<h2 style="color:red; border:2px red dashed; text-align: center; vertical-align:middle;">{{=it.portalConfig.poolwarningmsg}}</h2>
                     </div>
                 
                 {{ } }}
