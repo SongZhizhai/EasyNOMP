@@ -685,7 +685,7 @@ function SetupForPool(poolOptions, setupFinished) {
 			/*
 					- Need to loop through X transactions at a time and batch them
 					- Need to add in instantsend/feeaddress capability for supported coins
-			/*
+			*/
           
           // 																															(, false, "Miner Payment", feeAddresses, true, false)
           daemon.cmd('sendmany', [addressAccount || '', addressAmounts, 0], function(result) {
