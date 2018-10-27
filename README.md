@@ -47,14 +47,15 @@ Once fixed, I will push the fix to parent project [1301313Y/BootNOMP](https://gi
 ### Features
 |   | Feature | Developer(s) |
 | ------------- | ------------- | ------------- |
-| ✓ | Support for 42 Algorithms | [LeshaCat](//github.com/leshacat) |
-| ✓ | Additional Statistics | [1301313Y](//github.com/1301313Y) |
-| ✓ | Algorithm Auto-Switch | [LeshaCat](//github.com/leshacat) |
-| ✓ | Clear Documentation | [LeshaCat](//github.com/leshacat) |
-| ✓ | Live support on Discord | [LeshaCat](//github.com/leshacat) |
-| ✓ | Install Script | [LeshaCat](//github.com/leshacat) |
-| ✓ | SEO Optimized | [LeshaCat](//github.com/leshacat) |
-| ✓ | Donation Addresses | [LeshaCat](//github.com/leshacat) |
+| ✓ | Patches pulled from everywhere / To keep EasyNOMP working, up to date, and secure! | [LeshaCat](//github.com/leshacat) |
+| ✓ | Clear Documentation / To help you install & configure EasyNOMP | [LeshaCat](//github.com/leshacat) |
+| ✓ | Live support on Discord / Join #easyx-pool and ask @Shawn! | [LeshaCat](//github.com/leshacat) |
+| ✓ | Install Script / No dependancy problems! | [LeshaCat](//github.com/leshacat) |
+| ✓ | Support for 42 Algorithms / Such hashing, much blocks! | [foxer666](//github.com/foxer666), [zone117x](//github.com/zone117x), [1301313Y](//github.com/1301313Y), [LeshaCat](//github.com/leshacat) |
+| ✓ | Additional Statistics Information | [1301313Y](//github.com/1301313Y) |
+| ✓ | Algorithm Auto-Switching | [foxer666](//github.com/foxer666), [zone117x](//github.com/zone117x), [1301313Y](//github.com/1301313Y) |
+| ✓ | SEO Optimized / So you don't have to! | [1301313Y](//github.com/1301313Y), [LeshaCat](//github.com/leshacat) |
+| ✓ | Donation Addresses / To make donation collection easier! | [LeshaCat](//github.com/leshacat) |
 
 -------
 ### Node Open Mining Portal consists of 3 main modules:

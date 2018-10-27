@@ -10,6 +10,7 @@
 || ToDo Item Description |
 | ------------- | ------------- |
 | **(!IT)** | Install script |
+| **(!IT)** | Add node-merged-pool: https://github.com/UNOMP/node-merged-pool |
 | **(!)** | Auto-Detect if walletd is out of date and warn admin |
 | **(!)** | Installer script |
 | **(!IT)** | Block Explorer |
