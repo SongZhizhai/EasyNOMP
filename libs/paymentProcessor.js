@@ -471,39 +471,63 @@ function SetupForPool(poolConfig, poolOptions, setupFinished) {
           logger.silly('allWorkerShares before merging %s', JSON.stringify(allWorkerShares));
 
           logger.debug("Mapping workers into payout addresses");
+          
           // This snippet will parse all workers and merge different workers into 1 payout address
+          
           allWorkerShares = allWorkerShares.map((roundShare) => {
             let resultForRound = {};
             logger.debug("roundShare = %s", roundShare);
 
             Object.keys(roundShare).forEach((workerStr) => {
               logger.debug("Iterating worker %s", workerStr);
+              
               //test workername is not null (those may be if miner mine on stratum without user and worker)
+              
               if (workerStr) {
                 if (workerStr.indexOf(".") !== -1) {
+                	
                   //we have address and worker
                   logger.silly("%s worker have both payout address and worker, merging", workerStr);
                   let workerInfo = workerStr.split('.');
+                  
                   if (workerInfo.length === 2) {
-                    //todo validate by daemon
+                  	
+                  	/* 
+				
+						KTHX-ISSUE-2: Worker Validation 																								!*!*!*!*!**!*!*!*!*!*!*!*!**!*!*!*!*!*!*!*!**
+						
+					*/
+                  	
+                    //todo validate by daemon (original dev comment - they were going to do it, lets do it!)
+                    
                     let address = workerInfo[0];
                     if (resultForRound[address]) {
+                    	
                       logger.silly("Already have balance for address %s : %s", address, resultForRound[address].toString(10));
                       resultForRound[address] = resultForRound[address].plus(roundShare[workerStr]);
                       logger.silly("New balance %s ", resultForRound[address].toString(10));
+                      
                     } else {
+                    	
                       resultForRound[address] = new BigNumber(roundShare[workerStr]);
+                      
                     }
                   }
                 } else {
-                  //todo validate by daemon
+                	
+                  //todo validate by daemon (original dev comment - they were going to do it, lets do it!)
+                  
                   let address = workerStr;
                   if (resultForRound[address]) {
+                  	
                     logger.silly("Already have balance for address %s : %s", address, resultForRound[address].toString(10));
                     resultForRound[address] = resultForRound[address].plus(roundShare[workerStr]);
                     logger.silly("New balance %s ", resultForRound[address].toString(10));
+                    
                   } else {
+                  	
                     resultForRound[address] = new BigNumber(roundShare[workerStr]);
+                    
                   }
                 }
               } else {
@@ -688,7 +712,7 @@ function SetupForPool(poolConfig, poolOptions, setupFinished) {
 
 			/* 
 				
-				KTHX-ISSUE-1: 
+				KTHX-ISSUE-1: 																																!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*
 	
 					CURRENTLY the code just sends all payments at once without splitting it up, using batch RPC call. Sometimes this is too many in one batch.			
 			
@@ -696,7 +720,6 @@ function SetupForPool(poolConfig, poolOptions, setupFinished) {
 					- Need to add in instantsend/feeaddress capability for supported coins				
 																									// (, false, "Miner Payment", feeAddresses, true, false)					
 					1) Loop through payments, splitting into X number
-					2) Validate payment addresses
 					3) Decide if instantsend capable
 					4) Decide if feeaddress capable
 					5) Send each "mini-batch" of transactions					

@@ -9,11 +9,11 @@
 
 || ToDo Item Description |
 | ------------- | ------------- |
-| **(!IT)** | Install script |
+| **(!IT)** | Installer script |
 | **(!)** | Merge with UNOMP: https://github.com/UNOMP/unified-node-open-mining-portal |
 | **(!)** | Add node-merged-pool: https://github.com/UNOMP/node-merged-pool |
 | **(!)** | Auto-Detect if walletd is out of date and warn admin |
-| **(!)** | Installer script |
+| **(!)** | Add x16s compatability https://github.com/foxer666/node-multi-hashing/pull/11 |
 | **(!IT)** | Block Explorer |
 | **(!IT)** | * Show blocks from all coins |
 | **(!)** | * Immature blocks / Confirmation count |

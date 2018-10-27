@@ -193,8 +193,11 @@ module.exports = function() {
       };
     }
 
+
+
     var authorizeFN = function(ip, port, workerName, password, callback) {
-      handlers.auth(port, workerName, password, function(authorized) {
+      
+        handlers.auth(port, workerName, password, function(authorized) {
 
         var authString = authorized ? 'Authorized' : 'Unauthorized ';
 
@@ -206,6 +209,8 @@ module.exports = function() {
         });
       });
     };
+
+
 
 
     var pool = Stratum.createPool(poolOptions, authorizeFN, logger);
