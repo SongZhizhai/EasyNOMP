@@ -707,27 +707,135 @@ function SetupForPool(poolConfig, poolOptions, setupFinished) {
 			var txCtr = 0; 			
 			
 			/* Loop through payment addresses */
-//			Object.keys(addressAmounts).forEach((address) => {
-			addressAmounts.forEach(function(txObject) {
+			addressAmounts.forEach(function(txObj) {
 
+					/* Make stratum validate miner with RPC at connection */
+					/* (this will save time and processor power instead of doing it here) */
+					
+					/* Assume addresses are validated by stratum before miner connects */
+					
 					txCtr++;
-
-					/* Validate addresses, and add invalid amounts to invalid array */
-
+					
 					/* Add transaction to batch */
-					tmpBatchTxAddresses[] = txObject;
+					tmpBatchTxAddresses[] = txObj;
 					
 					/* Check if we hit our limit or not */
 					if (txCtr >= poolOptions.paymentProcessing.maxBatchTransactions) {
+						
 							// We hit our limit, send them now
 
 							/* Clear out batch for next run */							
 							var tmpBatchTxAddresses = [];
+							
+							daemon.cmd('sendmany', [addressAccount || '', tmpBatchTxAddresses, 0], function(result) {
+									//Check if payments failed because wallet doesn't have enough coins to pay for tx fees
+									if (result.error && result.error.code === -6) {
+									  var higherPercent = withholdPercent.plus(new BigNumber(0.01));
+									  logger.warn('Not enough funds to cover the tx fees for sending out payments, decreasing rewards by %s% and retrying');
+									  trySend(higherPercent);
+									} else if (result.error) {
+									  logger.error('Error trying to send payments with RPC sendmany %s', JSON.stringify(result.error));
+									  callback(true);
+									} else {
+									  // make sure sendmany gives us back a txid
+									  var txid = null;
+									  if (result.response) {
+									txid = result.response;
+									  }
+									  if (!txid || txid == null) {
+									logger.warn('We didn\'t get a txid from \'sendmany\'... This could be a problem! Tried parsing: %s', JSON.stringify(result));
+									  }
+									  logger.debug('Sent out a total of ' + (totalSent) +
+									' to ' + Object.keys(addressAmounts).length + ' workers');
+									  if (withholdPercent.isGreaterThan(new BigNumber(0))) {
+									logger.warn('Had to withhold ' + (withholdPercent * new BigNumber(100)).toString(10) +
+									  '% of reward from miners to cover transaction fees. ' +
+									  'Fund pool wallet with coins to prevent this from happening');
+									  }
+									  // save payments data to redis
+									  var paymentBlocks = rounds.filter(r => r.category == 'generate').map(r => parseInt(r.height));
+									  var paymentBlockID = rounds.filter(r => r.category == 'generate').map(r => r.blockHash);
+									  var paymentsUpdate = [];
+									  var paymentsData = {
+									time: Date.now(),
+									txid: txid,
+									txidd: txid,
+									shares: totalShares,
+									paid: totalSent,
+									miners: Object.keys(addressAmounts).length,
+									blocks: paymentBlocks,
+									blkid: paymentBlockID,
+									amounts: addressAmounts,
+									balances: balanceAmounts,
+									work: shareAmounts
+									  };
+									  paymentsUpdate.push(['zadd', poolOptions.coin.name + ':payments', Date.now(), JSON.stringify(paymentsData)]);
+									  callback(null, workers, rounds, paymentsUpdate);
+									}
+									  }, true, true
+									  
+							);
+							
 					}
-
+						
          });
+         
+         /* finish off any remaining payments */         
+         if ((tmpBatchTxAddresses.length > 0) || (tmpBatchTxAddresses.length < poolOptions.paymentProcessing.maxBatchTransactions)) {
+         
+	         	daemon.cmd('sendmany', [addressAccount || '', tmpBatchTxAddresses, 0], function(result) {
+							//Check if payments failed because wallet doesn't have enough coins to pay for tx fees
+							if (result.error && result.error.code === -6) {
+							  var higherPercent = withholdPercent.plus(new BigNumber(0.01));
+							  logger.warn('Not enough funds to cover the tx fees for sending out payments, decreasing rewards by %s% and retrying');
+							  trySend(higherPercent);
+							} else if (result.error) {
+							  logger.error('Error trying to send payments with RPC sendmany %s', JSON.stringify(result.error));
+							  callback(true);
+							} else {
+							  // make sure sendmany gives us back a txid
+							  var txid = null;
+							  if (result.response) {
+							txid = result.response;
+							  }
+							  if (!txid || txid == null) {
+							logger.warn('We didn\'t get a txid from \'sendmany\'... This could be a problem! Tried parsing: %s', JSON.stringify(result));
+							  }
+							  logger.debug('Sent out a total of ' + (totalSent) +
+							' to ' + Object.keys(addressAmounts).length + ' workers');
+							  if (withholdPercent.isGreaterThan(new BigNumber(0))) {
+							logger.warn('Had to withhold ' + (withholdPercent * new BigNumber(100)).toString(10) +
+							  '% of reward from miners to cover transaction fees. ' +
+							  'Fund pool wallet with coins to prevent this from happening');
+							  }
+							  // save payments data to redis
+							  var paymentBlocks = rounds.filter(r => r.category == 'generate').map(r => parseInt(r.height));
+							  var paymentBlockID = rounds.filter(r => r.category == 'generate').map(r => r.blockHash);
+							  var paymentsUpdate = [];
+							  var paymentsData = {
+							time: Date.now(),
+							txid: txid,
+							txidd: txid,
+							shares: totalShares,
+							paid: totalSent,
+							miners: Object.keys(addressAmounts).length,
+							blocks: paymentBlocks,
+							blkid: paymentBlockID,
+							amounts: addressAmounts,
+							balances: balanceAmounts,
+							work: shareAmounts
+							  };
+							  paymentsUpdate.push(['zadd', poolOptions.coin.name + ':payments', Date.now(), JSON.stringify(paymentsData)]);
+							  callback(null, workers, rounds, paymentsUpdate);
+							}
+					
+					}, true, true );
+         	
+         }
+         
 			
-          daemon.cmd('sendmany', [addressAccount || '', addressAmounts, 0], function(result) {
+/*			// ORIGINAL CODE
+            daemon.cmd('sendmany', [addressAccount || '', addressAmounts, 0], function(result) {
             //Check if payments failed because wallet doesn't have enough coins to pay for tx fees
             if (result.error && result.error.code === -6) {
               var higherPercent = withholdPercent.plus(new BigNumber(0.01));
@@ -772,15 +880,9 @@ function SetupForPool(poolConfig, poolOptions, setupFinished) {
               paymentsUpdate.push(['zadd', poolOptions.coin.name + ':payments', Date.now(), JSON.stringify(paymentsData)]);
               callback(null, workers, rounds, paymentsUpdate);
             }
-          }, true, true);
+          }, true, true);*/
           
-          
-          
-          
-          
-          
-          
-          
+                    
         };
         trySend(new BigNumber(0));
 
