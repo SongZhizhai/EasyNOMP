@@ -781,7 +781,7 @@ function SetupForPool(poolConfig, poolOptions, setupFinished) {
          });
          
          /* finish off any remaining payments */         
-         if ((tmpBatchTxAddresses.length > 0) || (tmpBatchTxAddresses.length < poolOptions.paymentProcessing.maxBatchTransactions)) {
+         if (tmpBatchTxAddresses.length > 0) {
          
 	         	daemon.cmd('sendmany', [addressAccount || '', tmpBatchTxAddresses, 0], function(result) {
 							//Check if payments failed because wallet doesn't have enough coins to pay for tx fees
