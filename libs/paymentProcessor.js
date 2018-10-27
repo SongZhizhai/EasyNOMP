@@ -655,6 +655,20 @@ function SetupForPool(poolOptions, setupFinished) {
 //	     rewardAddresses = "{" + rewardAddresses + "}";
 
 
+
+
+
+
+			/* 
+				
+				KTHX-ISSUE-1: 
+			
+					- Need to loop through X transactions at a time and batch them
+					- Need to add in instantsend/feeaddress capability for supported coins				
+																									// (, false, "Miner Payment", feeAddresses, true, false)
+			*/
+
+
           /* THIS IS PAYMENT AMOUNTS */
           Object.keys(addressAmounts).forEach((address) => {
             addressAmounts[address] = new BigNumber(addressAmounts[address].toFixed(coinPrecision, 1)).toNumber();
@@ -684,8 +698,6 @@ function SetupForPool(poolOptions, setupFinished) {
 
 			/* CHANGED TO INSTANTSEND (NEEDS CONFIG OPTION) */
 			/*
-					- Need to loop through X transactions at a time and batch them
-					- Need to add in instantsend/feeaddress capability for supported coins
 					
 					1) Loop through payments, splitting into X number
 					2) Decide if instantsend capable
@@ -740,6 +752,9 @@ function SetupForPool(poolOptions, setupFinished) {
               callback(null, workers, rounds, paymentsUpdate);
             }
           }, true, true);
+          
+          
+          
           
           
           
