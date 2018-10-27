@@ -48,6 +48,7 @@ Once fixed, I will push the fix to parent project [1301313Y/BootNOMP](https://gi
 |   | Feature | Developer(s) |
 | ------------- | ------------- | ------------- |
 | ✓ | Clear Documentation / To help you install & configure EasyNOMP | [LeshaCat](//github.com/leshacat) |
+| ✓ | Patches pulled from everywhere! / To keep EasyNOMP working, up to date, and secure! | [LeshaCat](//github.com/leshacat) |
 | ✓ | Live support on Discord / Join #easyx-pool and ask @Shawn! | [LeshaCat](//github.com/leshacat) |
 | ✓ | Install Script / No dependancy problems! | [LeshaCat](//github.com/leshacat) |
 | ✓ | Support for 42 Algorithms | [LeshaCat](//github.com/leshacat) |
