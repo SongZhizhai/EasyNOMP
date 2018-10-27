@@ -308,20 +308,62 @@
         <footer>
             <div class="footer_container">
 
-		<div><span>BTC Donations: {{=it.portalConfig.btcdonations}}</span><br />
-                <span>LTC Donations: {{=it.portalConfig.ltcdonations}}</span><br />
-                <span>ETH/ERC20 Donations: {{=it.portalConfig.ethdonations}}</span><br />
-                <span>XMR Donations: {{=it.portalConfig.xmrdonations}}</span></div>
-		<br />
-		<br />
-                <span>Powered by <a href="https://github.com/leshacat/BootNOMP" >leshacat/BootNOMP</a></span>
+		<div>
+			
+			<!-- BTC Donations -->
+			{{ if ((it.portalConfig.btcdonations !== "undefined") & (it.portalConfig.btcdonations !== "")) { }}
+				<span>BTC Donations: {{=it.portalConfig.btcdonations}}</span><br />
+			{{ } else { }}
+				<span>BTC Donations: 1PvSxjrpzNXCuBHCupAGuuzeUe5DE7kB7H</span><br />	    
+			{{ } }}
+			
+			
+			<!-- BTC Donations -->
+			{{ if ((it.portalConfig.ltcdonations !== "undefined") & (it.portalConfig.ltcdonations !== "")) { }}
+				<span>LTC Donations: {{=it.portalConfig.ltcdonations}}</span><br />
+			{{ } else { }}
+				<span>LTC Donations: LU6x6qjdMz4btBEhUU1AukJfUNmrwuaJJD</span><br />
+			{{ } }}
+			
+			
+			<!-- BTC Donations -->
+			{{ if ((it.portalConfig.ethdonations !== "undefined") & (it.portalConfig.ethdonations !== "")) { }}
+				<span>ETH/ERC20 Donations: {{=it.portalConfig.ethdonations}}</span><br />
+			{{ } else { }}
+				<span>ETH/ERC20 Donations: 0x67a5A070012aBa9dFB50e571A40b3263C258d7D5</span><br />	    
+			{{ } }}
+			
+			
+			<!-- BTC Donations -->
+			{{ if ((it.portalConfig.xmrdonations !== "undefined") & (it.portalConfig.xmrdonations !== "")) { }}
+				<span>XMR Donations: {{=it.portalConfig.xmrdonations}}</span><br />
+			{{ } else { }}
+				<span>XMR Donations: 88LqrMZhweMGP61EUrHbkqRcxcYuL7fNRG3UrBYW8eGaN19KCjAuM3fTcr5BniFsf2g8Dmi7YVchBBmbHjWdCPkm1axmMUD</span><br />	    
+			{{ } }}
 
-                <div id="communityFooter">
-                    <iframe src="//ghbtns.com/github-btn.html?user=leshacat&repo=BootNOMP&type=watch&count=true"
+      </div>
+		<br />
+		<br />
+
+					<!-- PLEASE DO NOT CHANGE THIS UNLESS YOU ARE FORKING EASYNOMP! -->
+					<!-- CHANGING THIS IS A VIOLATION OF YOUR LICENSE TERMS~! -->
+               <span>Powered by <a href="https://github.com/leshacat/BootNOMP" >leshacat/BootNOMP</a></span>
+					<!-- CHANGING THIS IS A VIOLATION OF YOUR LICENSE TERMS~! -->
+					<!-- PLEASE DO NOT CHANGE THIS UNLESS YOU ARE FORKING EASYNOMP! -->
+					
+					<!-- PLEASE DO NOT CHANGE THIS UNLESS YOU ARE FORKING EASYNOMP! -->
+					<!-- CHANGING THIS IS A VIOLATION OF YOUR LICENSE TERMS~! -->
+               <div id="communityFooter">
+                   <iframe src="//ghbtns.com/github-btn.html?user=leshacat&repo=BootNOMP&type=watch&count=true"
                             allowtransparency="true" frameborder="0" scrolling="0" width="80" height="20"></iframe>
-                </div>
+               </div>
+               <!-- CHANGING THIS IS A VIOLATION OF YOUR LICENSE TERMS~! -->
+					<!-- PLEASE DO NOT CHANGE THIS UNLESS YOU ARE FORKING EASYNOMP! -->
+					
             </div>
+            
         </footer>
+        
         <!--Menu Toggle Script-->
         <script>
         $("#menu-toggle").click(function(e) {
