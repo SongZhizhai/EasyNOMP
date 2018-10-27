@@ -1,4 +1,7 @@
-# Pool Installation Instructions
+## Pool Installation Instructions
+
+-------
+
 ### Install Requirements
 ```
 sudo apt-get update
@@ -25,9 +28,17 @@ pm2 init
 ```
 
 -------
+### Flush Redis Data
+**If you are switching from z-nomp, your old statistics and payouts data is incompatable - to wipe it please run:**
+```
+redis-cli FLUSHALL
+```
+**WARNING: You will loose statistics and payout data.**
+
+-------
 ### Install Pool
 ```
-git clone https://github.com/leshacat/BootNOMP.git
+git clone https://github.com/leshacat/EasyNOMP.git
 cd BootNOMP
 npm install
 npm update
