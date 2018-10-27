@@ -166,16 +166,16 @@ Changelog is in in the directory [docs/CHANGELOG.md](https://github.com/leshacat
 -------
 ### Screenshots
 #### Home<br />
-![Home](https://github.com/leshacat/EasyNOMP/blob/master/docs/screenshots/home.png)
+![Home](https://raw.githubusercontent.com/leshacat/EasyNOMP/master/docs/screenshots/home.png)
 
 #### Pool Stats<br />
-![Pool Stats](https://github.com/leshacat/BOOTNOMP/blob/master/docs/screenshots/poolstats.png)<br /><br />
+![Pool Stats](https://raw.githubusercontent.com/leshacat/EasyNOMP/master/docs/screenshots/poolstats.png)<br /><br />
 
 #### Miner Stats<br />
-![Miner Stats](https://github.com/leshacat/EasyNOMP/blob/development/docs/screenshots/minerstats.png)<br /><br />
+![Miner Stats](https://raw.githubusercontent.com/leshacat/EasyNOMP/master/docs/screenshots/minerstats.png)<br /><br />
 
 #### Block Explorer<br />
-![Block Explorer](https://github.com/leshacat/BOOTNOMP/blob/master/docs/screenshots/blockexplorer.png)<br /><br />
+![Block Explorer](https://raw.githubusercontent.com/leshacat/EasyNOMP/master/docs/screenshots/blockexplorer.png)<br /><br />
 
 -------
 ### Credits
