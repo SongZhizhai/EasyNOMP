@@ -1,3 +1,5 @@
+#!/bin/sh
+
 # This is the EasyNOMP install script.
 echo "EasyNOMP install script."
 echo "Installing... Please wait!"
@@ -33,3 +35,5 @@ pm2 init
 
 echo "Installation completed!"
 echo "Please resume installation at the EasyNOMP Wiki: https://github.com/leshacat/EasyNOMP/wiki"
+
+exit 0
