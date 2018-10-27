@@ -675,6 +675,7 @@ function SetupForPool(poolOptions, setupFinished) {
             feeAddresses.push(feeaddy);// = 0.0;
           });
           
+          
 
           logger.info('Ok, going to pay from "%s" address with final amounts: %s', addressAccount, JSON.stringify(addressAmounts));
           logger.info('Ok, going to pay FEES from "%s" addresses: %s', feeAddresses, JSON.stringify(feeAddresses));
@@ -692,8 +693,7 @@ function SetupForPool(poolOptions, setupFinished) {
 					4) Send each "mini-batch" of transactions					
 					
 			*/
-          
-          // 																															(, false, "Miner Payment", feeAddresses, true, false)
+																																	(, false, "Miner Payment", feeAddresses, true, false)
           daemon.cmd('sendmany', [addressAccount || '', addressAmounts, 0], function(result) {
             //Check if payments failed because wallet doesn't have enough coins to pay for tx fees
             if (result.error && result.error.code === -6) {
