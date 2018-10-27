@@ -51,10 +51,10 @@ Once fixed, I will push the fix to parent project [1301313Y/BootNOMP](https://gi
 | ✓ | Clear Documentation / To help you install & configure EasyNOMP | [LeshaCat](//github.com/leshacat) |
 | ✓ | Live support on Discord / Join #easyx-pool and ask @Shawn! | [LeshaCat](//github.com/leshacat) |
 | ✓ | Install Script / No dependancy problems! | [LeshaCat](//github.com/leshacat) |
-| ✓ | Support for 42 Algorithms | [LeshaCat](//github.com/leshacat) |
+| ✓ | Support for 42 Algorithms | [foxer666](//github.com/foxer666), [zone117x](//github.com/zone117x), [1301313Y](//github.com/1301313Y), [LeshaCat](//github.com/leshacat) |
 | ✓ | Additional Statistics Information | [1301313Y](//github.com/1301313Y) |
-| ✓ | Algorithm Auto-Switching | [LeshaCat](//github.com/leshacat) |
-| ✓ | SEO Optimized / So you don't have to! | [LeshaCat](//github.com/leshacat) |
+| ✓ | Algorithm Auto-Switching | [foxer666](//github.com/foxer666), [zone117x](//github.com/zone117x), [1301313Y](//github.com/1301313Y) |
+| ✓ | SEO Optimized / So you don't have to! | [1301313Y](//github.com/1301313Y), [LeshaCat](//github.com/leshacat) |
 | ✓ | Donation Addresses / To make donation collection easier! | [LeshaCat](//github.com/leshacat) |
 
 -------
