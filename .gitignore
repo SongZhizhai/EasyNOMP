@@ -2,6 +2,7 @@
 *.bak
 .git/
 node_modules/
+dependancies/
 .idea/
 config.json
 package-lock.json

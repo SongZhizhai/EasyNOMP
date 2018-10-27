@@ -26,7 +26,7 @@
 | **( )** | Pools page (pools.html) needs sortable datatable [ [LeshaCat](https://github.com/leshacat) ] |
 | **(!I)** | Payments Module |
 | **(!)** | * Rewrite payments module + tests [ [LeshaCat:](https://github.com/leshacat) Was looking at this module... (not rewrite, just add features, still pondering) ] |
-| **(!I)** | * Fix batch payments bug from issue https://github.com/foxer666/node-open-mining-portal/issues/106 |
+| **(!IT)** | * Fix batch payments bug from issue https://github.com/foxer666/node-open-mining-portal/issues/106 |
 | **(!I)** | * Need to add in instantsend/feeaddress capability for supported coins |
 |||
 | **(!)** | Add option to make an manual payments rather than automatic (for emergency payments & pools with big network diff) [ [LeshaCat:](https://github.com/leshacat) Will put control in Admin Panel that uses RPC call ] |
