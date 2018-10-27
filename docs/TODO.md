@@ -10,6 +10,7 @@
 || ToDo Item Description |
 | ------------- | ------------- |
 | **(!)** | Auto-Detect if walletd is out of date and warn admin |
+| **(!)** | Installer script |
 | **(!IT)** | Block Explorer |
 | **(!IT)** | * Show blocks from all coins |
 | **(!)** | * Immature blocks / Confirmation count |

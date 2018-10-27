@@ -2,6 +2,16 @@
 
 -------
 
+### Coming Soon: Installer Script!
+
+```
+git clone https://github.com/leshacat/EasyNOMP.git
+cd EasyNOMP
+./install.sh
+```
+**Done!**
+
+-------
 ### Install Requirements
 ```
 sudo apt-get update
