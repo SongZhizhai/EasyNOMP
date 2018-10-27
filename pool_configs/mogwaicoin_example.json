@@ -17,6 +17,7 @@
         "enabled": true,
         "paymentInterval": 1800,
         "minimumPayment": 0.5,
+        "maxBatchTransactions": 10,
         "daemon": {
             "host": "127.0.0.1",
             "port": 19002,

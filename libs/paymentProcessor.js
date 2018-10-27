@@ -29,7 +29,7 @@ module.exports = function() {
   });
 
   async.filter(enabledPools, function(coin, callback) {
-    SetupForPool(poolConfigs[coin], function(setupResults) {
+    SetupForPool(portalConfig, poolConfigs[coin], function(setupResults) {
       logger.debug("Payment processor initialized. Setup results %s", setupResults);
       callback(null, setupResults);
     });
@@ -55,7 +55,7 @@ module.exports = function() {
 };
 
 
-function SetupForPool(poolOptions, setupFinished) {
+function SetupForPool(poolConfig, poolOptions, setupFinished) {
   var coin = poolOptions.coin.name;
   const logger = loggerFactory.getLogger('PaymentProcessor', coin);
 
@@ -667,7 +667,7 @@ function SetupForPool(poolOptions, setupFinished) {
           });
 
 
-          /* THIS WILL CHARGE PORTION OF TXFEES TO POOL (KTHX CODE) */
+          /* LIST EACH PAYEE AS PAYING FEES (WILL ADD CFG OPTION FOR THIS ~ KTHX CODE) */
           Object.keys(addressAmounts).forEach((address) => {
               feeAddresses.push(address);// = new BigNumber(0.00000000);
           });
@@ -676,7 +676,7 @@ function SetupForPool(poolOptions, setupFinished) {
 //            addressAmounts[rewardaddy] = 0.00000000;
 //          });
             
-          /* LIST EACH PAYEE AS PAYING FEES (WILL ADD CFG OPTION FOR THIS ~ KTHX CODE) */
+          /* THIS WILL CHARGE PORTION OF TXFEES TO POOL (KTHX CODE) */
           Object.keys(rewardAddresses).forEach((feeaddy) => {
             feeAddresses.push(feeaddy);// = 0.0;
           });
@@ -702,6 +702,27 @@ function SetupForPool(poolOptions, setupFinished) {
 					5) Send each "mini-batch" of transactions					
 																									// (, false, "Miner Payment", feeAddresses, true, false)
 			*/
+			
+			var tmpBatchTxAddresses = [];
+			var txCtr = 0; 			
+			
+			/* Loop through payment addresses */
+//			Object.keys(addressAmounts).forEach((address) => {
+			addressAmounts.forEach(function(txObject) {
+
+					txCtr++;
+
+					/* Validate addresses, and add invalid amounts to invalid array */
+
+					/* Add transaction to batch */
+					tmpBatchTxAddresses[] = txObject;
+					
+					/* Check if we hit our limit or not */
+					if (txCtr >= poolOptions.paymentProcessing.maxBatchTransactions) {
+							// We hit our limit, send them now
+					}
+
+         });
 			
           daemon.cmd('sendmany', [addressAccount || '', addressAmounts, 0], function(result) {
             //Check if payments failed because wallet doesn't have enough coins to pay for tx fees
