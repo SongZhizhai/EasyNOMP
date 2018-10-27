@@ -3,7 +3,14 @@
 # This is the EasyNOMP install script.
 echo "EasyNOMP install script."
 echo "Please do NOT run as root, run as the pool user!"
+
+echo "THIS SCRIPT PURGES REDIS DATA! YOU HAVE 10 SECONDS TO ABORT (CTRL + C)"
+
+sleep 7
+
 echo "Installing... Please wait!"
+
+sleep 3
 
 sudo add-apt-repository -y ppa:bitcoin/bitcoin
 
@@ -22,6 +29,8 @@ sudo systemctl start redis-server
 sudo systemctl enable ntp
 sudo systemctl start ntp
 
+redis-cli FLUSHALL
+
 wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
 source ~/.bashrc
 
@@ -33,6 +42,17 @@ npm install -g pm2@latest
 npm install -g npm@latest
 
 pm2 init
+
+git clone https://github.com/leshacat/EasyNOMP.git
+
+cd BootNOMP
+
+npm install
+
+npm update
+npm audit fix
+
+pm2 start init.js -i max --watch --name pool
 
 echo "Installation completed!"
 echo "Please resume installation at the EasyNOMP Wiki: https://github.com/leshacat/EasyNOMP/wiki"
