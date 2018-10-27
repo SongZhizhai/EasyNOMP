@@ -75,6 +75,11 @@ http://www.gnu.org/licenses/gpl-2.0.html
 Install instructions are in [docs/README.md](https://github.com/leshacat/EasyNOMP/blob/development/docs/INSTALL.md)
 
 -------
+### Configure Pool
+
+For pool configuration instructions, please visit the EasyNOMP Wiki: https://github.com/leshacat/EasyNOMP/wiki
+
+-------
 ### Run in Docker
 
 Docker instructions are in [docs/README.md](https://github.com/leshacat/EasyNOMP/blob/development/docs/DOCKER.md)
