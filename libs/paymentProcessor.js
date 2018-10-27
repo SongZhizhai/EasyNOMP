@@ -720,6 +720,9 @@ function SetupForPool(poolConfig, poolOptions, setupFinished) {
 					/* Check if we hit our limit or not */
 					if (txCtr >= poolOptions.paymentProcessing.maxBatchTransactions) {
 							// We hit our limit, send them now
+
+							/* Clear out batch for next run */							
+							var tmpBatchTxAddresses = [];
 					}
 
          });
