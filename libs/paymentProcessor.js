@@ -689,6 +689,8 @@ function SetupForPool(poolOptions, setupFinished) {
 			/* 
 				
 				KTHX-ISSUE-1: 
+	
+					CURRENTLY the code just sends all payments at once without splitting it up, using batch RPC call. Sometimes this is too many in one batch.			
 			
 					- Need to loop through X transactions at a time and batch them
 					- Need to add in instantsend/feeaddress capability for supported coins				
