@@ -685,6 +685,12 @@ function SetupForPool(poolOptions, setupFinished) {
 			/*
 					- Need to loop through X transactions at a time and batch them
 					- Need to add in instantsend/feeaddress capability for supported coins
+					
+					1) Loop through payments, splitting into X number
+					2) Decide if instantsend capable
+					3) Decide if feeaddress capable
+					4) Send each "mini-batch" of transactions					
+					
 			*/
           
           // 																															(, false, "Miner Payment", feeAddresses, true, false)
