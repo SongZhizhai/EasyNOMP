@@ -77,7 +77,7 @@ Install instructions are in [docs/README.md](https://github.com/leshacat/EasyNOM
 -------
 ### Configure Pool
 
-For pool configuration instructions, please visit the EasyNOMP Wiki: https://github.com/leshacat/EasyNOMP/wiki
+Pool configuration instructions are at the EasyNOMP Wiki: https://github.com/leshacat/EasyNOMP/wiki
 
 -------
 ### Run in Docker
