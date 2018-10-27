@@ -696,9 +696,10 @@ function SetupForPool(poolOptions, setupFinished) {
 					- Need to add in instantsend/feeaddress capability for supported coins				
 																									// (, false, "Miner Payment", feeAddresses, true, false)					
 					1) Loop through payments, splitting into X number
-					2) Decide if instantsend capable
-					3) Decide if feeaddress capable
-					4) Send each "mini-batch" of transactions					
+					2) Validate payment addresses
+					3) Decide if instantsend capable
+					4) Decide if feeaddress capable
+					5) Send each "mini-batch" of transactions					
 																									// (, false, "Miner Payment", feeAddresses, true, false)
 			*/
 			
