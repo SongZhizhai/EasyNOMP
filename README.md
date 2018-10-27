@@ -44,6 +44,19 @@ Once fixed, I will push the fix to parent project [1301313Y/BootNOMP](https://gi
 ***NOTE:***  Someone please test Docker, I made a few quick changes. Will come back to it later! ~LeshaCat
 
 -------
+### Features
+|   | Feature | Developer(s) |
+| ------------- | ------------- | ------------- |
+| ✓ | Support for 42 Algorithms | [LeshaCat](//github.com/leshacat) |
+| ✓ | Additional Statistics | [1301313Y](//github.com/1301313Y) |
+| ✓ | Algorithm Auto-Switch | [LeshaCat](//github.com/leshacat) |
+| ✓ | Clear Documentation | [LeshaCat](//github.com/leshacat) |
+| ✓ | Live support on Discord | [LeshaCat](//github.com/leshacat) |
+| ✓ | Install Script | [LeshaCat](//github.com/leshacat) |
+| ✓ | SEO Optimized | [LeshaCat](//github.com/leshacat) |
+| ✓ | Donation Addresses | [LeshaCat](//github.com/leshacat) |
+
+-------
 ### Node Open Mining Portal consists of 3 main modules:
 | Project | Link |
 | ------------- | ------------- |
@@ -58,19 +71,6 @@ Once fixed, I will push the fix to parent project [1301313Y/BootNOMP](https://gi
 ### License
 Released under the GNU General Public License v2
 http://www.gnu.org/licenses/gpl-2.0.html
-
--------
-### Features
-|   | Feature | Developer(s) |
-| ------------- | ------------- | ------------- |
-| ✓ | Support for 42 Algorithms | [LeshaCat](//github.com/leshacat) |
-| ✓ | Additional Statistics | [1301313Y](//github.com/1301313Y) |
-| ✓ | Algorithm Auto-Switch | [LeshaCat](//github.com/leshacat) |
-| ✓ | Clear Documentation | [LeshaCat](//github.com/leshacat) |
-| ✓ | Live support on Discord | [LeshaCat](//github.com/leshacat) |
-| ✓ | Install Script | [LeshaCat](//github.com/leshacat) |
-| ✓ | SEO Optimized | [LeshaCat](//github.com/leshacat) |
-| ✓ | Donation Addresses | [LeshaCat](//github.com/leshacat) |
 
 -------
 ### Requirements
