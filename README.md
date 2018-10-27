@@ -51,7 +51,7 @@ Once fixed, I will push the fix to parent project [1301313Y/BootNOMP](https://gi
 | ✓ | Clear Documentation / To help you install & configure EasyNOMP | [LeshaCat](//github.com/leshacat) |
 | ✓ | Live support on Discord / Join #easyx-pool and ask @Shawn! | [LeshaCat](//github.com/leshacat) |
 | ✓ | Install Script / No dependancy problems! | [LeshaCat](//github.com/leshacat) |
-| ✓ | Support for 42 Algorithms | [foxer666](//github.com/foxer666), [zone117x](//github.com/zone117x), [1301313Y](//github.com/1301313Y), [LeshaCat](//github.com/leshacat) |
+| ✓ | Support for 42 Algorithms / Such hashing, much blocks! | [foxer666](//github.com/foxer666), [zone117x](//github.com/zone117x), [1301313Y](//github.com/1301313Y), [LeshaCat](//github.com/leshacat) |
 | ✓ | Additional Statistics Information | [1301313Y](//github.com/1301313Y) |
 | ✓ | Algorithm Auto-Switching | [foxer666](//github.com/foxer666), [zone117x](//github.com/zone117x), [1301313Y](//github.com/1301313Y) |
 | ✓ | SEO Optimized / So you don't have to! | [1301313Y](//github.com/1301313Y), [LeshaCat](//github.com/leshacat) |
