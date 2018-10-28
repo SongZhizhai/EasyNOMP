@@ -539,24 +539,49 @@ function SetupForPool(poolConfig, poolOptions, setupFinished) {
                 	
                   //todo validate by daemon (original dev comment - they were going to do it, lets do it!)
                   
-                  let address = workerStr;
-                  if (resultForRound[address]) {
-                  	
-                    logger.silly("Already have balance for address %s : %s", address, resultForRound[address].toString(10));
-                    resultForRound[address] = resultForRound[address].plus(roundShare[workerStr]);
-                    logger.silly("New balance %s ", resultForRound[address].toString(10));
+
+				    let address = workerStr;
+                    let isValid = false;                    
                     
-                  } else {
-                  	
-                    resultForRound[address] = new BigNumber(roundShare[workerStr]);
+                    pool.daemon.cmd('validateaddress', [address], function(results) {
+	                	isValid = results.filter(function(r) {
+	                		return r.response.isvalid
+	                	}).length > 0;
+	                });
+	                
+	                if (isValid) {
+	                    
+						if (resultForRound[address]) {
+						  	
+							logger.silly("Already have balance for address %s : %s", address, resultForRound[address].toString(10));
+							resultForRound[address] = resultForRound[address].plus(roundShare[workerStr]);
+							logger.silly("New balance %s ", resultForRound[address].toString(10));
+						
+						} else {
+						  	
+							resultForRound[address] = new BigNumber(roundShare[workerStr]);
+						
+						}
                     
-                  }
+                    }
+	                else {
+	                
+						logger.silly("Invalid worker address %s; cannot payout worker %s ", address, resultForRound[address].toString(10));	
+						
+						//todo: add totals together (or send invalid balance to pool donation address)                
+	                
+	                }         
+                  
                 }
+                
               } else {
                 logger.error('Look around! We have anonymous shares, null worker');
               }
+              
             });
+            
             return resultForRound;
+            
           });
 
           logger.debug('Merged workers into payout addresses');
