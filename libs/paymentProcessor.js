@@ -792,8 +792,7 @@ function SetupForPool(poolConfig, poolOptions, setupFinished) {
 					/* Check if we hit our limit or not */
 					if (txCtr >= poolOptions.paymentProcessing.maxBatchTransactions) {
 						
-							// We hit our limit, send them now
-							
+							// We hit our limit, send them now							
 							daemon.cmd('sendmany', [addressAccount || '', tmpBatchTxAddresses, 0], function(result) {
 									//Check if payments failed because wallet doesn't have enough coins to pay for tx fees
 									if (result.error && result.error.code === -6) {
