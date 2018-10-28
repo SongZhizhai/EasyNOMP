@@ -237,6 +237,8 @@ $.getJSON('/api/worker_stats?' + _miner, function(data) {
 			updateStats();
 
 			$('#total-paid-label').append(stats.paid.toFixed(8) + ' ' + stats.symbol);
+			$('#immature-label').append(stats.immature.toFixed(8) + ' ' + stats.symbol);
+			$('#balance-label').append(stats.balance.toFixed(8) + ' ' + stats.symbol);
 		});
 	});
 });

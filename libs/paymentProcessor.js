@@ -488,6 +488,7 @@ function SetupForPool(poolConfig, poolOptions, setupFinished) {
                 	
                   //we have address and worker
                   logger.silly("%s worker have both payout address and worker, merging", workerStr);
+                  
                   let workerInfo = workerStr.split('.');
                   
                   if (workerInfo.length === 2) {
@@ -501,18 +502,39 @@ function SetupForPool(poolConfig, poolOptions, setupFinished) {
                     //todo validate by daemon (original dev comment - they were going to do it, lets do it!)
                     
                     let address = workerInfo[0];
-                    if (resultForRound[address]) {
-                    	
-                      logger.silly("Already have balance for address %s : %s", address, resultForRound[address].toString(10));
-                      resultForRound[address] = resultForRound[address].plus(roundShare[workerStr]);
-                      logger.silly("New balance %s ", resultForRound[address].toString(10));
-                      
-                    } else {
-                    	
-                      resultForRound[address] = new BigNumber(roundShare[workerStr]);
-                      
+                    let isValid = false;                    
+                    
+                    pool.daemon.cmd('validateaddress', [address], function(results) {
+	                	isValid = results.filter(function(r) {
+	                		return r.response.isvalid
+	                	}).length > 0;
+	                });
+	                
+	                if (isValid) {
+	                    
+	                    if (resultForRound[address]) {
+	                    	
+	                      logger.silly("Already have balance for address %s : %s", address, resultForRound[address].toString(10));
+	                      resultForRound[address] = resultForRound[address].plus(roundShare[workerStr]);
+	                      logger.silly("New balance %s ", resultForRound[address].toString(10));
+	                      
+	                    } else {
+	                    	
+	                      resultForRound[address] = new BigNumber(roundShare[workerStr]);
+	                      
+	                    }
+                    
                     }
+	                else {
+	                
+						logger.silly("Invalid worker address %s; cannot payout worker %s ", address, resultForRound[address].toString(10));	
+						
+						//todo: add totals together (or send invalid balance to pool donation address)                
+	                
+	                }
+	                
                   }
+                  
                 } else {
                 	
                   //todo validate by daemon (original dev comment - they were going to do it, lets do it!)
