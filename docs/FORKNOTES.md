@@ -1,7 +1,5 @@
 ## Forking Notes
 
-#### Explanation
-
 -------
 
 **Thank you** for your interest in contributing and forking this project!
