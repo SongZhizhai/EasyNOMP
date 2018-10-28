@@ -99,12 +99,17 @@ Pool configuration instructions are at the EasyNOMP Wiki: https://github.com/les
 -------
 ### Run in Docker
 
-Docker instructions are in in the directory [docs/README.md](https://github.com/leshacat/EasyNOMP/blob/development/docs/DOCKER.md)
+Docker instructions are in the directory [docs/README.md](https://github.com/leshacat/EasyNOMP/blob/development/docs/DOCKER.md)
 
 -------
 ### Changelog
 
-Changelog is in in the directory [docs/CHANGELOG.md](https://github.com/leshacat/EasyNOMP/blob/development/docs/CHANGELOG.md)
+Changelog is in the directory [docs/CHANGELOG.md](https://github.com/leshacat/EasyNOMP/blob/development/docs/CHANGELOG.md)
+
+-------
+### Forking Notes
+
+Forking notes are in the directory [docs/FORKNOTES.md](https://github.com/leshacat/EasyNOMP/blob/paymentprocessor-patch-1/docs/FORKNOTES.md)
 
 -------
 ### Hashing algorithms
