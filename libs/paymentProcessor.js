@@ -7,7 +7,9 @@ var async = require('async');
 var Stratum = require('stratum-pool');
 var util = require('stratum-pool/lib/util.js');
 
-module.exports = function(logger){
+module.exports = function(){
+	
+	let logger = loggerFactory.getLogger('PaymentProcessing', 'system');
 
     var poolConfigs = JSON.parse(process.env.pools);
 
@@ -44,9 +46,7 @@ function SetupForPool(logger, poolOptions, setupFinished){
 
     var coin = poolOptions.coin.name;
     
-	const logger = loggerFactory.getLogger('PaymentProcessor', coin);
-
-    var processingConfig = poolOptions.paymentProcessing;
+	var processingConfig = poolOptions.paymentProcessing;
 
     var logSystem = 'Payments';
     var logComponent = coin;
