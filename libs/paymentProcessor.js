@@ -351,6 +351,8 @@ function SetupForPool(poolOptions, setupFinished) {
 
         batchRPCcommand.push(['getaccount', [poolOptions.address]]);
 
+		logger.warn("Batch RPC CMD: [%s]", JSON.stringify(batchRPCcommand));
+
         startRPCTimer();
         daemon.batchCmd(batchRPCcommand, function(error, txDetails) {
           endRPCTimer();
