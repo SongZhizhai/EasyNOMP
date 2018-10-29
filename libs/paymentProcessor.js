@@ -369,7 +369,7 @@ function SetupForPool(poolOptions, setupFinished) {
               //because there may masternodes payees and pool address should be last
               //in zcoin its tx.address
               addressAccount = tx.result || tx.address;
-              logger.warn("Could not retrieve account for %s from RPC (no tx.result or tx.address field) TXID:[%s] ERROR:[%s] TX:[%s] TXDETAILS:[%s]", poolOptions.address, r.txHash, error, JSON.stringify(tx), JSON.stringify(txDetails));
+              logger.warn("Could not retrieve account for %s from RPC (no tx.result or tx.address field) ERROR:[%s] TX:[%s] TXDETAILS:[%s]", poolOptions.address, error, JSON.stringify(tx), JSON.stringify(txDetails));
               return;
             }
 
