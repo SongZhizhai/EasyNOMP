@@ -63,13 +63,13 @@ function SetupForPool(logger, poolOptions, setupFinished){
     var minConfShield = Math.max((processingConfig.minConf || 10), 1); // Don't allow 0 conf transactions.
     var minConfPayout = Math.max((processingConfig.minConf || 10), 1);
     if (minConfPayout  < 3) {
-        logger.warning(logComponent + ' minConf of 3 is recommended.');
+        logger.error(logComponent + ' minConf of 3 is recommended.');
     }
 
     // minimum paymentInterval of 60 seconds
     var paymentIntervalSecs = Math.max((processingConfig.paymentInterval || 120), 30);
     if (parseInt(processingConfig.paymentInterval) < 120) {
-        logger.warning(logComponent + ' minimum paymentInterval of 120 seconds recommended.');
+        logger.error(logComponent + ' minimum paymentInterval of 120 seconds recommended.');
     }
     
     var maxBlocksPerPayment =  Math.max(processingConfig.maxBlocksPerPayment || 3, 1);
