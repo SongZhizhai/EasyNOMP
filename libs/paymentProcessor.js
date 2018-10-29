@@ -344,6 +344,7 @@ function SetupForPool(poolOptions, setupFinished) {
          It also adds the block reward amount to the round object - which the daemon gives also gives us. */
       function(workers, rounds, callback) {
         logger.debug("Checking for confirmed rounds (blocks)");
+        
         var batchRPCcommand = rounds.map(function(r) {
           return ['gettransaction', [r.txHash]];
         });
@@ -368,7 +369,7 @@ function SetupForPool(poolOptions, setupFinished) {
               //because there may masternodes payees and pool address should be last
               //in zcoin its tx.address
               addressAccount = tx.result || tx.address;
-              logger.warn("Could not retrieve account for %s from RPC (no tx.result or tx.address field) TX:[%s] TXDETAILS:[%s]", poolOptions.address, JSON.stringify(tx), JSON.stringify(txDetails));
+              logger.warn("Could not retrieve account for %s from RPC (no tx.result or tx.address field) TXID:[%s] ERROR:[%s] TX:[%s] TXDETAILS:[%s]", poolOptions.address, r.txHash, error, JSON.stringify(tx), JSON.stringify(txDetails));
               return;
             }
 
