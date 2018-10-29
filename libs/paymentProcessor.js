@@ -787,7 +787,7 @@ function SetupForPool(poolConfig, poolOptions, setupFinished) {
 					txCtr++;
 					
 					/* Add transaction to batch */
-					tmpBatchTxAddresses[] = txObj;
+					tmpBatchTxAddresses.push(txObj);
 					
 					/* Check if we hit our limit or not */
 					if (txCtr >= poolOptions.paymentProcessing.maxBatchTransactions) {
