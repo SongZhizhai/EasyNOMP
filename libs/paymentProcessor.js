@@ -529,7 +529,7 @@ function SetupForPool(poolOptions, setupFinished) {
                     }
 	                else {
 	                
-						logger.silly("Invalid worker address %s; cannot payout worker %s ", address, resultForRound[address].toString(10));	
+						logger.silly("Invalid worker address %s; cannot payout worker %s ", address);	//, resultForRound[address].toString()
 						
 						//todo: add totals together (or send invalid balance to pool donation address)                
 	                
