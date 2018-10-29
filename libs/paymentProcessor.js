@@ -345,115 +345,118 @@ function SetupForPool(poolOptions, setupFinished) {
       function(workers, rounds, callback) {
         logger.debug("Checking for confirmed rounds (blocks)");
         
-        var batchRPCcommand = rounds.map(function(r) {
-        	return ['gettransaction', [r.txHash]];
-        });
+		if (rounds.length() !== 0) {
+        
+		        var batchRPCcommand = rounds.map(function(r) {
+		        	return ['gettransaction', [r.txHash]];
+		        });
+		
+		        logger.warn("ROUNDS: [%s]", JSON.stringify(rounds));
+		        	
+		        batchRPCcommand.push(['getaccount', [poolOptions.address]]);
+		
+		        startRPCTimer();
+		        daemon.batchCmd(batchRPCcommand, function(error, txDetails) {
+		          endRPCTimer();
+		
+		          if (error || !txDetails) {
+		            logger.error('Check finished - daemon rpc error with batch gettransactions %s', JSON.stringify(error));
+		            callback(true);
+		            return;
+		          }
+		
+		          var addressAccount;
+		
+		          txDetails.forEach(function(tx, i) {
+		            if (i === txDetails.length - 1) {
+		              //choose addressAccount as last output of generation transaction
+		              //because there may masternodes payees and pool address should be last
+		              //in zcoin its tx.address
+		              addressAccount = tx.result || tx.address;
+		              
+		
+						logger.warn("Batch RPC CMD: [%s]", JSON.stringify(batchRPCcommand));
+		            	logger.warn("Could not retrieve account for %s from RPC (no tx.result or tx.address field) ERROR:[%s] TX:[%s] TXDETAILS:[%s]", poolOptions.address, JSON.stringify(error), JSON.stringify(tx), JSON.stringify(txDetails));
+		
+		            	return;
+		            	
+		            }
+		
+		            var round = rounds[i];
+		            // update confirmations for round
+		            if (tx && tx.result) {
+		                round.confirmations = parseInt((tx.result.confirmations || 0));
+		            }
+		            if (tx.error && tx.error.code === -5) {
+		              logger.warn('Daemon reports invalid transaction: %s', round.txHash);
+		              logger.debug('Filtering out round %s as kicked cause of invalid tx', round.height);
+		              round.category = 'kicked';
+		              return;
+		            } else if (!tx.result.details || (tx.result.details && tx.result.details.length === 0)) {
+		              logger.warn('Daemon reports no details for transaction: %s');
+		              logger.debug('Filtering out round %s as kicked cause of no details for transaction', round.height);
+		              round.category = 'kicked';
+		              return;
+		            } else if (tx.error || !tx.result) {
+		              logger.error('Odd error with gettransaction %s. tx = %s', round.txHash, JSON.stringify(tx));
+		              round.category = 'kicked';
+		              return;
+		            }
+		
+		            var generationTx = tx.result.details.filter(function(tx) {
+		              return tx.address === poolOptions.address;
+		            })[0];
+		
+		
+		            if (!generationTx && tx.result.details.length === 1) {
+		              generationTx = tx.result.details[0];
+		            }
+		
+		            if (!generationTx) {
+		              logger.error('Missing output details to pool address for transaction %s', round.txHash);
+		              return;
+		            }
+		
+		            round.category = generationTx.category;
+		            if (round.category === 'generate') {
+		              round.reward = generationTx.amount || generationTx.value;
+		            }
+		
+		          });
+		
+		          var canDeleteShares = function(r) {
+		            for (var i = 0; i < rounds.length; i++) {
+		              var compareR = rounds[i];
+		              if ((compareR.height === r.height) &&
+		                (compareR.category !== 'kicked') &&
+		                (compareR.category !== 'orphan') &&
+		                (compareR.serialized !== r.serialized)) {
+		                return false;
+		              }
+		            }
+		            return true;
+		          };
+		
+		
+		          //Filter out all rounds that are immature (not confirmed or orphaned yet)
+		          rounds = rounds.filter(function(r) {
+		            switch (r.category) {
+		              case 'orphan':
+		              case 'kicked':
+		                r.canDeleteShares = canDeleteShares(r);
+		              case 'generate':
+		                return true;
+		              default:
+		                return false;
+		            }
+		          });
 
-        logger.warn("ROUNDS: [%s]", JSON.stringify(rounds));
-        	
-        batchRPCcommand.push(['getaccount', [poolOptions.address]]);
+			}
 
-        startRPCTimer();
-        daemon.batchCmd(batchRPCcommand, function(error, txDetails) {
-          endRPCTimer();
-
-          if (error || !txDetails) {
-            logger.error('Check finished - daemon rpc error with batch gettransactions %s', JSON.stringify(error));
-            callback(true);
-            return;
-          }
-
-          var addressAccount;
-
-          txDetails.forEach(function(tx, i) {
-            if (i === txDetails.length - 1) {
-              //choose addressAccount as last output of generation transaction
-              //because there may masternodes payees and pool address should be last
-              //in zcoin its tx.address
-              addressAccount = tx.result || tx.address;
-              
-
-				logger.warn("Batch RPC CMD: [%s]", JSON.stringify(batchRPCcommand));
-            	logger.warn("Could not retrieve account for %s from RPC (no tx.result or tx.address field) ERROR:[%s] TX:[%s] TXDETAILS:[%s]", poolOptions.address, JSON.stringify(error), JSON.stringify(tx), JSON.stringify(txDetails));
-
-            	return;
-            	
-            }
-
-            var round = rounds[i];
-            // update confirmations for round
-            if (tx && tx.result) {
-                round.confirmations = parseInt((tx.result.confirmations || 0));
-            }
-            if (tx.error && tx.error.code === -5) {
-              logger.warn('Daemon reports invalid transaction: %s', round.txHash);
-              logger.debug('Filtering out round %s as kicked cause of invalid tx', round.height);
-              round.category = 'kicked';
-              return;
-            } else if (!tx.result.details || (tx.result.details && tx.result.details.length === 0)) {
-              logger.warn('Daemon reports no details for transaction: %s');
-              logger.debug('Filtering out round %s as kicked cause of no details for transaction', round.height);
-              round.category = 'kicked';
-              return;
-            } else if (tx.error || !tx.result) {
-              logger.error('Odd error with gettransaction %s. tx = %s', round.txHash, JSON.stringify(tx));
-              round.category = 'kicked';
-              return;
-            }
-
-            var generationTx = tx.result.details.filter(function(tx) {
-              return tx.address === poolOptions.address;
-            })[0];
-
-
-            if (!generationTx && tx.result.details.length === 1) {
-              generationTx = tx.result.details[0];
-            }
-
-            if (!generationTx) {
-              logger.error('Missing output details to pool address for transaction %s', round.txHash);
-              return;
-            }
-
-            round.category = generationTx.category;
-            if (round.category === 'generate') {
-              round.reward = generationTx.amount || generationTx.value;
-            }
-
-          });
-
-          var canDeleteShares = function(r) {
-            for (var i = 0; i < rounds.length; i++) {
-              var compareR = rounds[i];
-              if ((compareR.height === r.height) &&
-                (compareR.category !== 'kicked') &&
-                (compareR.category !== 'orphan') &&
-                (compareR.serialized !== r.serialized)) {
-                return false;
-              }
-            }
-            return true;
-          };
-
-
-          //Filter out all rounds that are immature (not confirmed or orphaned yet)
-          rounds = rounds.filter(function(r) {
-            switch (r.category) {
-              case 'orphan':
-              case 'kicked':
-                r.canDeleteShares = canDeleteShares(r);
-              case 'generate':
-                return true;
-              default:
-                return false;
-            }
-          });
-
-
-          logger.silly("Wokers and rounds after filtering orphans etc.");
-          logger.silly("workers = %s", JSON.stringify(workers));
-          logger.silly("rounds = %s", JSON.stringify(rounds));
-          callback(null, workers, rounds, addressAccount);
+        	logger.silly("Wokers and rounds after filtering orphans etc.");
+        	logger.silly("workers = %s", JSON.stringify(workers));
+        	logger.silly("rounds = %s", JSON.stringify(rounds));
+        	callback(null, workers, rounds, addressAccount);
 
         });
       },
