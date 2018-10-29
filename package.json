@@ -68,7 +68,7 @@
         "sma": "^0.1.1",
         "sshpk": "^1.15.1",
         "stratum-pool": "git://github.com/leshacat/node-stratum-pool.git",
-        "winston": "^3.3.3",
+        "winston": "3.0.0-rc2",
         "winston-daily-rotate-file": "^3.3.3"
     },
     "engines": {

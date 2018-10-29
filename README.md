@@ -201,6 +201,7 @@ Forking notes are in the directory [docs/FORKNOTES.md](https://github.com/leshac
 | [svirusxxx](//github.com/svirusxxx) | sponsored development of MPOS mode |
 | [icecube45](//github.com/icecube45) | helping out with the repo wiki |
 | [yoshuki43](//github.com/yoshuki43) | his K-Nomp project has really help the development! |
+| [@Freak#6321](//github.com/yoshuki43) | Immature/Unconfirmed balance on miner_stats.html page |
 
 ***Those that contributed to [node-stratum-pool](//github.com/zone117x/node-stratum-pool#credits)***
 
