@@ -43,7 +43,7 @@ try {
     }
     catch (e) {
         if (cluster.isMaster) {
-            logger.warning('POSIX Connection Limit (Safe to ignore) Must be ran as root to increase resource limits');
+            logger.error('POSIX Connection Limit (Safe to ignore) Must be ran as root to increase resource limits');
         }
     }
     finally {
@@ -199,7 +199,7 @@ var buildAuxConfigs = function(){
 
         var poolFilePath = 'coins/' + poolOptions.coinFileName;
         if (!fs.existsSync(poolFilePath)){
-            logger.warning('Master', poolOptions.coinFileName, 'could not find file: ' + poolFilePath);
+            logger.error('Master', poolOptions.coinFileName, 'could not find file: ' + poolFilePath);
             return;
         }
 
@@ -221,7 +221,7 @@ var buildAuxConfigs = function(){
         }
 
         if (!(poolProfile.algorithm in algos)){
-            logger.warning('Master', coinProfile.name, 'Cannot run a pool for unsupported algorithm "' + coinProfile.algorithm + '"');
+            logger.error('Master', coinProfile.name, 'Cannot run a pool for unsupported algorithm "' + coinProfile.algorithm + '"');
             delete configs[poolOptions.coin.name];
         }
 
@@ -242,7 +242,7 @@ var spawnPoolWorkers = function () {
     });
 
     if (Object.keys(poolConfigs).length === 0) {
-        logger.warning('PoolSpawner: No pool configs exists or are enabled in pool_configs folder. No pools spawned.');
+        logger.error('PoolSpawner: No pool configs exists or are enabled in pool_configs folder. No pools spawned.');
         return;
     }
 
