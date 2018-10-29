@@ -368,7 +368,7 @@ function SetupForPool(poolOptions, setupFinished) {
               //because there may masternodes payees and pool address should be last
               //in zcoin its tx.address
               addressAccount = tx.result || tx.address;
-              logger.warn("Could not retrieve account for %s from RPC (no tx.result or tx.address field) %s", poolOptions.address, JSON.stringify(tx));
+              logger.warn("Could not retrieve account for %s from RPC (no tx.result or tx.address field) TX:[%s] TXDETAILS:[%s]", poolOptions.address, JSON.stringify(tx), JSON.stringify(txDetails));
               return;
             }
 
@@ -434,8 +434,8 @@ function SetupForPool(poolOptions, setupFinished) {
               case 'orphan':
               case 'kicked':
                 r.canDeleteShares = canDeleteShares(r);
-/*              case 'generate':
-                return true;*/
+              case 'generate':
+                return true;
               default:
                 return false;
             }
