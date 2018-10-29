@@ -346,10 +346,11 @@ function SetupForPool(poolOptions, setupFinished) {
         logger.debug("Checking for confirmed rounds (blocks)");
         
         var batchRPCcommand = rounds.map(function(r) {
-        	logger.warn("TX HASH: [%s]", r.txHash);
         	return ['gettransaction', [r.txHash]];
         });
 
+        logger.warn("ROUNDS: [%s]", JSON.stringify(rounds));
+        	
         batchRPCcommand.push(['getaccount', [poolOptions.address]]);
 
         startRPCTimer();
@@ -373,7 +374,7 @@ function SetupForPool(poolOptions, setupFinished) {
               
 
 				logger.warn("Batch RPC CMD: [%s]", JSON.stringify(batchRPCcommand));
-            	logger.warn("Could not retrieve account for %s from RPC (no tx.result or tx.address field) ERROR:[%s] TX:[%s] TXDETAILS:[%s]", poolOptions.address, error, JSON.stringify(tx), JSON.stringify(txDetails));
+            	logger.warn("Could not retrieve account for %s from RPC (no tx.result or tx.address field) ERROR:[%s] TX:[%s] TXDETAILS:[%s]", poolOptions.address, JSON.stringify(error), JSON.stringify(tx), JSON.stringify(txDetails));
 
             	return;
             	
