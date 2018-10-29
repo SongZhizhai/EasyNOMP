@@ -703,6 +703,7 @@ function SetupForPool(poolOptions, setupFinished){
                         callback(null, workers, rounds);
                     }
                 });
+                
             },
 
 
