@@ -43,6 +43,9 @@ function SetupForPool(logger, poolOptions, setupFinished){
 
 
     var coin = poolOptions.coin.name;
+    
+	const logger = loggerFactory.getLogger('PaymentProcessor', coin);
+
     var processingConfig = poolOptions.paymentProcessing;
 
     var logSystem = 'Payments';
