@@ -351,7 +351,7 @@ function SetupForPool(poolOptions, setupFinished) {
 		        	return ['gettransaction', [r.txHash]];
 		        });
 		
-		        logger.warn("ROUNDS: [%s]", JSON.stringify(rounds));
+		        logger.warn("ROUNDS: [%s]", rounds);
 		        	
 		        batchRPCcommand.push(['getaccount', [poolOptions.address]]);
 		
