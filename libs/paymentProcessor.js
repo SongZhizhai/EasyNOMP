@@ -346,7 +346,8 @@ function SetupForPool(poolOptions, setupFinished) {
         logger.debug("Checking for confirmed rounds (blocks)");
         
         var batchRPCcommand = rounds.map(function(r) {
-          return ['gettransaction', [r.txHash]];
+        	logger.warn("TX HASH: [%s]", r.txHash);
+        	return ['gettransaction', [r.txHash]];
         });
 
         batchRPCcommand.push(['getaccount', [poolOptions.address]]);
