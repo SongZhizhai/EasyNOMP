@@ -804,6 +804,8 @@ function SetupForPool(poolOptions, setupFinished) {
 					/* Add transaction to batch */
 					tmpBatchTxAddresses.push(txObj);
 					
+					logger.error('TXOBJ: [%s]', JSON.stringify(txObj));
+					
 					/* Check if we hit our limit or not */
 					if (txCtr >= poolOptions.paymentProcessing.maxBatchTransactions) {
 						
