@@ -63,13 +63,13 @@ function SetupForPool(logger, poolOptions, setupFinished){
     var minConfShield = Math.max((processingConfig.minConf || 10), 1); // Don't allow 0 conf transactions.
     var minConfPayout = Math.max((processingConfig.minConf || 10), 1);
     if (minConfPayout  < 3) {
-        logger.error(logComponent + ' minConf of 3 is recommended.');
+        logger.warning(logComponent + ' minConf of 3 is recommended.');
     }
 
     // minimum paymentInterval of 60 seconds
     var paymentIntervalSecs = Math.max((processingConfig.paymentInterval || 120), 30);
     if (parseInt(processingConfig.paymentInterval) < 120) {
-        logger.error(logComponent + ' minimum paymentInterval of 120 seconds recommended.');
+        logger.warning(logComponent + ' minimum paymentInterval of 120 seconds recommended.');
     }
     
     var maxBlocksPerPayment =  Math.max(processingConfig.maxBlocksPerPayment || 3, 1);
@@ -255,7 +255,7 @@ function SetupForPool(logger, poolOptions, setupFinished){
 
         // do not allow more than a single z_sendmany operation at a time
         if (opidCount > 0) {
-            logger.error('sendTToZ is waiting, too many z_sendmany operations already in progress.');
+            logger.warning('sendTToZ is waiting, too many z_sendmany operations already in progress.');
             return;
         }
 
@@ -294,7 +294,7 @@ function SetupForPool(logger, poolOptions, setupFinished){
 
         // do not allow more than a single z_sendmany operation at a time
         if (opidCount > 0) {
-            logger.error('sendZToT is waiting, too many z_sendmany operations already in progress.');
+            logger.warning('sendZToT is waiting, too many z_sendmany operations already in progress.');
             return;
         }
 
@@ -463,7 +463,7 @@ function SetupForPool(logger, poolOptions, setupFinished){
                         // clear them!
                         opidCount = 0;
                         opids = [];
-                        logger.error('Clearing operation ids due to empty result set.');
+                        logger.warning('Clearing operation ids due to empty result set.');
                     }
                 }
                 // loop through op-ids checking their status
@@ -507,7 +507,7 @@ function SetupForPool(logger, poolOptions, setupFinished){
                     // check result execution_secs vs pool_config
                     results.forEach(function(result, i) {
                         if (result.result[i] && parseFloat(result.result[i].execution_secs || 0) > shielding_interval) {
-                            logger.error('Warning, walletInverval shorter than opid execution time of '+result.result[i].execution_secs+' secs.');
+                            logger.warning('Warning, walletInverval shorter than opid execution time of '+result.result[i].execution_secs+' secs.');
                         }
                     });
                     // keep checking operation ids
@@ -531,7 +531,7 @@ function SetupForPool(logger, poolOptions, setupFinished){
                     if (opidCount !== 0) {
                         opidCount = 0;
                         opids = [];
-                        logger.error('Clearing operation ids due to RPC call errors.');
+                        logger.warning('Clearing operation ids due to RPC call errors.');
                     }
                 }
             }, true, true);
@@ -640,7 +640,7 @@ function SetupForPool(logger, poolOptions, setupFinished){
                     // handle duplicates if needed
                     if (duplicateFound) {
                         var dups = rounds.filter(function(round){ return round.duplicate; });
-                        logger.error('Duplicate pending blocks found: ' + JSON.stringify(dups));
+                        logger.warning('Duplicate pending blocks found: ' + JSON.stringify(dups));
                         // attempt to find the invalid duplicates
                         var rpcDupCheck = dups.map(function(r){
                             return ['getblock', [r.blockHash]];
@@ -659,14 +659,14 @@ function SetupForPool(logger, poolOptions, setupFinished){
                                 if (block && block.result) {
                                     // invalid duplicate submit blocks have negative confirmations
                                     if (block.result.confirmations < 0) {
-                                        logger.error('Remove invalid duplicate block ' + block.result.height + ' > ' + block.result.hash);
+                                        logger.warning('Remove invalid duplicate block ' + block.result.height + ' > ' + block.result.hash);
                                         // move from blocksPending to blocksDuplicate...
                                         invalidBlocks.push(['smove', coin + ':blocksPending', coin + ':blocksDuplicate', dups[i].serialized]);
                                     } else {
                                         // block must be valid, make sure it is unique
                                         if (validBlocks.hasOwnProperty(dups[i].blockHash)) {
                                             // not unique duplicate block
-                                            logger.error('Remove non-unique duplicate block ' + block.result.height + ' > ' + block.result.hash);
+                                            logger.warning('Remove non-unique duplicate block ' + block.result.height + ' > ' + block.result.hash);
                                             // move from blocksPending to blocksDuplicate...
                                             invalidBlocks.push(['smove', coin + ':blocksPending', coin + ':blocksDuplicate', dups[i].serialized]);                                            
                                         } else {
@@ -745,12 +745,12 @@ function SetupForPool(logger, poolOptions, setupFinished){
                         
                         // look for transaction errors
                         if (tx.error && tx.error.code === -5){
-                            logger.error('Daemon reports invalid transaction: ' + round.txHash);
+                            logger.warning('Daemon reports invalid transaction: ' + round.txHash);
                             round.category = 'kicked';
                             return;
                         }
                         else if (!tx.result.details || (tx.result.details && tx.result.details.length === 0)){
-                            logger.error('Daemon reports no details for transaction: ' + round.txHash);
+                            logger.warning('Daemon reports no details for transaction: ' + round.txHash);
                             round.category = 'kicked';
                             return;
                         }
@@ -1021,7 +1021,7 @@ function SetupForPool(logger, poolOptions, setupFinished){
                                                         var lost = shares - (shares * timePeriod);
                                                         sharesLost += lost;
                                                         shares = Math.max(shares - lost, 0);
-                                                        logger.error('PPLNT: Reduced shares for '+workerAddress+' round:' + round.height + ' maxTime:'+maxTime+'sec timePeriod:'+roundTo(timePeriod,6)+' shares:'+tshares+' lost:'+lost+' new:'+shares);
+                                                        logger.warning('PPLNT: Reduced shares for '+workerAddress+' round:' + round.height + ' maxTime:'+maxTime+'sec timePeriod:'+roundTo(timePeriod,6)+' shares:'+tshares+' lost:'+lost+' new:'+shares);
                                                     }
                                                     if (timePeriod > 1.0) {
                                                         err = true;
@@ -1184,16 +1184,16 @@ function SetupForPool(logger, poolOptions, setupFinished){
                                     // we thought we had enough funds to send payments, but apparently not...
                                     // try decreasing payments by a small percent to cover unexpected tx fees?
                                     var higherPercent = withholdPercent + 0.001; // 0.1%
-                                    logger.error('Insufficient funds (??) for payments ('+satoshisToCoins(totalSent)+'), decreasing rewards by ' + (higherPercent * 100).toFixed(1) + '% and retrying');
+                                    logger.warning('Insufficient funds (??) for payments ('+satoshisToCoins(totalSent)+'), decreasing rewards by ' + (higherPercent * 100).toFixed(1) + '% and retrying');
                                     trySend(higherPercent);
                                 } else {
-                                    logger.error(rpccallTracking);
+                                    logger.warning(rpccallTracking);
                                     logger.error("Error sending payments, decreased rewards by too much!!!");
                                     callback(true);
                                 }
                             } else {
                                 // there was some fatal payment error?
-                                logger.error(rpccallTracking);
+                                logger.warning(rpccallTracking);
                                 logger.error('Error sending payments ' + JSON.stringify(result.error));
                                 // payment failed, prevent updates to redis
                                 callback(true);
@@ -1202,7 +1202,7 @@ function SetupForPool(logger, poolOptions, setupFinished){
                         }
                         else if (result.error && result.error.code === -5) {
                             // invalid address specified in addressAmounts array
-                            logger.error(rpccallTracking);
+                            logger.warning(rpccallTracking);
                             logger.error('Error sending payments ' + JSON.stringify(result.error));
                             // payment failed, prevent updates to redis
                             callback(true);
@@ -1210,7 +1210,7 @@ function SetupForPool(logger, poolOptions, setupFinished){
                         }
                         else if (result.error && result.error.message != null) {
                             // invalid amount, others?
-                            logger.error(rpccallTracking);
+                            logger.warning(rpccallTracking);
                             logger.error('Error sending payments ' + JSON.stringify(result.error));
                             // payment failed, prevent updates to redis
                             callback(true);
@@ -1237,7 +1237,7 @@ function SetupForPool(logger, poolOptions, setupFinished){
                                     + ' to ' + Object.keys(addressAmounts).length + ' miners; txid: '+txid);
 
                                 if (withholdPercent > 0) {
-                                    logger.error('Had to withhold ' + (withholdPercent * 100)
+                                    logger.warning('Had to withhold ' + (withholdPercent * 100)
                                         + '% of reward from miners to cover transaction fees. '
                                         + 'Fund pool wallet with coins to prevent this from happening');
                                 }
@@ -1318,7 +1318,7 @@ function SetupForPool(logger, poolOptions, setupFinished){
                 var moveSharesToCurrent = function(r){
                     var workerShares = r.workerShares;
                     if (workerShares != null) {
-                        logger.error('Moving shares from orphaned block '+r.height+' to current round.');
+                        logger.warning('Moving shares from orphaned block '+r.height+' to current round.');
                         Object.keys(workerShares).forEach(function(worker){
                             orphanMergeCommands.push(['hincrby', coin + ':shares:roundCurrent', worker, workerShares[worker]]);
                         });
@@ -1418,11 +1418,11 @@ function SetupForPool(logger, poolOptions, setupFinished){
 
     var getProperAddress = function(address){
         if (address.length >= 40){
-            logger.error('Invalid address '+address+', convert to address '+(poolOptions.invalidAddress || poolOptions.address));
+            logger.warning('Invalid address '+address+', convert to address '+(poolOptions.invalidAddress || poolOptions.address));
             return (poolOptions.invalidAddress || poolOptions.address);
         }
         if (address.length <= 30) {
-            logger.error('Invalid address '+address+', convert to address '+(poolOptions.invalidAddress || poolOptions.address));
+            logger.warning('Invalid address '+address+', convert to address '+(poolOptions.invalidAddress || poolOptions.address));
             return (poolOptions.invalidAddress || poolOptions.address);
         }
         return address;
