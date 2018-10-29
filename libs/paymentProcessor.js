@@ -368,7 +368,7 @@ function SetupForPool(poolOptions, setupFinished) {
               //because there may masternodes payees and pool address should be last
               //in zcoin its tx.address
               addressAccount = tx.result || tx.address;
-              logger.warn("Could not retrieve account for %s from RPC (no tx.result or tx.address field) TX:[%s] TXDETAILS:[%s]", poolOptions.address, JSON.stringify(tx), JSON.stringify(error));
+              logger.warn("Could not retrieve account for %s from RPC (no tx.result or tx.address field) TX:[%s] TXDETAILS:[%s]", poolOptions.address, JSON.stringify(tx), JSON.stringify(txDetails));
               return;
             }
 
@@ -555,7 +555,7 @@ function SetupForPool(poolOptions, setupFinished) {
 	                    
 						if (resultForRound[address]) {
 						  	
-							logger.silly("Already have balance for address %s : %s", address, resultForRound[address].toString(10));
+							logger.silly("Already have balance for address %s : %s", address);	//, resultForRound[address].toString()
 							resultForRound[address] = resultForRound[address].plus(roundShare[workerStr]);
 							logger.silly("New balance %s ", resultForRound[address].toString(10));
 						
