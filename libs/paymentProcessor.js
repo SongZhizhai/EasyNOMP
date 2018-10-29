@@ -506,7 +506,7 @@ function SetupForPool(poolOptions, setupFinished) {
                     let address = workerInfo[0];
                     let isValid = false;                    
                     
-                    pool.daemon.cmd('validateaddress', [address], function(results) {
+                    daemon.cmd('validateaddress', [address], function(results) {
 	                	isValid = results.filter(function(r) {
 	                		return r.response.isvalid
 	                	}).length > 0;
@@ -545,7 +545,7 @@ function SetupForPool(poolOptions, setupFinished) {
 				    let address = workerStr;
                     let isValid = false;                    
                     
-                    pool.daemon.cmd('validateaddress', [address], function(results) {
+                    daemon.cmd('validateaddress', [address], function(results) {
 	                	isValid = results.filter(function(r) {
 	                		return r.response.isvalid
 	                	}).length > 0;
