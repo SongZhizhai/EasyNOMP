@@ -90,9 +90,7 @@ function SetupForPool(poolOptions, setupFinished){
     logger.debug(logComponent + ' maxBlocksPerPayment: ' + maxBlocksPerPayment);
     logger.debug(logComponent + ' PPLNT: ' + pplntEnabled + ', time period: '+pplntTimeQualify);
 
-    var daemon = new Stratum.daemon.interface([processingConfig.daemon], function(severity, message){
-        logger[severity](message);
-    });
+    var daemon = new Stratum.daemon.interface([processingConfig.daemon], logger);
     var redisClient = redis.createClient(poolOptions.redis.port, poolOptions.redis.host);
     // redis auth if enabled
     if (poolOptions.redis.password) {
