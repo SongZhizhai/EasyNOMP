@@ -29,7 +29,8 @@ module.exports = function() {
   });
 
   async.filter(enabledPools, function(coin, callback) {
-    SetupForPool(portalConfig, poolConfigs[coin], function(setupResults) {
+//    SetupForPool(portalConfig, poolConfigs[coin], function(setupResults) {
+    SetupForPool(poolConfigs[coin], function(setupResults) {
       logger.debug("Payment processor initialized. Setup results %s", setupResults);
       callback(null, setupResults);
     });
@@ -55,7 +56,8 @@ module.exports = function() {
 };
 
 
-function SetupForPool(poolConfig, poolOptions, setupFinished) {
+//function SetupForPool(poolConfig, poolOptions, setupFinished) {
+function SetupForPool(poolOptions, setupFinished) {
   var coin = poolOptions.coin.name;
   const logger = loggerFactory.getLogger('PaymentProcessor', coin);
 
