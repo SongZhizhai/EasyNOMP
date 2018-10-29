@@ -232,6 +232,7 @@ $.getJSON('/api/worker_stats?' + _miner, function(data) {
 			for (var w in statData.workers) {
 				_workerCount++;
 			}
+			
 			displayCharts();
 			rebuildWorkerDisplay();
 			updateStats();
