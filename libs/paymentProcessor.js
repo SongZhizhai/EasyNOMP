@@ -345,7 +345,7 @@ function SetupForPool(poolOptions, setupFinished) {
       function(workers, rounds, callback) {
         logger.debug("Checking for confirmed rounds (blocks)");
         
-		if (rounds !== "") {
+		if (rounds !== "[]") {
         
 		        var batchRPCcommand = rounds.map(function(r) {
 		        	return ['gettransaction', [r.txHash]];
