@@ -962,14 +962,19 @@ function SetupForPool(poolOptions, setupFinished) {
       
       function(workers, rounds, paymentsUpdate, callback) {
 
-        var totalPaid = new BigNumber(0);
+        var totalPaid = new BigNumber(0);        
+        var totalImmature = new BigNumber(0);
 
         var balanceUpdateCommands = [];
         var workerPayoutsCommand = [];
 
+
         for (var w in workers) {
+        	
           var worker = workers[w];
+          
           if (!worker.balanceChange.eq(new BigNumber(0))) {
+          	
             balanceUpdateCommands.push([
               'hincrbyfloat',
               coin + ':balances',
@@ -977,10 +982,17 @@ function SetupForPool(poolOptions, setupFinished) {
               worker.balanceChange.toFixed(coinPrecision).toString(10)
             ]);
           }
+          
           if (worker.sent !== 0) {
             workerPayoutsCommand.push(['hincrbyfloat', coin + ':payouts', w, worker.sent.toString(10)]);
             totalPaid = totalPaid.plus(worker.sent);
           }
+          
+          if (worker.reward !== 0) {
+            workerPayoutsCommand.push(['hincrbyfloat', coin + ':immature', w, worker.reward.toString(10)]);
+            totalImmature = totalImmature.plus(worker.reward);
+          }
+          
         }
 
 
