@@ -434,8 +434,8 @@ function SetupForPool(poolOptions, setupFinished) {
               case 'orphan':
               case 'kicked':
                 r.canDeleteShares = canDeleteShares(r);
-              case 'generate':
-                return true;
+/*              case 'generate':
+                return true;*/
               default:
                 return false;
             }
