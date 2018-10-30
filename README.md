@@ -59,15 +59,15 @@ While I am open to a takeover with the original developers consent, **_I am not_
 ### Features
 |   | Feature | Developer(s) |
 | ------------- | ------------- | ------------- |
-| ✓ | Patches pulled from everywhere / To keep EasyNOMP working, up to date, and secure! | [LeshaCat](//github.com/leshacat) |
-| ✓ | Clear Documentation / To help you install & configure EasyNOMP | [LeshaCat](//github.com/leshacat) |
-| ✓ | Live support on Discord / Join #easyx-pool and ask @Shawn! | [LeshaCat](//github.com/leshacat) |
-| ✓ | Install Script / No dependancy problems! | [LeshaCat](//github.com/leshacat) |
-| ✓ | Support for 42 Algorithms / Such hashing, much blocks! | [foxer666](//github.com/foxer666), [zone117x](//github.com/zone117x), [1301313Y](//github.com/1301313Y), [LeshaCat](//github.com/leshacat) |
-| ✓ | Additional Statistics Information | [1301313Y](//github.com/1301313Y) |
-| ✓ | Algorithm Auto-Switching | [foxer666](//github.com/foxer666), [zone117x](//github.com/zone117x), [1301313Y](//github.com/1301313Y) |
-| ✓ | SEO Optimized / So you don't have to! | [1301313Y](//github.com/1301313Y), [LeshaCat](//github.com/leshacat) |
-| ✓ | Donation Addresses / To make donation collection easier! | [LeshaCat](//github.com/leshacat) |
+| **✓** | **Patches pulled from everywhere** / To keep EasyNOMP working, up to date, and secure! | [LeshaCat](//github.com/leshacat) |
+| **✓** | **Clear Documentation** / To help you install & configure EasyNOMP | [LeshaCat](//github.com/leshacat) |
+| **✓** | **Live support on Discord** / Join &#35;easynomp and ask @Shawn! | [LeshaCat](//github.com/leshacat) |
+| **✓** | **Install Script** / No dependancy problems! | [LeshaCat](//github.com/leshacat) |
+| **✓** | **Support for 43 Algorithms** / Such hashing, much blocks! | [foxer666](//github.com/foxer666), [zone117x](//github.com/zone117x), [1301313Y](//github.com/1301313Y), [LeshaCat](//github.com/leshacat) |
+| **✓** | **Additional Statistics Information** / To keep you informed | [1301313Y](//github.com/1301313Y) |
+| **✓** | **Algorithm Auto-Switching** / To keep you making profit! | [foxer666](//github.com/foxer666), [zone117x](//github.com/zone117x), [1301313Y](//github.com/1301313Y) |
+| **✓** | **SEO Optimized** / So you don't have to! | [1301313Y](//github.com/1301313Y), [LeshaCat](//github.com/leshacat) |
+| **✓** | **Donation Addresses** / To make donation collection easier! | [LeshaCat](//github.com/leshacat) |
 
 -------
 ### Node Open Mining Portal consists of 3 main modules:
