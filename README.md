@@ -45,7 +45,7 @@ Once fixed, I will push the fix to parent project [1301313Y/BootNOMP](https://gi
 
 -------
 ### !~ NOTICE: THIS IS NOT A HOSTILE TAKEOVER ~!
-It has been posited to me that EasyNOMP is a takeover of [1301313Y/BootNOMP](https://github.com/1301313Y/BootNOMP) or [foxer666/node-open-mining-portal](https://github.com/foxer666/node-open-mining-portal).
+It has been posited to me that EasyNOMP is a hostile takeover of [1301313Y/BootNOMP](https://github.com/1301313Y/BootNOMP) or [foxer666/node-open-mining-portal](https://github.com/foxer666/node-open-mining-portal).
 
 **I want to be perfectly clear, this is not a hostile takeover of either of these two projects.**
 
