@@ -238,11 +238,9 @@ function SetupForPool(poolOptions, setupFinished) {
           ['hgetall', coin + ':balances'],
           ['smembers', coin + ':blocksPending']
         ]).exec(function(error, results) {
+        	
           logger.warn("Redis responsed: %s", JSON.stringify(results));
-          logger.warn("Redis responsed: %s", JSON.stringify(results));
-          logger.warn("Redis responsed: %s", JSON.stringify(results));
-          logger.warn("Redis responsed: %s", JSON.stringify(results));
-          logger.warn("Redis responsed: %s", JSON.stringify(results));
+          
           endRedisTimer();
 
           if (error) {
@@ -250,11 +248,7 @@ function SetupForPool(poolOptions, setupFinished) {
             callback(true);
             return;
           }
-	logger.warn("WARN: DEBUG 1 *!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!");
-	logger.warn("WARN: DEBUG 1 *!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!");
-	logger.warn("WARN: DEBUG 1 *!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!");
-	logger.warn("WARN: DEBUG 1 *!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!");
-	
+		
           var workers = {};
           for (var w in results[0]) {
             workers[w] = {
@@ -351,12 +345,7 @@ function SetupForPool(poolOptions, setupFinished) {
          It also adds the block reward amount to the round object - which the daemon gives also gives us. */
       function(workers, rounds, callback) {
         logger.debug("Checking for confirmed rounds (blocks)");
-        
-    logger.warn("WARN: DEBUG 2 *!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!");
-	logger.warn("WARN: DEBUG 2 *!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!");
-	logger.warn("WARN: DEBUG 2 *!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!");
-	logger.warn("WARN: DEBUG 2 *!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!");
-	
+        	
 		if (rounds !== undefined & rounds.length > 0) {
         
 		        var batchRPCcommand = rounds.map(function(r) {
@@ -473,6 +462,11 @@ function SetupForPool(poolOptions, setupFinished) {
         
 		}
         
+	logger.warn("WARN: DEBUG 1 *!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!");
+	logger.warn("WARN: DEBUG 1 *!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!");
+	logger.warn("WARN: DEBUG 1 *!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!");
+	logger.warn("WARN: DEBUG 1 *!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!");        
+        
       },
 
 
@@ -528,6 +522,10 @@ function SetupForPool(poolOptions, setupFinished) {
                   
                   if (workerInfo.length === 2) {
                   	
+    logger.warn("WARN: DEBUG 2 *!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!");
+	logger.warn("WARN: DEBUG 2 *!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!");
+	logger.warn("WARN: DEBUG 2 *!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!");
+	logger.warn("WARN: DEBUG 2 *!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!");
                   	/* 
 				
 						KTHX-ISSUE-2: Worker Validation 																								!*!*!*!*!**!*!*!*!*!*!*!*!**!*!*!*!*!*!*!*!**
