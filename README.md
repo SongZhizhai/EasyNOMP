@@ -49,9 +49,9 @@ It has been posited to me that EasyNOMP is a takeover of [1301313Y/BootNOMP](htt
 
 **I want to be perfectly clear, this is not a hostile takeover of either of these two projects.**
 
-EasyNOMP, BootNOMP and NOMP are preferences. The only way EasyNOMP differs from BootNOMP is the added documentation. All fixes, features, and patches will be shared with both [1301313Y/BootNOMP](https://github.com/1301313Y/BootNOMP) and [foxer666/node-open-mining-portal](https://github.com/foxer666/node-open-mining-portal).
+EasyNOMP, BootNOMP and NOMP are preferences. The only way EasyNOMP differs from BootNOMP is the added documentation. All fixes, features, and patches will be shared with both [1301313Y/BootNOMP](https://github.com/1301313Y/BootNOMP) and [foxer666/node-open-mining-portal](https://github.com/foxer666/node-open-mining-portal) - provided they are features they want.
 
-**If you've installed EasyNOMP because you want the features, bug fixes and patches that I (LeshaCat) make, you have installed it for the wrong reason. Go install the parent projects. I will be supporting and working for them as well, and pushing the fixes, features, and patches to them as soon as they are completed.**
+**If you've installed EasyNOMP because you want the features, bug fixes and patches that I (LeshaCat) make, you have installed it for the wrong reason. Go install the parent projects. I will be supporting and working for them as well, and pushing the fixes, features, and patches to them as soon as they are completed - again, as long as they want them.**
 
 While I am open to a takeover with the original developers consent, **_I am not_** open to hostile takeovers of projects which I am friendly with and share source code. We are here (or at least I am) to help make crypto and open source **stronger.**
 
