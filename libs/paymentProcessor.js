@@ -469,14 +469,6 @@ function SetupForPool(poolOptions, setupFinished) {
          amount owned to each miner for each round. */
       function(workers, rounds, addressAccount, callback) {
         logger.debug("Getting all shares for rounds and calculating rewards for miners");
-        logger.debug("Getting all shares for rounds and calculating rewards for miners");
-        logger.debug("Getting all shares for rounds and calculating rewards for miners");
-        logger.debug("Getting all shares for rounds and calculating rewards for miners");
-        logger.debug("Getting all shares for rounds and calculating rewards for miners");
-        logger.debug("Getting all shares for rounds and calculating rewards for miners");
-        logger.debug("Getting all shares for rounds and calculating rewards for miners");
-        logger.debug("Getting all shares for rounds and calculating rewards for miners");
-        logger.debug("Getting all shares for rounds and calculating rewards for miners");
 
 	logger.warn("WARN: DEBUG 1 *!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!");
 	logger.warn("WARN: DEBUG 1 *!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!");
@@ -535,37 +527,40 @@ function SetupForPool(poolOptions, setupFinished) {
                   	
                     //todo validate by daemon (original dev comment - they were going to do it, lets do it!)
                     
-                    let address = workerInfo[0];
-                    let isValid = false;                    
+                    let address = workerInfo[0];                  
                     
                     daemon.cmd('validateaddress', [address], function(results) {
-	                	isValid = results.filter(function(r) {
+	                	/*isValid = results.filter(function(r) {
 	                		return r.response.isvalid
-	                	}).length > 0;
-	                });
+	                	}).length > 0;*/
+						if (result.error){
+							logger.error('Error with payment processing daemon ' + JSON.stringify(result.error));
+							callback(true);
+						}
+						else if (!result.response || !result.response.ismine) {
+							logger.error('Daemon does not own pool address - payment processing can not be done with this daemon, '	+ JSON.stringify(result.response));
+							callback(true);
+						}
+						else{
+							callback()
+						}
+	                }, true);
 	                
-	                if (isValid) {
+	                // KTHXFIX-1-VALIDATION													*!*!!*!*!*!*!*!*!**!*!*!*!!**!*!*!*!*!*!**!*!*!*!*!*!**
 	                    
-	                    if (resultForRound[address]) {
-	                    	
-	                      logger.silly("Already have balance for address %s : %s", address, resultForRound[address].toString(10));
-	                      resultForRound[address] = resultForRound[address].plus(roundShare[workerStr]);
-	                      logger.silly("New balance %s ", resultForRound[address].toString(10));
-	                      
-	                    } else {
-	                    	
-	                      resultForRound[address] = new BigNumber(roundShare[workerStr]);
-	                      
-	                    }
-                    
+                    if (resultForRound[address]) {
+                    	
+                      logger.silly("Already have balance for address %s : %s", address, resultForRound[address].toString(10));
+                      resultForRound[address] = resultForRound[address].plus(roundShare[workerStr]);
+                      logger.silly("New balance %s ", resultForRound[address].toString(10));
+                      
+                    } else {
+                    	
+                      resultForRound[address] = new BigNumber(roundShare[workerStr]);
+                      
                     }
-	                else {
-	                
-						logger.silly("Invalid worker address %s; cannot payout worker %s ", address);	//, resultForRound[address].toString()
-						
-						//todo: add totals together (or send invalid balance to pool donation address)                
-	                
-	                }
+                    
+                    
 	                
                   }
                   
@@ -578,33 +573,36 @@ function SetupForPool(poolOptions, setupFinished) {
                     let isValid = false;                    
                     
                     daemon.cmd('validateaddress', [address], function(results) {
-	                	isValid = results.filter(function(r) {
+	                	/*isValid = results.filter(function(r) {
 	                		return r.response.isvalid
-	                	}).length > 0;
-	                });
-	                
-	                if (isValid) {
-	                    
-						if (resultForRound[address]) {
-						  	
-							logger.silly("Already have balance for address %s : %s", address);	//, resultForRound[address].toString()
-							resultForRound[address] = resultForRound[address].plus(roundShare[workerStr]);
-							logger.silly("New balance %s ", resultForRound[address].toString(10));
-						
-						} else {
-						  	
-							resultForRound[address] = new BigNumber(roundShare[workerStr]);
-						
+	                	}).length > 0;*/
+						if (result.error){
+							logger.error('Error with payment processing daemon ' + JSON.stringify(result.error));
+							callback(true);
 						}
+						else if (!result.response || !result.response.ismine) {
+							logger.error('Daemon does not own pool address - payment processing can not be done with this daemon, '	+ JSON.stringify(result.response));
+							callback(true);
+						}
+						else{
+							callback()
+						}
+	                }, true);
+	                
+	                // KTHXFIX-1-VALIDATION													*!*!!*!*!*!*!*!*!**!*!*!*!!**!*!*!*!*!*!**!*!*!*!*!*!**
+	                
+					if (resultForRound[address]) {
+					  	
+						logger.silly("Already have balance for address %s : %s", address);	//, resultForRound[address].toString()
+						resultForRound[address] = resultForRound[address].plus(roundShare[workerStr]);
+						logger.silly("New balance %s ", resultForRound[address].toString(10));
+					
+					} else {
+					  	
+						resultForRound[address] = new BigNumber(roundShare[workerStr]);
+					
+					}
                     
-                    }
-	                else {
-	                
-						logger.silly("Invalid worker address %s; cannot payout worker %s ", address, resultForRound[address].toString(10));	
-						
-						//todo: add totals together (or send invalid balance to pool donation address)                
-	                
-	                }         
                   
                 }
                 
