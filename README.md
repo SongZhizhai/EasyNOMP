@@ -53,7 +53,7 @@ EasyNOMP, BootNOMP and NOMP are preferences. The only way EasyNOMP differs from 
 
 **If you've installed EasyNOMP because you want the features, bug fixes and patches that I (LeshaCat) make, you have installed it for the wrong reason. Go install the parent projects. I will be supporting and working for them as well, and pushing the fixes, features, and patches to them as soon as they are completed.**
 
-While I am open to a takeover with the original developers consent, **_I am not_** open to hostile takeovers of projects which I am friendly with and share source code.
+While I am open to a takeover with the original developers consent, **_I am not_** open to hostile takeovers of projects which I am friendly with and share source code. We are here (or at least I am) to help make crypto and open source **stronger.**
 
 -------
 ### Features
