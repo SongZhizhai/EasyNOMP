@@ -227,6 +227,15 @@ function SetupForPool(poolOptions, setupFinished) {
       timeSpentRPC += Date.now() - startTimeRedis
     };
 
+	logger.warn("WARN: DEBUG 1 *!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!");
+	logger.warn("WARN: DEBUG 1 *!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!");
+	logger.warn("WARN: DEBUG 1 *!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!");
+	logger.warn("WARN: DEBUG 1 *!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!");
+	logger.warn("WARN: DEBUG 2 *!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!");
+	logger.warn("WARN: DEBUG 2 *!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!");
+	logger.warn("WARN: DEBUG 2 *!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!");
+	logger.warn("WARN: DEBUG 2 *!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!");
+
     async.waterfall([
 
       /* Call redis to get an array of rounds - which are coinbase transactions and block heights from submitted
