@@ -468,6 +468,14 @@ function SetupForPool(poolOptions, setupFinished) {
          amount owned to each miner for each round. */
       function(workers, rounds, addressAccount, callback) {
         logger.debug("Getting all shares for rounds and calculating rewards for miners");
+        logger.debug("Getting all shares for rounds and calculating rewards for miners");
+        logger.debug("Getting all shares for rounds and calculating rewards for miners");
+        logger.debug("Getting all shares for rounds and calculating rewards for miners");
+        logger.debug("Getting all shares for rounds and calculating rewards for miners");
+        logger.debug("Getting all shares for rounds and calculating rewards for miners");
+        logger.debug("Getting all shares for rounds and calculating rewards for miners");
+        logger.debug("Getting all shares for rounds and calculating rewards for miners");
+        logger.debug("Getting all shares for rounds and calculating rewards for miners");
         var shareLookups = rounds.map(function(r) {
           return ['hgetall', coin + ':shares:round' + r.height]
         });
