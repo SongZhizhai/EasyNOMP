@@ -460,12 +460,7 @@ function SetupForPool(poolOptions, setupFinished) {
 		
 		        });
         
-		}
-        
-	logger.warn("WARN: DEBUG 1 *!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!");
-	logger.warn("WARN: DEBUG 1 *!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!");
-	logger.warn("WARN: DEBUG 1 *!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!");
-	logger.warn("WARN: DEBUG 1 *!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!");        
+		} 
         
       },
 
@@ -482,6 +477,12 @@ function SetupForPool(poolOptions, setupFinished) {
         logger.debug("Getting all shares for rounds and calculating rewards for miners");
         logger.debug("Getting all shares for rounds and calculating rewards for miners");
         logger.debug("Getting all shares for rounds and calculating rewards for miners");
+
+	logger.warn("WARN: DEBUG 1 *!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!");
+	logger.warn("WARN: DEBUG 1 *!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!");
+	logger.warn("WARN: DEBUG 1 *!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!");
+	logger.warn("WARN: DEBUG 1 *!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!");        
+        
         var shareLookups = rounds.map(function(r) {
           return ['hgetall', coin + ':shares:round' + r.height]
         });
