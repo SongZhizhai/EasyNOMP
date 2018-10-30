@@ -39,7 +39,7 @@ Once fixed, I will push the fix to parent project [1301313Y/BootNOMP](https://gi
 
 -------
 ### !~ DEVELOPMENT WARNING ~!
-***_While the master branch is considered stable, leshacat/EasyNOMP is currently under loads of development - check out the development branch (git checkout development)_***
+***_While the master branch is generally considered stable, leshacat/EasyNOMP is currently working on finalizing v1.1.4 and therefore the master branch will be unstable until our first release is finalized._***
 
 ***NOTE:***  Someone please test Docker, I made a few quick changes. Will come back to it later! ~LeshaCat
 
