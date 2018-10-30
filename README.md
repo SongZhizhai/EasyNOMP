@@ -44,7 +44,7 @@ Once fixed, I will push the fix to parent project [1301313Y/BootNOMP](https://gi
 ***NOTE:***  Someone please test Docker, I made a few quick changes. Will come back to it later! ~LeshaCat
 
 -------
-### !~ NOTICE: THIS IS NOT A HOSTILE TAKEOVER! ~!
+### !~ NOTICE: THIS IS NOT A HOSTILE TAKEOVER ~!
 It has been posited to me that EasyNOMP is a takeover of [1301313Y/BootNOMP](https://github.com/1301313Y/BootNOMP) or [foxer666/node-open-mining-portal](https://github.com/foxer666/node-open-mining-portal).
 
 **I want to be perfectly clear, this is not a hostile takeover of either of these two projects.**
