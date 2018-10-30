@@ -44,6 +44,16 @@ Once fixed, I will push the fix to parent project [1301313Y/BootNOMP](https://gi
 ***NOTE:***  Someone please test Docker, I made a few quick changes. Will come back to it later! ~LeshaCat
 
 -------
+### !~ NOTICE: BEFORE YOU BEGIN ~!
+It has been posited to me that EasyNOMP is a takeover of [1301313Y/BootNOMP](https://github.com/1301313Y/BootNOMP) or [foxer666/node-open-mining-portal](https://github.com/foxer666/node-open-mining-portal).
+
+**I want to be perfectly clear, this is not a hostile takeover of either of these two projects.**
+
+EasyNOMP, BootNOMP and NOMP are preferences. The only way EasyNOMP differs from BootNOMP is the added documentation. All fixes, features, and patches will be shared with both [1301313Y/BootNOMP](https://github.com/1301313Y/BootNOMP) and [foxer666/node-open-mining-portal](https://github.com/foxer666/node-open-mining-portal).
+
+**If you've installed EasyNOMP because you want the bug fixes and patches that I (LeshaCat) make, you have installed it for the wrong reason. Go install the parent projects. I will be working for them as well, and pushing the fixes, features, and changes to them as soon as they are completed.**
+
+-------
 ### Features
 |   | Feature | Developer(s) |
 | ------------- | ------------- | ------------- |
