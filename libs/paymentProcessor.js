@@ -231,10 +231,7 @@ function SetupForPool(poolOptions, setupFinished) {
 	logger.warn("WARN: DEBUG 1 *!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!");
 	logger.warn("WARN: DEBUG 1 *!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!");
 	logger.warn("WARN: DEBUG 1 *!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!");
-	logger.warn("WARN: DEBUG 2 *!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!");
-	logger.warn("WARN: DEBUG 2 *!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!");
-	logger.warn("WARN: DEBUG 2 *!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!");
-	logger.warn("WARN: DEBUG 2 *!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!");
+	
 
     async.waterfall([
 
@@ -256,6 +253,10 @@ function SetupForPool(poolOptions, setupFinished) {
             return;
           }
 
+	logger.warn("WARN: DEBUG 2 *!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!");
+	logger.warn("WARN: DEBUG 2 *!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!");
+	logger.warn("WARN: DEBUG 2 *!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!");
+	logger.warn("WARN: DEBUG 2 *!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!");
 
           var workers = {};
           for (var w in results[0]) {
