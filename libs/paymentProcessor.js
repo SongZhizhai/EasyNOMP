@@ -227,12 +227,6 @@ function SetupForPool(poolOptions, setupFinished) {
       timeSpentRPC += Date.now() - startTimeRedis
     };
 
-	logger.warn("WARN: DEBUG 1 *!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!");
-	logger.warn("WARN: DEBUG 1 *!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!");
-	logger.warn("WARN: DEBUG 1 *!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!");
-	logger.warn("WARN: DEBUG 1 *!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!");
-	
-
     async.waterfall([
 
       /* Call redis to get an array of rounds - which are coinbase transactions and block heights from submitted
@@ -244,7 +238,11 @@ function SetupForPool(poolOptions, setupFinished) {
           ['hgetall', coin + ':balances'],
           ['smembers', coin + ':blocksPending']
         ]).exec(function(error, results) {
-          logger.debug("Redis responsed: %s", JSON.stringify(results));
+          logger.warn("Redis responsed: %s", JSON.stringify(results));
+          logger.warn("Redis responsed: %s", JSON.stringify(results));
+          logger.warn("Redis responsed: %s", JSON.stringify(results));
+          logger.warn("Redis responsed: %s", JSON.stringify(results));
+          logger.warn("Redis responsed: %s", JSON.stringify(results));
           endRedisTimer();
 
           if (error) {
@@ -252,12 +250,11 @@ function SetupForPool(poolOptions, setupFinished) {
             callback(true);
             return;
           }
-
-	logger.warn("WARN: DEBUG 2 *!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!");
-	logger.warn("WARN: DEBUG 2 *!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!");
-	logger.warn("WARN: DEBUG 2 *!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!");
-	logger.warn("WARN: DEBUG 2 *!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!");
-
+	logger.warn("WARN: DEBUG 1 *!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!");
+	logger.warn("WARN: DEBUG 1 *!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!");
+	logger.warn("WARN: DEBUG 1 *!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!");
+	logger.warn("WARN: DEBUG 1 *!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!");
+	
           var workers = {};
           for (var w in results[0]) {
             workers[w] = {
@@ -355,6 +352,11 @@ function SetupForPool(poolOptions, setupFinished) {
       function(workers, rounds, callback) {
         logger.debug("Checking for confirmed rounds (blocks)");
         
+    logger.warn("WARN: DEBUG 2 *!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!");
+	logger.warn("WARN: DEBUG 2 *!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!");
+	logger.warn("WARN: DEBUG 2 *!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!");
+	logger.warn("WARN: DEBUG 2 *!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!");
+	
 		if (rounds !== undefined & rounds.length > 0) {
         
 		        var batchRPCcommand = rounds.map(function(r) {
