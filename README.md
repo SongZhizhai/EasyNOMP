@@ -49,7 +49,7 @@ It has been posited to me that EasyNOMP is a hostile takeover of [1301313Y/BootN
 
 **I want to be perfectly clear, this is not a hostile takeover of either of these two projects.**
 
-EasyNOMP, BootNOMP and NOMP are preferences. The only way EasyNOMP differs from BootNOMP is the added documentation. All fixes, features, and patches will be shared with both [1301313Y/BootNOMP](https://github.com/1301313Y/BootNOMP) and [foxer666/node-open-mining-portal](https://github.com/foxer666/node-open-mining-portal) - provided they are features they want.
+EasyNOMP, BootNOMP and NOMP are preferences. The only way EasyNOMP differs from BootNOMP is the added documentation, while the only way BootNOMP differs from NOMP is the UI redesign. All fixes, features, and patches will be shared with both [1301313Y/BootNOMP](https://github.com/1301313Y/BootNOMP) and [foxer666/node-open-mining-portal](https://github.com/foxer666/node-open-mining-portal) - provided they are features they want.
 
 **If you've installed EasyNOMP because you want the features, bug fixes and patches that I (LeshaCat) make, you have installed it for the wrong reason. Go install the parent projects. I will be supporting and working for them as well, and pushing the fixes, features, and patches to them as soon as they are completed - as long as they want them.**
 
