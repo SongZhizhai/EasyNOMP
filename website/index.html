@@ -81,6 +81,36 @@
                 })
             });
         </script>
+        
+
+
+<!-- Matomo -->
+<script type="text/javascript">
+  var _paq = _paq || [];
+  /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+  _paq.push(["setDocumentTitle", document.domain + "/" + document.title]);
+  _paq.push(["setCookieDomain", "*.easyx.info"]);
+  _paq.push(["setDomains", ["*.easyx.info","*.miningpool.easyx.info","*.easyx.info","*.miningpool.easyx.info"]]);
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="//miningpool.easyx.info/piwik/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', '2']);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<noscript><p><img src="//miningpool.easyx.info/piwik/piwik.php?idsite=2&amp;rec=1" style="border:0;" alt="" /></p></noscript>
+<!-- End Matomo Code -->        
+        
+<noscript>
+<!-- Matomo Image Tracker-->
+<img src="https://miningpool.easyx.info/piwik/piwik.php?idsite=2&amp;rec=1" style="border:0" alt="" />
+<!-- End Matomo -->
+</noscript>        
+        
+        
     </head>
 
     <body>
@@ -295,8 +325,8 @@
                 <div class="container-fluid px-0 pt-4">
                 
                 {{ if ((it.portalConfig.poolwarningmsg !== "undefined") & (it.portalConfig.poolwarningmsg !== "")) { }}
-                    <div>
-                    	<h2 style="color:red; border:1px red dashed; text-align: center; vertical-align:middle;">{{=it.portalConfig.poolwarningmsg}}</h2>
+                    <div style="color:red; border:1px red solid; text-align: center; vertical-align:middle;">
+                    	<h5 style="color:red; border:1px red dashed; text-align: center; vertical-align:middle;">{{=it.portalConfig.poolwarningmsg}}</h5>
                     </div>                
                 {{ } }}
                 
