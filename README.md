@@ -22,6 +22,12 @@
 
 -------
 
+### !~ DEVELOPMENT WARNING ~!
+***_While the master branch is generally considered stable, LeshaCat is currently working on finalizing v1.1.4 and therefore the master branch will be considered unstable until our first release (v1.1.4) is finalized._***
+
+***NOTE:***  Someone please test Docker, I made a few quick changes. Will come back to it later! ~[LeshaCat](//github.com/leshacat)
+
+-------
 ### !~ PAYMENT BUG WARNING ~!
 #### THERE IS A KNOWN PAYMENT BUG: <br />
 
@@ -34,12 +40,6 @@ Please monitor those issues on GitHub. If you have more than 10 miners, this bug
 ***This crypto is not lost, it is still in your pool wallet.*** Once the fix is made, you can update EasyNOMP and restart the pool, and the payments should then go through. Optionally you can manually send payments to workers. I will push the fix to parent project [1301313Y/BootNOMP](https://github.com/1301313Y/BootNOMP) and original project [foxer666/node-open-mining-portal](https://github.com/foxer666/node-open-mining-portal) when completed.
 
 ***Sorry for the inconvenience!***
-
--------
-### !~ DEVELOPMENT WARNING ~!
-***_While the master branch is generally considered stable, LeshaCat is currently working on finalizing v1.1.4 and therefore the master branch will be considered unstable until our first release (v1.1.4) is finalized._***
-
-***NOTE:***  Someone please test Docker, I made a few quick changes. Will come back to it later! ~[LeshaCat](//github.com/leshacat)
 
 -------
 ### !~ NOTICE: THIS IS NOT A HOSTILE TAKEOVER ~!
