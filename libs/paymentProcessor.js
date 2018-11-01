@@ -485,8 +485,24 @@ function SetupForPool(poolOptions, setupFinished) {
                   logger.silly("%s worker have both payout address and worker, merging", workerStr);
                   let workerInfo = workerStr.split('.');
                   if (workerInfo.length === 2) {
-                    //todo validate by daemon
-	            // KTHXFIX-1-VALIDATION													*!*!!*!*!*!*!*!*!**!*!*!*!!**!*!*!*!*!*!**!*!*!*!*!*!**
+
+                  //todo validate by daemon
+                  let address = workerInfo[0];                  
+                    
+                  daemon.cmd('validateaddress', [address], function(results) {
+						if (result.error){
+							logger.error('Error with payment processing daemon ' + JSON.stringify(result.error));
+							callback(true);
+						}
+						else if (!result.response || !result.response.ismine) {
+							logger.error('Daemon does not own pool address - payment processing can not be done with this daemon, '	+ JSON.stringify(result.response));
+							callback(true);
+						}
+						else{
+							callback()
+						}
+	              }, true);
+		          // KTHXFIX-1-VALIDATION													*!*!!*!*!*!*!*!*!**!*!*!*!!**!*!*!*!*!*!**!*!*!*!*!*!**
 	                    
                     if (resultForRound[address]) {
                     	
@@ -510,8 +526,23 @@ function SetupForPool(poolOptions, setupFinished) {
                     }
                   }
                 } else {
-                  //todo validate by daemon
-		// KTHXFIX-1-VALIDATION													*!*!!*!*!*!*!*!*!**!*!*!*!!**!*!*!*!*!*!**!*!*!*!*!*!**
+                //todo validate by daemon
+                let address = workerStr;      
+                
+                daemon.cmd('validateaddress', [address], function(results) {
+						if (result.error){
+							logger.error('Error with payment processing daemon ' + JSON.stringify(result.error));
+							callback(true);
+						}
+						else if (!result.response || !result.response.ismine) {
+							logger.error('Daemon does not own pool address - payment processing can not be done with this daemon, '	+ JSON.stringify(result.response));
+							callback(true);
+						}
+						else{
+							callback()
+						}
+	            }, true);
+				// KTHXFIX-1-VALIDATION													*!*!!*!*!*!*!*!*!**!*!*!*!!**!*!*!*!*!*!**!*!*!*!*!*!**
 	                
 		if (resultForRound[address]) {
 
