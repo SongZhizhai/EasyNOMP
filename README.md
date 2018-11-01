@@ -26,8 +26,8 @@
 #### THERE IS A KNOWN PAYMENT BUG: <br />
 
 https://github.com/bitcoin/bitcoin/issues/14578<br />
-https://github.com/foxer666/node-open-mining-portal/issues/106<br />
-https://github.com/foxer666/node-open-mining-portal/issues/145<br />
+https://github.com/foxer666/node-open-mining-portal/issues/106 (fixed in master)<br />
+https://github.com/foxer666/node-open-mining-portal/issues/145 (still working on a fix)<br />
 
 Please monitor those issues on GitHub. If you have more than 10 miners, this bug affects you. The bug is with the payment processor's batch payments when there are too many inputs and outputs to the transaction, and it fails the whole payment batch.
 
