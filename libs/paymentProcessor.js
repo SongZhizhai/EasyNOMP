@@ -486,6 +486,20 @@ function SetupForPool(poolOptions, setupFinished) {
                   let workerInfo = workerStr.split('.');
                   if (workerInfo.length === 2) {
                     //todo validate by daemon
+	            // KTHXFIX-1-VALIDATION													*!*!!*!*!*!*!*!*!**!*!*!*!!**!*!*!*!*!*!**!*!*!*!*!*!**
+	                    
+                    if (resultForRound[address]) {
+                    	
+                      logger.silly("Already have balance for address %s : %s", address, resultForRound[address].toString(10));
+                      resultForRound[address] = resultForRound[address].plus(roundShare[workerStr]);
+                      logger.silly("New balance %s ", resultForRound[address].toString(10));
+                      
+                    } else {
+                    	
+                      resultForRound[address] = new BigNumber(roundShare[workerStr]);
+                      
+                    }
+
                     let address = workerInfo[0];
                     if (resultForRound[address]) {
                       logger.silly("Already have balance for address %s : %s", address, resultForRound[address].toString(10));
@@ -497,6 +511,21 @@ function SetupForPool(poolOptions, setupFinished) {
                   }
                 } else {
                   //todo validate by daemon
+		// KTHXFIX-1-VALIDATION													*!*!!*!*!*!*!*!*!**!*!*!*!!**!*!*!*!*!*!**!*!*!*!*!*!**
+	                
+		if (resultForRound[address]) {
+
+			logger.silly("Already have balance for address %s : %s", address);	//, resultForRound[address].toString()
+			resultForRound[address] = resultForRound[address].plus(roundShare[workerStr]);
+			logger.silly("New balance %s ", resultForRound[address].toString(10));
+
+		} else {
+
+			resultForRound[address] = new BigNumber(roundShare[workerStr]);
+
+		}	
+			
+			
                   let address = workerStr;
                   if (resultForRound[address]) {
                     logger.silly("Already have balance for address %s : %s", address, resultForRound[address].toString(10));
