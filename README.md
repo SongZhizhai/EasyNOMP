@@ -37,7 +37,7 @@ Please monitor those issues on GitHub. If you have more than 10 miners, this bug
 
 -------
 ### !~ DEVELOPMENT WARNING ~!
-***_While the master branch is generally considered stable, leshacat/EasyNOMP is currently working on finalizing v1.1.4 and therefore the master branch will be considered unstable until our first release is finalized._***
+***_While the master branch is generally considered stable, [LeshaCat](//github.com/leshacat) is currently working on finalizing v1.1.4 and therefore the master branch will be considered unstable until our first release is finalized._***
 
 ***NOTE:***  Someone please test Docker, I made a few quick changes. Will come back to it later! ~LeshaCat
 
