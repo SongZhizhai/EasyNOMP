@@ -31,7 +31,7 @@ https://github.com/foxer666/node-open-mining-portal/issues/145 (still working on
 
 Please monitor those issues on GitHub. If you have more than 10 miners, this bug affects you. The bug is with the payment processor's batch payments when there are too many inputs and outputs to the transaction, and it fails the whole payment batch.
 
-***This crypto is not lost, it is still in your pool wallet.*** Once the fix is made, you can update EasyNOMP and restart the pool, and the payments should then go through. Optionally you can manually send payments to workers. I will push the fix to parent project [1301313Y/BootNOMP](https://github.com/1301313Y/BootNOMP) and original project [foxer666/node-open-mining-portal](https://github.com/foxer666/node-open-mining-portal)
+***This crypto is not lost, it is still in your pool wallet.*** Once the fix is made, you can update EasyNOMP and restart the pool, and the payments should then go through. Optionally you can manually send payments to workers. I will push the fix to parent project [1301313Y/BootNOMP](https://github.com/1301313Y/BootNOMP) and original project [foxer666/node-open-mining-portal](https://github.com/foxer666/node-open-mining-portal) when completed.
 
 ***Sorry for the inconvenience!***
 
