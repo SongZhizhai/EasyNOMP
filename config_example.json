@@ -18,7 +18,7 @@
 
     "logger" : {
         "level" : "debug",
-        "file" : "/home/MYUSER/logs/nomp_debug.log"
+        "file" : "/root/logs/nomp_debug.log"
     },
 
     "cliHost": "127.0.0.1",
@@ -56,8 +56,8 @@
         "host": "0.0.0.0",
         "port": 80,
         "sslport": 443,
-        "sslkey": "/home/kthx/EASYNOMP/certs/privkey.pem",
-        "sslcert": "/home/kthx/EASYNOMP/certs/fullchain.pem",
+        "sslkey": "/root/EASYNOMP/certs/privkey.pem",
+        "sslcert": "/root/EASYNOMP/certs/fullchain.pem",
         "stratumHost": "MY_SERVER_IP_OR_DOMAIN_NAME",
         "stats": {
             "updateInterval": 15,

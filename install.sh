@@ -4,10 +4,6 @@
 echo "EasyNOMP install script."
 echo "Please do NOT run as root, run as the pool user!"
 
-echo "THIS SCRIPT PURGES REDIS DATA! YOU HAVE 10 SECONDS TO ABORT (CTRL + C)"
-
-sleep 7
-
 echo "Installing... Please wait!"
 
 sleep 3
