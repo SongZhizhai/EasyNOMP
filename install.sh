@@ -41,9 +41,9 @@ npm install -g npm@latest
 
 pm2 init
 
-git clone https://github.com/leshacat/EasyNOMP.git
+git clone https://github.com/leshacat/EasyNOMP.git $(pwd)/EasyNOMP
 
-cd BootNOMP
+cd EasyNOMP
 
 npm install
 
@@ -51,6 +51,7 @@ npm update
 npm audit fix
 
 pm2 start init.js -i max --watch --name pool
+
 
 echo "Installation completed!"
 echo "Please resume installation at the EasyNOMP Wiki: https://github.com/leshacat/EasyNOMP/wiki"

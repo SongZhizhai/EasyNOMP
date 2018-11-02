@@ -170,6 +170,7 @@ var myJsonGet = $.getJSON('/api/pool_stats', function(data) {
 //setTimeout(function(){ myJsonGet.abort(); }, 60000);
 
 statsSource.addEventListener('message', function(e) {
+	
   var stats = JSON.parse(e.data);
   statData.push(stats);
 
@@ -214,4 +215,10 @@ statsSource.addEventListener('message', function(e) {
   }
 
 
+	/* Force update once, fixes a display bug :) */
+	setTimeout(function() { let a = "" }, 2000);
+	var stats = JSON.parse(e.data);
+	statData.push(stats);
+	TriggerChartUpdates();
+	
 });
