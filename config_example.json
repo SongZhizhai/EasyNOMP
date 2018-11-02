@@ -51,8 +51,13 @@
 
     "website": {
         "enabled": true,
+        "sslenabled": true,
+        "sslforced": true,
         "host": "0.0.0.0",
         "port": 80,
+        "sslport": 443,
+        "sslkey": "/home/kthx/EASYNOMP/certs/privkey.pem",
+        "sslcert": "/home/kthx/EASYNOMP/certs/fullchain.pem",
         "stratumHost": "MY_SERVER_IP_OR_DOMAIN_NAME",
         "stats": {
             "updateInterval": 15,
