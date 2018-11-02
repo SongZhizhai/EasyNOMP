@@ -58,6 +58,7 @@ While I am open to a takeover with the original developers consent, **_I am not_
 | ------------- | ------------- | ------------- |
 | **✓** | **Support for 43 Algorithms** / Such hashing, much blocks! | [foxer666](//github.com/foxer666), [zone117x](//github.com/zone117x), [1301313Y](//github.com/1301313Y), [LeshaCat](//github.com/leshacat) |
 | **✓** | **Patches pulled from everywhere** / To keep EasyNOMP working, up to date, and secure! | [LeshaCat](//github.com/leshacat) |
+| **✓** | **SSL Enabled Miner pages** / To keep your miners anonymous &amp; secure! | [LeshaCat](//github.com/leshacat) |
 | **✓** | **Clear Documentation** / To help you install & configure EasyNOMP | [LeshaCat](//github.com/leshacat) |
 | **✓** | **Live support on Discord** / Join &#35;easynomp and ask @Shawn! | [LeshaCat](//github.com/leshacat) |
 | **✓** | **Install Script** / No dependancy problems! | [LeshaCat](//github.com/leshacat) |
