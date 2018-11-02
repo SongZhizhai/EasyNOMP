@@ -225,7 +225,7 @@ function rebuildWorkerDisplay() {
 // grab initial stats
 $.getJSON('/api/worker_stats?' + _miner, function(data) {
 	if (document.hidden) return;
-	$.getJSON('/api/pool_stats', function(statData) {
+	var myJsonGet = $.getJSON('/api/pool_stats', function(statData) {
 		addWorkerToTracker(statData, data, _miner, function(){
 			var stats = getWorkerStats(_miner);
 			statData = data;
@@ -239,14 +239,16 @@ $.getJSON('/api/worker_stats?' + _miner, function(data) {
 			$('#total-paid-label').append(stats.paid.toFixed(8) + ' ' + stats.symbol);
 		});
 	});
+	setTimeout(function(){ myJsonGet.abort(); }, 60000);
 });
 
 
 // live stat updates
 statsSource.addEventListener('message', function(e) {
 	var stats = JSON.parse(e.data);
-	$.getJSON('/api/worker_stats?' + _miner, function(data) {
+	var myJsonGet = $.getJSON('/api/worker_stats?' + _miner, function(data) {
     //$('#total-paid-label').empty();
     //$('#total-paid-label').append(total.toFixed(8) + ' ' + symbol);
 	});
+	setTimeout(function(){ myJsonGet.abort(); }, 60000);
 });

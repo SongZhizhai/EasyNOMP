@@ -1,5 +1,7 @@
-var fs = require('fs');
+const fs = require('fs');
 var path = require('path');
+
+const https = require('https');
 
 var async = require('async');
 var watch = require('node-watch');
@@ -308,9 +310,26 @@ module.exports = function () {
     });
 
     try {
+    	
+    	/* HTTP WEBSITE */
+    	logger.info('Attempting to start Website on %s:%s', portalConfig.website.host,portalConfig.website.port);
         app.listen(portalConfig.website.port, portalConfig.website.host, function () {
             logger.info('Website started on %s:%s', portalConfig.website.host,portalConfig.website.port);
         });
+        
+        /* HTTPS WEBSITE */ 
+        if (portalConfig.website.sslenabled) {
+        	logger.info('Attempting to start SSL Website on %s:%s', portalConfig.website.host,portalConfig.website.sslport);	       
+	        var privateKey = fs.readFileSync( portalConfig.website.sslkey );
+			var certificate = fs.readFileSync( portalConfig.website.sslcert );			
+			https.createServer({
+			    key: privateKey,
+			    cert: certificate
+			}, app).listen(portalConfig.website.sslport, portalConfig.website.host, function () {
+            	logger.info('SSL Website started on %s:%s', portalConfig.website.host,portalConfig.website.sslport);
+        	});
+		}
+        
     }
     catch (e) {
         logger.error('e = %s', JSON.stringify(e));

@@ -463,7 +463,9 @@ function SetupForPool(poolOptions, setupFinished) {
         redisClient.multi(shareLookups).exec(function(error, allWorkerShares) {
           endRedisTimer();
           logger.silly('Response from redis allWorkerShares = %s', JSON.stringify(allWorkerShares));
+          
           if (error) {
+          	logger.error('Check finished - redis error with multi get rounds share');
             callback('Check finished - redis error with multi get rounds share');
             return;
           }
@@ -486,23 +488,24 @@ function SetupForPool(poolOptions, setupFinished) {
                   let workerInfo = workerStr.split('.');
                   if (workerInfo.length === 2) {
 
-                  //todo validate by daemon
-                  let address = workerInfo[0];                  
-                    
-                  daemon.cmd('validateaddress', [address], function(results) {
+						let address = workerInfo[0];
+
+                    //todo validate by daemon
+                  
+                    daemon.cmd('validateaddress', [address], function(result) {
 						if (result.error){
-							logger.error('Error with payment processing daemon ' + JSON.stringify(result.error));
-							callback(true);
-						}
-						else if (!result.response || !result.response.ismine) {
-							logger.error('Daemon does not own pool address - payment processing can not be done with this daemon, '	+ JSON.stringify(result.response));
-							callback(true);
+						    logger.error('Error with payment processing daemon ' + JSON.stringify(result.error));
+						    callback(true);
 						}
 						else{
-							callback()
+						    // do nothing
 						}
-	              }, true);
+					}, true);
+	              
 		          // KTHXFIX-1-VALIDATION													*!*!!*!*!*!*!*!*!**!*!*!*!!**!*!*!*!*!*!**!*!*!*!*!*!**
+		          
+		          
+		          
 	                    
                     if (resultForRound[address]) {
                     	
@@ -516,55 +519,54 @@ function SetupForPool(poolOptions, setupFinished) {
                       
                     }
 
-                    let address = workerInfo[0];
-                    if (resultForRound[address]) {
+                    /*if (resultForRound[address]) {
                       logger.silly("Already have balance for address %s : %s", address, resultForRound[address].toString(10));
                       resultForRound[address] = resultForRound[address].plus(roundShare[workerStr]);
                       logger.silly("New balance %s ", resultForRound[address].toString(10));
                     } else {
                       resultForRound[address] = new BigNumber(roundShare[workerStr]);
-                    }
+                    }*/
                   }
                 } else {
-                //todo validate by daemon
-                let address = workerStr;      
-                
-                daemon.cmd('validateaddress', [address], function(results) {
+                	
+	                //todo validate by daemon
+	                let address = workerStr;      
+	                
+	                daemon.cmd('validateaddress', [address], function(result) {
 						if (result.error){
-							logger.error('Error with payment processing daemon ' + JSON.stringify(result.error));
-							callback(true);
-						}
-						else if (!result.response || !result.response.ismine) {
-							logger.error('Daemon does not own pool address - payment processing can not be done with this daemon, '	+ JSON.stringify(result.response));
-							callback(true);
+						    logger.error('Error with payment processing daemon ' + JSON.stringify(result.error));
+						    callback(true);
 						}
 						else{
-							callback()
+						    // do nothing
 						}
-	            }, true);
-				// KTHXFIX-1-VALIDATION													*!*!!*!*!*!*!*!*!**!*!*!*!!**!*!*!*!*!*!**!*!*!*!*!*!**
+					}, true);
+		        
+					// KTHXFIX-1-VALIDATION												*!*!!*!*!*!*!*!*!**!*!*!*!!**!*!*!*!*!*!**!*!*!*!*!*!**
 	                
-		if (resultForRound[address]) {
-
-			logger.silly("Already have balance for address %s : %s", address);	//, resultForRound[address].toString()
-			resultForRound[address] = resultForRound[address].plus(roundShare[workerStr]);
-			logger.silly("New balance %s ", resultForRound[address].toString(10));
-
-		} else {
-
-			resultForRound[address] = new BigNumber(roundShare[workerStr]);
-
-		}	
+	                
+	                
+					if (resultForRound[address]) {
 			
+						logger.silly("Already have balance for address %s : %s", address);	//, resultForRound[address].toString()
+						resultForRound[address] = resultForRound[address].plus(roundShare[workerStr]);
+						logger.silly("New balance %s ", resultForRound[address].toString(10));
 			
-                  let address = workerStr;
-                  if (resultForRound[address]) {
+					} else {
+			
+						resultForRound[address] = new BigNumber(roundShare[workerStr]);
+			
+					}	
+					
+					
+                  /*if (resultForRound[address]) {
                     logger.silly("Already have balance for address %s : %s", address, resultForRound[address].toString(10));
                     resultForRound[address] = resultForRound[address].plus(roundShare[workerStr]);
                     logger.silly("New balance %s ", resultForRound[address].toString(10));
                   } else {
                     resultForRound[address] = new BigNumber(roundShare[workerStr]);
-                  }
+                  }*/
+                  
                 }
               } else {
                 logger.error('Look around! We have anonymous shares, null worker');
@@ -667,7 +669,9 @@ function SetupForPool(poolOptions, setupFinished) {
               logger.info('Worker %s have reached minimum payout threshold (%s above minimum %s)', w, toSend.toString(10), minPayment.toString(10));
               totalSent = totalSent.plus(toSend);
               logger.silly('totalSent = %s', totalSent.toString(10));
+              
               var address = worker.address = (worker.address || getProperAddress(w));
+              
               logger.silly('address = %s', address);
               worker.sent = addressAmounts[address] = toSend;
               logger.silly('worker.sent = %s', worker.sent.toString(10));

@@ -5,6 +5,8 @@ var cluster = require('cluster');
 
 var async = require('async');
 
+require('tls');
+
 var CliListener = require('./libs/cliListener.js');
 var PoolWorker = require('./libs/poolWorker.js');
 var PaymentProcessor = require('./libs/paymentProcessor.js');

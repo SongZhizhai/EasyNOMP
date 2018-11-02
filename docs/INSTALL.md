@@ -78,7 +78,11 @@ pm2 start pool --watch
 ```
 pm2 startup
 ```
-Copy & paste the command
+Copy & paste the command (if it asks you to)
+Start the server how you like it
+```
+pm2 save
+```
 
 -------
 ### Update Pool Source (should be done monthly at minimum)

@@ -162,11 +162,12 @@ function TriggerChartUpdates() {
   poolBlockChart.update();
 }
 
-$.getJSON('/api/pool_stats', function(data) {
+var myJsonGet = $.getJSON('/api/pool_stats', function(data) {
   statData = data;
   buildChartData();
   displayCharts();
 });
+//setTimeout(function(){ myJsonGet.abort(); }, 60000);
 
 statsSource.addEventListener('message', function(e) {
   var stats = JSON.parse(e.data);

@@ -2,6 +2,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 
     <head>
+    
+		<!-- We now need to decide if we are currently SSL and then if not and forcing SSL, redirect to SSL port. -->
+		
+				
+		    
+		<!-- We now need to decide if we are currently SSL and then if not and forcing SSL, redirect to SSL port. -->    
+    
         <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
         
         
@@ -81,6 +88,27 @@
                 })
             });
         </script>
+        
+        <!-- Matomo -->
+		<script type="text/javascript">
+		  var _paq = _paq || [];
+		  /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+		  _paq.push(["setDocumentTitle", document.domain + "/" + document.title]);
+		  _paq.push(["setCookieDomain", "*.easyx.info"]);
+		  _paq.push(["setDomains", ["*.easyx.info","*.miningpool.easyx.info","*.easyx.info","*.miningpool.easyx.info"]]);
+		  _paq.push(['trackPageView']);
+		  _paq.push(['enableLinkTracking']);
+		  (function() {
+		    var u="//miningpool.easyx.info/piwik/";
+		    _paq.push(['setTrackerUrl', u+'piwik.php']);
+		    _paq.push(['setSiteId', '2']);
+		    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+		    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+		  })();
+		</script>
+		<noscript><p><img src="//miningpool.easyx.info/piwik/piwik.php?idsite=2&amp;rec=1" style="border:0;" alt="" /></p></noscript>
+		<!-- End Matomo Code -->
+        
     </head>
 
     <body>
