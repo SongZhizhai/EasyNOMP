@@ -1,6 +1,10 @@
 *~
 *.bak
 .git/
+certs/*.pem
+certs/*.crt
+certs/*.key
+logs/*.log
 node_modules/
 .idea/
 config.json
