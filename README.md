@@ -21,27 +21,24 @@
 ***NOTE:*** _You can fork this repository by clicking "fork" in the top right._
 
 -------
+### !~ DEVELOPMENT WARNING ~!
+***_While the master branch is generally considered stable, LeshaCat is currently working on finalizing v1.1.4 and therefore the master branch will be considered unstable until our first release (v1.1.4) is finalized._***
 
+***NOTE:***  Someone please test Docker, I made a few quick changes. Will come back to it later! ~[LeshaCat](//github.com/leshacat)
+
+-------
 ### !~ PAYMENT BUG WARNING ~!
 #### THERE IS A KNOWN PAYMENT BUG: <br />
 
 https://github.com/bitcoin/bitcoin/issues/14578<br />
-https://github.com/foxer666/node-open-mining-portal/issues/106<br />
-https://github.com/foxer666/node-open-mining-portal/issues/145<br />
+https://github.com/foxer666/node-open-mining-portal/issues/106 (fixed in master)<br />
+https://github.com/foxer666/node-open-mining-portal/issues/145 (still working on a fix)<br />
 
 Please monitor those issues on GitHub. If you have more than 10 miners, this bug affects you. The bug is with the payment processor's batch payments when there are too many inputs and outputs to the transaction, and it fails the whole payment batch.
 
-***This crypto is not lost, it is still in your pool wallet.*** Once the fix is made, you can update EasyNOMP and restart the pool, and the payments should then go through. Optionally you can manually send payments to workers.
-
-Once fixed, I will push the fix to parent project [1301313Y/BootNOMP](https://github.com/1301313Y/BootNOMP) and original project [foxer666/node-open-mining-portal](https://github.com/foxer666/node-open-mining-portal)
+***This crypto is not lost, it is still in your pool wallet.*** Once the fix is made, you can update EasyNOMP and restart the pool, and the payments should then go through. Optionally you can manually send payments to workers. I will push the fix to parent project [1301313Y/BootNOMP](https://github.com/1301313Y/BootNOMP) and original project [foxer666/node-open-mining-portal](https://github.com/foxer666/node-open-mining-portal) when completed.
 
 ***Sorry for the inconvenience!***
-
--------
-### !~ DEVELOPMENT WARNING ~!
-***_While the master branch is generally considered stable, leshacat/EasyNOMP is currently working on finalizing v1.1.4 and therefore the master branch will be considered unstable until our first release is finalized._***
-
-***NOTE:***  Someone please test Docker, I made a few quick changes. Will come back to it later! ~LeshaCat
 
 -------
 ### !~ NOTICE: THIS IS NOT A HOSTILE TAKEOVER ~!
@@ -175,16 +172,16 @@ Changelog is in in the directory [docs/CHANGELOG.md](https://github.com/leshacat
 -------
 ### Screenshots
 #### Home<br />
-![Home](https://github.com/leshacat/EasyNOMP/blob/master/docs/screenshots/home.png)
+![Home](https://raw.githubusercontent.com/leshacat/EasyNOMP/master/docs/screenshots/home.png)
 
 #### Pool Stats<br />
-![Pool Stats](https://github.com/leshacat/BOOTNOMP/blob/master/docs/screenshots/poolstats.png)<br /><br />
+![Pool Stats](https://raw.githubusercontent.com/leshacat/EasyNOMP/master/docs/screenshots/poolstats.png)<br /><br />
 
 #### Miner Stats<br />
-![Miner Stats](https://github.com/leshacat/EasyNOMP/blob/development/docs/screenshots/minerstats.png)<br /><br />
+![Miner Stats](https://raw.githubusercontent.com/leshacat/EasyNOMP/development/docs/screenshots/minerstats.png)<br /><br />
 
 #### Block Explorer<br />
-![Block Explorer](https://github.com/leshacat/BOOTNOMP/blob/master/docs/screenshots/blockexplorer.png)<br /><br />
+![Block Explorer](https://raw.githubusercontent.com/leshacat/EasyNOMP/master/docs/screenshots/blockexplorer.png)<br /><br />
 
 -------
 ### Credits
