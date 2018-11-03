@@ -42,11 +42,11 @@ module.exports = function() {
         var poolOptions = poolConfigs[coin];
         var processingConfig = poolOptions.paymentProcessing;
 
-		if (portalConfig.devmode) {
+//		if (portalConfig.devmode) {
 
-//			processingConfig.paymentInterval = 120;
+			processingConfig.paymentInterval = 120;
 		
-		}
+//		}
 
         logger.info('Payment processing setup to run every %s second(s) with daemon (%s@%s:%s) and redis (%s:%s)',
           processingConfig.paymentInterval,
