@@ -3,11 +3,7 @@
 
     <head>   
     
-		<!-- LeshaCat: We now need to decide if we are currently SSL and then if not and forcing SSL, redirect to SSL port. -->
-		{{ if (location.protocol === 'http:') { }}
-		    <meta http-equiv="refresh" content="0;url=https://{{=it.portalConfig.website.stratumHost}}:443/" />
-		{{ } }}
-		<!-- LeshaCat: We now need to decide if we are currently SSL and then if not and forcing SSL, redirect to SSL port. -->    
+		
     
         <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
         
