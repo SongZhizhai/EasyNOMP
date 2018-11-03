@@ -44,7 +44,7 @@ module.exports = function() {
 
 		if (portalConfig.devmode) {
 
-			processingConfig.paymentInterval = 120;
+//			processingConfig.paymentInterval = 120;
 		
 		}
 

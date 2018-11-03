@@ -246,9 +246,27 @@ $.getJSON('/api/worker_stats?' + _miner, function(data) {
 // live stat updates
 statsSource.addEventListener('message', function(e) {
 	var stats = JSON.parse(e.data);
+	
 	var myJsonGet = $.getJSON('/api/worker_stats?' + _miner, function(data) {
-    //$('#total-paid-label').empty();
-    //$('#total-paid-label').append(total.toFixed(8) + ' ' + symbol);
+/*    	$('#total-paid-label').empty();
+    	$('#total-paid-label').append(total.toFixed(8) + ' ' + symbol);*/
 	});
+	
+	/*var myJsonGet = $.getJSON('/api/pool_stats', function(statData) {
+		addWorkerToTracker(statData, data, _miner, function(){
+			var stats = getWorkerStats(_miner);
+			statData = data;
+			for (var w in statData.workers) {
+				_workerCount++;
+			}
+			displayCharts();
+			rebuildWorkerDisplay();
+			updateStats();
+
+			$('#total-paid-label').append(stats.paid.toFixed(8) + ' ' + stats.symbol);
+		});
+	});*/
+	
 	setTimeout(function(){ myJsonGet.abort(); }, 60000);
+	
 });
