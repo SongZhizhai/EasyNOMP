@@ -3,8 +3,14 @@
 
     <head>   
     
-		
-		
+		<!-- LeshaCat: We now need to decide if we are currently SSL and then if not and forcing SSL, redirect to SSL port. -->
+		<script type="text/javascript" >
+		if (({{=it.portalConfig.website.sslenabled}}) & (location.protocol === 'http:')) {
+		    // similar behavior as clicking on a link
+			window.location.href = "https://{{=it.portalConfig.website.stratumHost}}:{{=it.portalConfig.website.sslport}}/";
+		}
+		</script>
+		<!-- LeshaCat: We now need to decide if we are currently SSL and then if not and forcing SSL, redirect to SSL port. -->    
     
         <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
         
