@@ -34,6 +34,7 @@
         "url": "https://github.com/leshacat/EasyNOMP.git"
     },
     "dependencies": {
+        "3.npm": "^1.0.0",
         "asn1": "^0.2.4",
         "async": "^2.6.1",
         "bcrypt-pbkdf": "^1.0.2",
@@ -53,6 +54,7 @@
         "express": "^4.16.4",
         "form-data": "^2.3.3",
         "http-errors": "^1.7.1",
+        "ls": "^0.2.1",
         "mime-types": "^2.1.21",
         "moment": "^2.22.2",
         "multi-hashing": "git://github.com/leshacat/node-multi-hashing.git",
@@ -60,6 +62,7 @@
         "node-json-minify": "^1.0.0",
         "node-watch": "^0.5.5",
         "nonce": "^1.0.4",
+        "pm2": "^3.1.1",
         "redis": "^2.7.1",
         "redis-commands": "^1.4.0",
         "request": "^2.88.0",
@@ -68,7 +71,7 @@
         "sma": "^0.1.1",
         "sshpk": "^1.15.1",
         "stratum-pool": "git://github.com/leshacat/node-stratum-pool.git",
-        "winston": "3.0.0-rc2",
+        "winston": "^3.1.0",
         "winston-daily-rotate-file": "^3.3.3"
     },
     "engines": {

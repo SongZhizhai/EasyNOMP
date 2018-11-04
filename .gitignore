@@ -11,6 +11,7 @@ certs/*.key
 logs/*.log
 
 package-lock.json
+ecosystem.config.js
 
 access-token
 config.json

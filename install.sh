@@ -35,11 +35,11 @@ npm update -g
 npm install -g pm2@latest
 npm install -g npm@latest
 
-pm2 init
-
 git clone https://github.com/leshacat/EasyNOMP.git $(pwd)/EasyNOMP
 
 cd EasyNOMP
+
+pm2 init
 
 npm install
 

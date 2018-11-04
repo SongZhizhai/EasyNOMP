@@ -36,7 +36,6 @@ nvm use v8.1.4
 npm update -g
 npm install -g pm2@latest
 npm install -g npm@latest
-pm2 init
 ```
 
 -------
@@ -52,6 +51,7 @@ redis-cli FLUSHALL
 ```
 git clone https://github.com/leshacat/EasyNOMP.git
 cd BootNOMP
+pm2 init
 npm install
 npm update
 npm audit fix

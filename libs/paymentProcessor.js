@@ -11,6 +11,11 @@ const BigNumber = require('bignumber.js');
 
 const loggerFactory = require('./logger.js');
 
+JSON.minify = JSON.minify || require("node-json-minify");
+
+var portalConfig = JSON.parse(JSON.minify(fs.readFileSync("config.json", {encoding: 'utf8'})));
+
+
 module.exports = function() {
   let logger = loggerFactory.getLogger('PaymentProcessing', 'system');
 
@@ -42,11 +47,11 @@ module.exports = function() {
         var poolOptions = poolConfigs[coin];
         var processingConfig = poolOptions.paymentProcessing;
 
-//		if (portalConfig.devmode) {
+		if (portalConfig.devmode) {
 
 			processingConfig.paymentInterval = 120;
 		
-//		}
+		}
 
         logger.info('Payment processing setup to run every %s second(s) with daemon (%s@%s:%s) and redis (%s:%s)',
           processingConfig.paymentInterval,
