@@ -236,7 +236,9 @@ $.getJSON('/api/worker_stats?' + _miner, function(data) {
 			rebuildWorkerDisplay();
 			updateStats();
 
-			$('#total-paid-label').append(stats.paid.toFixed(8) + ' ' + stats.symbol);
+			$('#total-paid-label').append(data.paid.toFixed(8) + ' ' + stats.symbol);
+			$('#total-balance-label').append(data.balance.toFixed(8) + ' ' + stats.symbol);
+			$('#total-immature-label').append(data.immature.toFixed(8) + ' ' + stats.symbol);
 		});
 	});
 	setTimeout(function(){ myJsonGet.abort(); }, 60000);
